@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Clients]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
+    [Name] NVARCHAR(128) NOT NULL,
+	[Location] NVARCHAR(128) NOT NULL,
+	[District] INT NOT NULL FOREIGN KEY REFERENCES Districts(Id)
+)

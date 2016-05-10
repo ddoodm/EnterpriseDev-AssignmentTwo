@@ -7,11 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS-WebApp", "ENET
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS-WebApp.Tests", "ENETCare-IMS-WebApp.Tests\ENETCare-IMS-WebApp.Tests.csproj", "{F05720F3-B981-4B4B-9714-992D9DFEF7CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS", "..\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS\ENETCare-IMS.csproj", "{29BC6FCA-C92D-4336-A962-3885B2E6A486}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS", "ENETCare-IMS\ENETCare-IMS.csproj", "{29BC6FCA-C92D-4336-A962-3885B2E6A486}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS-Tests", "..\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\ENETCare-IMS-Tests.csproj", "{61A39387-C998-45B6-A365-FF16E8AAD74B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS-Tests", "ENETCare-IMS-Tests\ENETCare-IMS-Tests.csproj", "{61A39387-C998-45B6-A365-FF16E8AAD74B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS-Data", "..\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Data\ENETCare-IMS-Data.csproj", "{F65771E4-D2DF-47F8-9BDC-47B27643639D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS-Data", "ENETCare-IMS-Data\ENETCare-IMS-Data.csproj", "{F65771E4-D2DF-47F8-9BDC-47B27643639D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

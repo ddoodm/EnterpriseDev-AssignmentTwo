@@ -1,0 +1,12 @@
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\obj\Debug\ENETCare-IMS-Tests.csprojResolveAssemblyReference.cache
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\bin\Debug\Database\EnetCareIms.mdf
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\bin\Debug\Database\EnetCareIms_log.ldf
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\bin\Debug\ENETCare-IMS-Tests.dll.config
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\bin\Debug\ENETCare-IMS-Tests.dll
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\bin\Debug\ENETCare-IMS-Tests.pdb
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\bin\Debug\ENETCare-IMS.dll
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\bin\Debug\ENETCare-IMS-Data.exe
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\bin\Debug\ENETCare-IMS.pdb
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\bin\Debug\ENETCare-IMS-Data.pdb
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\obj\Debug\ENETCare-IMS-Tests.dll
+C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\obj\Debug\ENETCare-IMS-Tests.pdb
