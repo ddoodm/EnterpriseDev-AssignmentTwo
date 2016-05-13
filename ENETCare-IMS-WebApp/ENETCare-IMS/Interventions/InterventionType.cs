@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ENETCare.IMS.Interventions
 {
-    public struct InterventionType
+    public class InterventionType
     {
         public int ID { get; private set; }
         public string Name { get; private set; }

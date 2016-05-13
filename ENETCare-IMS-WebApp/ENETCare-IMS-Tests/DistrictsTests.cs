@@ -5,7 +5,7 @@ namespace ENETCare.IMS.Tests
 {
     [TestClass]
     public class DistrictsTests
-    {
+    {/*
         private ENETCareDAO application;
 
         [TestInitialize]
@@ -22,5 +22,5 @@ namespace ENETCare.IMS.Tests
 
             Assert.IsTrue(district.ID == id);
         }
-    }
+    */}
 }

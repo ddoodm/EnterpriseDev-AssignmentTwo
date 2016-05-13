@@ -8,7 +8,7 @@ namespace ENETCare.IMS.Tests
 {
     [TestClass]
     public class UsersTest
-    {
+    {/*
         ENETCareDAO application;
 
         [TestInitialize]
@@ -25,5 +25,5 @@ namespace ENETCare.IMS.Tests
 
             Assert.IsTrue(testManager.District.Name == "Rural Indonesia");
         }
-    }
+    */}
 }

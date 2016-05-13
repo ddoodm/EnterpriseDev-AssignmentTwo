@@ -18,3 +18,13 @@ C:\Users\11699156\Desktop\ENETCare-IMS-WebApp\ENETCare-IMS\bin\Debug\ENETCare-IM
 C:\Users\11699156\Desktop\ENETCare-IMS-WebApp\ENETCare-IMS\obj\Debug\ENETCare-IMS.csprojResolveAssemblyReference.cache
 C:\Users\11699156\Desktop\ENETCare-IMS-WebApp\ENETCare-IMS\obj\Debug\ENETCare-IMS.dll
 C:\Users\11699156\Desktop\ENETCare-IMS-WebApp\ENETCare-IMS\obj\Debug\ENETCare-IMS.pdb
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS\bin\Debug\ENETCare-IMS.dll.config
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS\bin\Debug\ENETCare-IMS.dll
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS\bin\Debug\ENETCare-IMS.pdb
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS\bin\Debug\EntityFramework.dll
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS\bin\Debug\EntityFramework.xml
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS\obj\Debug\ENETCare-IMS.csprojResolveAssemblyReference.cache
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS\obj\Debug\ENETCare-IMS.dll
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS\obj\Debug\ENETCare-IMS.pdb

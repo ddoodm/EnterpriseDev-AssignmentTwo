@@ -64,6 +64,10 @@
     <Compile Include="UsersTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ENETCare-IMS-Data\ENETCare-IMS-Data.csproj">
+      <Project>{f65771e4-d2df-47f8-9bdc-47b27643639d}</Project>
+      <Name>ENETCare-IMS-Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ENETCare-IMS\ENETCare-IMS.csproj">
       <Project>{29bc6fca-c92d-4336-a962-3885b2e6a486}</Project>
       <Name>ENETCare-IMS</Name>

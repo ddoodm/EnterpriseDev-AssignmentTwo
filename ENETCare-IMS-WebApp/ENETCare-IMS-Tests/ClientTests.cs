@@ -8,7 +8,7 @@ namespace ENETCare.IMS.Tests
 {
     [TestClass]
     public class ClientTests
-    {
+    {/*
         private ENETCareDAO application;
 
         [TestInitialize]
@@ -16,5 +16,5 @@ namespace ENETCare.IMS.Tests
         {
             application = new ENETCareDAO();
         }
-    }
+    */}
 }

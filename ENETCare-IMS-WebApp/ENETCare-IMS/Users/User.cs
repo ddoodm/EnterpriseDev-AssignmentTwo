@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ENETCare.IMS.Users
 {
     public abstract class EnetCareUser : IEnetCareUser, IEquatable<EnetCareUser>
     {
+        [Key]
         public int ID { get; private set; }
+
+        [Required]
         public string Name { get; private set; }
 
         /// <summary>
@@ -49,9 +53,8 @@ namespace ENETCare.IMS.Users
             return !(lhs == rhs);
         }
 
-        protected EnetCareUser(int ID, string name)
+        protected EnetCareUser(string name)
         {
-            this.ID = ID;
             this.Name = name;
         }
     }

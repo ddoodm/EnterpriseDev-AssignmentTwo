@@ -9,13 +9,11 @@ namespace ENETCare.IMS
 {
     public class Districts : IReadOnlyList<District>
     {
-        private ENETCareDAO application;
-
         private List<District> districts = new List<District>();
 
-        public Districts(ENETCareDAO application)
+        public Districts(List<District> districts)
         {
-            this.application = application;
+            this.districts = districts;
         }
 
         public int Count

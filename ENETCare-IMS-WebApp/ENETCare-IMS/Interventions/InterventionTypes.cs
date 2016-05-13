@@ -16,6 +16,11 @@ namespace ENETCare.IMS.Interventions
             types = new List<InterventionType>();
         }
 
+        public InterventionTypes(List<InterventionType> types)
+        {
+            this.types = types;
+        }
+
         public int Count
         {
             get { return types.Count; }
