@@ -24,6 +24,14 @@ namespace ENETCare.IMS.Data.DataAccess
             }
         }
 
+        public District GetDistrictById(int ID)
+        {
+            using (var db = new EnetCareDbContext())
+            {
+                return db.Districts.Where(d => d.ID == ID).First<District>();
+            }
+        }
+
         public void EraseAllData()
         {
             using (var db = new EnetCareDbContext())

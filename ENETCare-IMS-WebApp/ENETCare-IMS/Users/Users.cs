@@ -74,10 +74,7 @@ namespace ENETCare.IMS.Users
 
         public EnetCareUser this[int index]
         {
-            get
-            {
-                return users.First<EnetCareUser>(user => user.ID == index);
-            }
+            get { return users[index]; }
         }
 
         public List<EnetCareUser> GetUsers()

@@ -17,6 +17,17 @@ namespace ENETCare.IMS.Data.DataAccess
             get { return new InterventionRepo(); }
         }
 
+        public int InterventionTypeCount
+        {
+            get
+            {
+                using (var db = new EnetCareDbContext())
+                {
+                    return db.InterventionTypes.Count();
+                }
+            }
+        }
+
         public InterventionTypes AllInterventionTypes
         {
             get

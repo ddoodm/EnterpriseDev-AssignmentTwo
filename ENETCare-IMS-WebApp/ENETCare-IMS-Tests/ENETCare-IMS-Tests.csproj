@@ -63,9 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ClientsTest.cs" />
     <Compile Include="ClientTests.cs" />
-    <Compile Include="DatabaseTests.cs" />
     <Compile Include="DistrictsTests.cs" />
     <Compile Include="InterventionsTests.cs" />
     <Compile Include="MiscTests.cs" />

@@ -16,8 +16,6 @@ C:\Users\11699156\Desktop\ENETCare-IMS-WebApp\ENETCare-IMS-Data\bin\Debug\DbUp.x
 C:\Users\11699156\Desktop\ENETCare-IMS-WebApp\ENETCare-IMS-Data\obj\Debug\ENETCare-IMS-Data.csprojResolveAssemblyReference.cache
 C:\Users\11699156\Desktop\ENETCare-IMS-WebApp\ENETCare-IMS-Data\obj\Debug\ENETCare-IMS-Data.exe
 C:\Users\11699156\Desktop\ENETCare-IMS-WebApp\ENETCare-IMS-Data\obj\Debug\ENETCare-IMS-Data.pdb
-C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Data\bin\Debug\Database\EnetCareIms.mdf
-C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Data\bin\Debug\Database\EnetCareIms_log.ldf
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Data\bin\Debug\ENETCare-IMS-Data.exe.config
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Data\bin\Debug\ENETCare-IMS-Data.exe
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Data\bin\Debug\ENETCare-IMS-Data.pdb

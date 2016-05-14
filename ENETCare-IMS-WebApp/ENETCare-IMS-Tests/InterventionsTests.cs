@@ -26,9 +26,8 @@ namespace ENETCare.IMS.Tests
         #region Helper Data Creation Functions
         private InterventionType CreateTestInterventionType()
         {
-            InterventionTypes types = interventionRepo.AllInterventionTypes;
-            Assert.IsTrue(types.Count >= 1, "There are no Intervention Types");
-            return types[1];
+            Assert.IsTrue(interventionRepo.InterventionTypeCount >= 1, "There are no Intervention Types");
+            return interventionRepo.AllInterventionTypes[0];
         }
 
         private Client CreateTestClient()
@@ -71,6 +70,7 @@ namespace ENETCare.IMS.Tests
             return Intervention.Factory.CreateIntervention
                 (interventionType, testClient, testEngineer);
         }
+
         private Intervention CreateCancelledIntervention(SiteEngineer testEngineer)
         {
             InterventionType interventionType = CreateTestInterventionType();
@@ -80,7 +80,6 @@ namespace ENETCare.IMS.Tests
             i.Cancel(testEngineer);
 
             return i;
-
         }
 
         #endregion

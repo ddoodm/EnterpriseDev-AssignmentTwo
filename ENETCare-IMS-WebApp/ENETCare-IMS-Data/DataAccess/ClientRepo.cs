@@ -14,5 +14,24 @@ namespace ENETCare.IMS.Data.DataAccess
         {
             get { return new ClientRepo(); }
         }
+
+        public void EraseAllData()
+        {
+            using (var db = new EnetCareDbContext())
+            {
+                db.Clients.RemoveRange(db.Clients);
+                db.SaveChanges();
+            }
+        }
+
+        public void Save(Client[] clients)
+        {
+            using (var db = new EnetCareDbContext())
+            {
+                foreach (Client client in clients)
+                    db.Clients.Add(client);
+                db.SaveChanges();
+            }
+        }
     }
 }

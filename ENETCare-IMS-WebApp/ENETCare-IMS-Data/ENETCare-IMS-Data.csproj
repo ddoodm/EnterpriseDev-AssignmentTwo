@@ -75,15 +75,6 @@
     <Compile Include="DataAccess\DistrictRepo.cs" />
     <Compile Include="DataAccess\GenericRepo.cs" />
     <Compile Include="DataAccess\InterventionRepo.cs" />
-    <Compile Include="DatabaseConstants.cs" />
-    <Compile Include="EnetCareImsDataSet.cs">
-      <DependentUpon>EnetCareImsDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="EnetCareImsDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EnetCareImsDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -94,33 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="EnetCareImsDataSet.xsc">
-      <DependentUpon>EnetCareImsDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="EnetCareImsDataSet.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>EnetCareImsDataSet.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="EnetCareImsDataSet.xss">
-      <DependentUpon>EnetCareImsDataSet.xsd</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Database\EnetCareIms.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Database\EnetCareIms_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>EnetCareIms.mdf</DependentUpon>
-    </Content>
-    <Content Include="SQLScripts\dbo.Clients.sql" />
-    <Content Include="SQLScripts\dbo.Districts.sql" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

@@ -22,17 +22,20 @@ namespace ENETCare.IMS.Data
 
         private static void PopulateInitialData()
         {
-            PopulateDistricts();
-            PopulateInterventionTypes();
+            DistrictRepo districts = DistrictRepo.New;
+            ClientRepo clients = ClientRepo.New;
+            InterventionRepo interventions = InterventionRepo.New;
+
+            PopulateDistricts(districts);
+            PopulateInterventionTypes(interventions);
+            PopulateClients(clients, districts);
         }
 
         /// <summary>
         /// Builds and saves a set of default districts
         /// </summary>
-        private static void PopulateDistricts()
+        private static void PopulateDistricts(DistrictRepo repo)
         {
-            DistrictRepo repo = DistrictRepo.New;
-
             District[] defaultDistricts = new District[]
             {
                 new District("Urban Indonesia"),
@@ -48,10 +51,8 @@ namespace ENETCare.IMS.Data
             repo.Save(defaultDistricts);
         }
 
-        private static void PopulateInterventionTypes()
+        private static void PopulateInterventionTypes(InterventionRepo repo)
         {
-            InterventionRepo repo = InterventionRepo.New;
-
             InterventionType[] types = new InterventionType[]
             {
                 new InterventionType("Supply and Install Portable Toilet",              600,    2),
@@ -66,6 +67,25 @@ namespace ENETCare.IMS.Data
             // Clear and re-load
             repo.EraseAllInterventionTypes();
             repo.Save(types);
+        }
+
+        private static void PopulateClients(ClientRepo clientRepo, DistrictRepo districtRepo)
+        {
+            // TODO: Do not use 'all districts'
+            Districts districts = districtRepo.AllDistricts;
+
+            Client[] clients = new Client[]
+            {
+                new Client("Jane Dow", "1 Fakeway Ln., Fakeville", districts[0]),
+                new Client("John Doe", "123 Fake St., Sunnyland", districts[1]),
+                new Client("Markus Samson", "42 Answer Ave., Earthland", districts[2]),
+                new Client("Migi Hidari", "5 Leftlane St., Rightville", districts[3]),
+                new Client("Hannah Persson", "88 Infinity Rd., Foreverland", districts[4]),
+                new Client("Sarah Higgins", "52 Stick St., The Sticks", districts[5]),
+            };
+
+            clientRepo.EraseAllData();
+            clientRepo.Save(clients);
         }
     }
 }

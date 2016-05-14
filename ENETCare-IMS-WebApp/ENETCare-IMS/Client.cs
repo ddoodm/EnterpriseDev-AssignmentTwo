@@ -30,6 +30,8 @@ namespace ENETCare.IMS
             }
         }
 
+        public Client() { }
+
         public Client(string name, string location, District district)
         {
             this.Name = name;

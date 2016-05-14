@@ -10,8 +10,6 @@ C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCa
 C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\bin\Debug\ENETCare-IMS-Data.pdb
 C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\obj\Debug\ENETCare-IMS-Tests.dll
 C:\Users\11699156\Desktop\EnterpriseDev-AssignmentOne-master\ENETCare-IMS\ENETCare-IMS-Tests\obj\Debug\ENETCare-IMS-Tests.pdb
-C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Tests\bin\Debug\Database\EnetCareIms.mdf
-C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Tests\bin\Debug\Database\EnetCareIms_log.ldf
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Tests\bin\Debug\ENETCare-IMS-Tests.dll.config
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Tests\bin\Debug\ENETCare-IMS-Tests.dll
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Tests\bin\Debug\ENETCare-IMS-Tests.pdb

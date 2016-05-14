@@ -28,12 +28,7 @@ namespace ENETCare.IMS.Interventions
 
         public InterventionType this[int i]
         {
-            get
-            {
-                if (i == 0)
-                    throw new IndexOutOfRangeException("ENETCare data is 1-indexed, but an index of 0 was requested.");
-                return types.First<InterventionType>(type => type.ID == i);
-            }
+            get { return types[i]; }
         }
 
         public IEnumerator<InterventionType> GetEnumerator()
