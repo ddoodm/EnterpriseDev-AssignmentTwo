@@ -5,43 +5,67 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-//using DbUp;
+using ENETCare.IMS.Data.DataAccess;
 
-namespace ENETCare_IMS_Data
+using ENETCare.IMS.Interventions;
+
+namespace ENETCare.IMS.Data
 {
     class Program
     {
         static int Main(string[] args)
         {
-            var connectionString =
-                args.FirstOrDefault()
-                ?? @"Server=(localDb)\MSSQLLocalDB; Database=C:\USERS\DDOODM\SOURCE\REPOS\ENTERPRISEDEV-ASSIGNMENTONE\ENETCARE-IMS\ENETCARE-IMS-WEBAPP\APP_DATA\ENETCAREIMS.MDF; Trusted_connection=true";
+            PopulateInitialData();
 
-           /* var upgrader =
-                DeployChanges.To
-                    .SqlDatabase(connectionString)
-                    .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
-                    .LogToConsole()
-                    .Build();
-            
-            var result = upgrader.PerformUpgrade();
-
-            if (!result.Successful)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(result.Error);
-                Console.ResetColor();
-#if DEBUG
-                Console.ReadLine();
-#endif
-                return -1;
-            }
-
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Success!");
-            Console.ResetColor();
-            */
             return 0;
+        }
+
+        private static void PopulateInitialData()
+        {
+            PopulateDistricts();
+            PopulateInterventionTypes();
+        }
+
+        /// <summary>
+        /// Builds and saves a set of default districts
+        /// </summary>
+        private static void PopulateDistricts()
+        {
+            DistrictRepo repo = DistrictRepo.New;
+
+            District[] defaultDistricts = new District[]
+            {
+                new District("Urban Indonesia"),
+                new District("Rural Indonesia"),
+                new District("Urban Papua New Guinea"),
+                new District("Rural Papua New Guinea"),
+                new District("Sydney"),
+                new District("Rural New South Wales"),
+            };
+
+            // Clear and re-load
+            repo.EraseAllData();
+            repo.Save(defaultDistricts);
+        }
+
+        private static void PopulateInterventionTypes()
+        {
+            InterventionRepo repo = InterventionRepo.New;
+
+            InterventionType[] types = new InterventionType[]
+            {
+                new InterventionType("Supply and Install Portable Toilet",              600,    2),
+                new InterventionType("Hepatitis Avoidance Training",                    0,      3),
+                new InterventionType("Supply and Install Storm-proof Home Kit",         5000,   8),
+                new InterventionType("Supply Mosquito Net",                             25,     0),
+                new InterventionType("Install Water Pump",                              1200,   80),
+                new InterventionType("Supply High-Volume Water Filter and Train Users", 2000,   1),
+                new InterventionType("Prepare Sewerage Trench",                         0,      50),
+            };
+
+            // Clear and re-load
+            repo.EraseAllInterventionTypes();
+            repo.Save(types);
         }
     }
 }

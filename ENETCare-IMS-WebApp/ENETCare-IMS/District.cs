@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ENETCare.IMS
 {
     public class District : IEquatable<District>
     {
+        [Key]
         public int ID      { get; private set; }
+
+        [Required]
         public string Name { get; private set; }
 
-        public District(int id, string name)
+        public District() { }
+
+        public District(string name)
         {
-            this.ID = id;
             this.Name = name;
         }
 

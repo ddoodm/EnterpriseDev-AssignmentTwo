@@ -44,9 +44,9 @@ namespace ENETCare.IMS.Tests
             Assert.IsTrue(districts.Count >= NUM_TEST_DISTRICTS,
                 "There are not enough districts for testing.");
 
-            testDistrictA = districts.GetDistrictByID(1);
-            testDistrictB = districts.GetDistrictByID(2);
-            testDistrictC = districts.GetDistrictByID(3);
+            testDistrictA = districts[0];
+            testDistrictB = districts[1];
+            testDistrictC = districts[2];
         }
 
         private SiteEngineer CreateTestSiteEngineer()

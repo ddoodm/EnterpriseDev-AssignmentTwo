@@ -24,3 +24,5 @@ C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENE
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Tests\obj\Debug\ENETCare-IMS-Tests.csprojResolveAssemblyReference.cache
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Tests\obj\Debug\ENETCare-IMS-Tests.dll
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Tests\obj\Debug\ENETCare-IMS-Tests.pdb
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Tests\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-Tests\bin\Debug\EntityFramework.SqlServer.xml

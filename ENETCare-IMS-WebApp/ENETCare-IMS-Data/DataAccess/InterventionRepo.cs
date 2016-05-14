@@ -17,15 +17,6 @@ namespace ENETCare.IMS.Data.DataAccess
             get { return new InterventionRepo(); }
         }
 
-        public void Save(Intervention intervention)
-        {
-            using (var db = new EnetCareDbContext())
-            {
-                db.Interventions.Add(intervention);
-                db.SaveChanges();
-            }
-        }
-
         public InterventionTypes AllInterventionTypes
         {
             get
@@ -58,6 +49,25 @@ namespace ENETCare.IMS.Data.DataAccess
                             orderby intervention.Date
                             select intervention;
                 return new Interventions.Interventions(query.ToList<Intervention>());
+            }
+        }
+
+        public void EraseAllInterventionTypes()
+        {
+            using (var db = new EnetCareDbContext())
+            {
+                db.InterventionTypes.RemoveRange(db.InterventionTypes);
+                db.SaveChanges();
+            }
+        }
+
+        public void Save(InterventionType[] types)
+        {
+            using (var db = new EnetCareDbContext())
+            {
+                foreach (InterventionType type in types)
+                    db.InterventionTypes.Add(type);
+                db.SaveChanges();
             }
         }
     }

@@ -23,5 +23,24 @@ namespace ENETCare.IMS.Data.DataAccess
                 }
             }
         }
+
+        public void EraseAllData()
+        {
+            using (var db = new EnetCareDbContext())
+            {
+                db.Districts.RemoveRange(db.Districts);
+                db.SaveChanges();
+            }
+        }
+
+        public void Save(District[] districts)
+        {
+            using (var db = new EnetCareDbContext())
+            {
+                foreach(District district in districts)
+                    db.Districts.Add(district);
+                db.SaveChanges();
+            }
+        }
     }
 }

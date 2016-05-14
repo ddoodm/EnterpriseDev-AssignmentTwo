@@ -21,19 +21,17 @@ namespace ENETCare.IMS
             get { return districts.Count; }
         }
 
+        /// <summary>
+        /// Returns the District at the index withing *this* collection.
+        /// The 'index' is not the District ID.
+        /// </summary>
+        /// <param name="index">The index in this collection, not the District ID</param>
         public District this[int index]
         {
             get
-        {
-               return districts.First<District>(district => district.ID == index); 
+            {
+                return districts[index];
             }
-        }
-
-        public District GetDistrictByID(int id)
-        {
-            if (id == 0)
-                throw new IndexOutOfRangeException("ENETCare data is 1-indexed, but an index of 0 was requested.");
-            return districts.First<District>(d => d.ID == id);
         }
 
         public List<District> GetListCopy()
