@@ -63,11 +63,32 @@ namespace ENETCare.IMS.Data.DataAccess
             }
         }
 
+        public void EraseAllInterventions()
+        {
+            using (var db = new EnetCareDbContext())
+            {
+                if (db.Interventions.Count() < 1) return;
+                db.Interventions.RemoveRange(db.Interventions);
+                db.SaveChanges();
+            }
+        }
+
         public void EraseAllInterventionTypes()
         {
             using (var db = new EnetCareDbContext())
             {
+                if (db.InterventionTypes.Count() < 1) return;
                 db.InterventionTypes.RemoveRange(db.InterventionTypes);
+                db.SaveChanges();
+            }
+        }
+
+        public void Save(Intervention[] interventions)
+        {
+            using (var db = new EnetCareDbContext())
+            {
+                foreach (Intervention intervention in interventions)
+                    db.Interventions.Add(intervention);
                 db.SaveChanges();
             }
         }

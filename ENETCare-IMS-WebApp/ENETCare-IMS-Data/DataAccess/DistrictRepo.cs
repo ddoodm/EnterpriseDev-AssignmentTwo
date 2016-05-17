@@ -13,6 +13,9 @@ namespace ENETCare.IMS.Data.DataAccess
             get { return new DistrictRepo(); }
         }
 
+        /// <summary>
+        /// NOTICE: This returns a **copy** of the Districts
+        /// </summary>
         public Districts AllDistricts
         {
             get
@@ -32,10 +35,19 @@ namespace ENETCare.IMS.Data.DataAccess
             }
         }
 
+        public District GetNthDistrict(int n)
+        {
+            using (var db = new EnetCareDbContext())
+            {
+                return db.Districts.OrderBy(d => d.ID).Skip(n).First<District>();
+            }
+        }
+
         public void EraseAllData()
         {
             using (var db = new EnetCareDbContext())
             {
+                if (db.Districts.Count() < 1) return;
                 db.Districts.RemoveRange(db.Districts);
                 db.SaveChanges();
             }

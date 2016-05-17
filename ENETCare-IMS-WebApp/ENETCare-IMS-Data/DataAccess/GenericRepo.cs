@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 
 using ENETCare.IMS.Interventions;
+using ENETCare.IMS.Users;
 
 namespace ENETCare.IMS.Data.DataAccess
 {
@@ -19,6 +20,10 @@ namespace ENETCare.IMS.Data.DataAccess
 
             public DbSet<Client>            Clients { get; set; }
             public DbSet<District>          Districts { get; set; }
+            public DbSet<EnetCareUser>      Users { get; set; }
+
+            public EnetCareDbContext() : base("EnetCareDbContext")
+            { }
         }
     }
 }

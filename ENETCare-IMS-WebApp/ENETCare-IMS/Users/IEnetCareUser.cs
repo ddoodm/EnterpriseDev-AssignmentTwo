@@ -9,6 +9,7 @@ namespace ENETCare.IMS.Users
     public interface IEnetCareUser
     {
         int ID { get; }
+
         string Name { get; }
 
         /// <summary>

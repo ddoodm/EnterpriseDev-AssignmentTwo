@@ -19,7 +19,7 @@ namespace ENETCare.IMS
         /// <summary>
         /// Initializes a Clients DTO with a pre-defined collection of Clients.
         /// </summary>
-        private Clients(List<Client> clients)
+        public Clients(List<Client> clients)
         {
             this.clients = clients;
         }
@@ -29,6 +29,14 @@ namespace ENETCare.IMS
             if (id == 0)
                 throw new IndexOutOfRangeException("ENETCare data is 1-indexed, but an index of 0 was requested.");
             return clients.First<Client>(c => c.ID == id);
+        }
+
+        public Client this[int index]
+        {
+            get
+            {
+                return clients[index];
+            }
         }
 
         public Clients FilterByName(string name)

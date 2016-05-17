@@ -26,5 +26,27 @@ namespace ENETCare.IMS
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is District))
+                return false;
+            return ((District)obj).ID == this.ID;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.ID.GetHashCode();
+        }
+
+        public static bool operator ==(District lhs, District rhs)
+        {
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator !=(District lhs, District rhs)
+        {
+            return !(lhs == rhs);
+        }
     }
 }

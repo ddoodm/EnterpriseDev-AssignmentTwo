@@ -25,6 +25,8 @@ namespace ENETCare.IMS.Users
         /// </summary>
         public abstract string HomePage { get; }
 
+        protected EnetCareUser() { }
+
         protected EnetCareUser(string name)
         {
             this.Name = name;

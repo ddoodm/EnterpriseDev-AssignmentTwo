@@ -15,10 +15,36 @@ namespace ENETCare.IMS.Data.DataAccess
             get { return new ClientRepo(); }
         }
 
+        public Clients AllClients
+        {
+            get
+            {
+                // Eager-load the 'District' object
+                using (var db = new EnetCareDbContext())
+                {
+                    return new Clients(
+                        db.Clients
+                        .Include(m => m.District)
+                        .ToList<Client>());
+                }
+            }
+        }
+
+        public Client GetNthClient(int n)
+        {
+            using (var db = new EnetCareDbContext())
+            {
+                return db.Clients
+                    .Include(m => m.District)
+                    .OrderBy(c => c.ID).Skip(n).First<Client>();
+            }
+        }
+
         public void EraseAllData()
         {
             using (var db = new EnetCareDbContext())
             {
+                if (db.Clients.Count() < 1) return;
                 db.Clients.RemoveRange(db.Clients);
                 db.SaveChanges();
             }
