@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ENETCare.IMS.Users
 {
@@ -24,6 +25,10 @@ namespace ENETCare.IMS.Users
         /// The page to which the User is directed upon log-in
         /// </summary>
         public abstract string HomePage { get; }
+
+        public int? DistrictID { get; protected set; }
+        [ForeignKey("DistrictID")]
+        public virtual District District { get; protected set; }
 
         protected EnetCareUser() { }
 

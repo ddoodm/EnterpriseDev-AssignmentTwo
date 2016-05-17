@@ -5,15 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
+using ENETCare.IMS.Users;
+
 namespace ENETCare.IMS
 {
     public class District
     {
         [Key]
-        public int ID      { get; private set; }
+        public int DistrictID { get; private set; }
 
         [Required]
         public string Name { get; private set; }
+
+        public ICollection<Client> Clients { get; private set; }
+        public ICollection<EnetCareUser> Users { get; private set; }
 
         public District() { }
 
@@ -31,12 +36,12 @@ namespace ENETCare.IMS
         {
             if (!(obj is District))
                 return false;
-            return ((District)obj).ID == this.ID;
+            return ((District)obj).DistrictID == this.DistrictID;
         }
 
         public override int GetHashCode()
         {
-            return this.ID.GetHashCode();
+            return this.DistrictID.GetHashCode();
         }
 
         public static bool operator ==(District lhs, District rhs)

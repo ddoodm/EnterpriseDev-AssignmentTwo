@@ -28,6 +28,7 @@ namespace ENETCare.IMS.Data
             UserRepo users = UserRepo.New;
             InterventionRepo interventions = InterventionRepo.New;
 
+            // Clear the database (order is important)
             Console.WriteLine(">>>>\tErasing existing data");
             interventions.EraseAllInterventions();
             interventions.EraseAllInterventionTypes();
@@ -35,6 +36,7 @@ namespace ENETCare.IMS.Data
             clients.EraseAllData();
             districts.EraseAllData();
 
+            // Re-populate the database
             Console.WriteLine(">>>>\tPopulating data");
             PopulateDistricts(districts);
             PopulateClients(clients, districts);
@@ -118,9 +120,7 @@ namespace ENETCare.IMS.Data
             Console.WriteLine("Populating interventions ...");
 
             InterventionTypes types = interventionRepo.AllInterventionTypes;
-
             SiteEngineer testUser = userRepo.GetNthSiteEngineer(0);
-
             Client client = clientRepo.GetNthClient(0);
 
             Intervention[] interventions = new Intervention[]
@@ -128,7 +128,6 @@ namespace ENETCare.IMS.Data
                 Intervention.Factory.CreateIntervention(types[0], client, (SiteEngineer)testUser)
             };
 
-            interventionRepo.EraseAllInterventions();
             interventionRepo.Save(interventions);
         }
     }

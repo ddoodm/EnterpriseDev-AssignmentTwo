@@ -31,7 +31,7 @@ namespace ENETCare.IMS.Data.DataAccess
         {
             using (var db = new EnetCareDbContext())
             {
-                return db.Districts.Where(d => d.ID == ID).First<District>();
+                return db.Districts.Where(d => d.DistrictID == ID).First<District>();
             }
         }
 
@@ -39,7 +39,7 @@ namespace ENETCare.IMS.Data.DataAccess
         {
             using (var db = new EnetCareDbContext())
             {
-                return db.Districts.OrderBy(d => d.ID).Skip(n).First<District>();
+                return db.Districts.OrderBy(d => d.DistrictID).Skip(n).First<District>();
             }
         }
 

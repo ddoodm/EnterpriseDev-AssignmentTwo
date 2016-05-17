@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 
 using ENETCare.IMS.Interventions;
+using ENETCare.IMS.Users;
 
 namespace ENETCare.IMS.Data.DataAccess
 {
@@ -88,7 +89,13 @@ namespace ENETCare.IMS.Data.DataAccess
             using (var db = new EnetCareDbContext())
             {
                 foreach (Intervention intervention in interventions)
+                {
+                    db.Districts.Attach(intervention.District);
+                    db.Clients.Attach(intervention.Client);
+                    db.InterventionTypes.Attach(intervention.InterventionType);
+                    db.Users.Attach(intervention.ApprovingUser as EnetCareUser);
                     db.Interventions.Add(intervention);
+                }
                 db.SaveChanges();
             }
         }

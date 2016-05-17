@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using ENETCare.IMS.Users;
 
@@ -19,19 +20,25 @@ namespace ENETCare.IMS.Interventions
         /// The type of Intervention to be performed
         /// </summary>
         [Required]
-        public InterventionType InterventionType { get; private set; }
+        public virtual InterventionType InterventionType { get; private set; }
+        [ForeignKey("InterventionType")]
+        public int InterventionTypeID { get; private set; }
 
         /// <summary>
         /// The client for whom the intervention was created
         /// </summary>
         [Required]
-        public Client Client { get; private set; }
+        public virtual Client Client { get; private set; }
+        [ForeignKey("Client")]
+        public int ClientId { get; private set; }
 
         /// <summary>
         /// The Site Engineer who proposed the Intervention
         /// </summary>
         [Required]
-        public SiteEngineer SiteEngineer { get; private set; }
+        public virtual SiteEngineer SiteEngineer { get; private set; }
+        [ForeignKey("SiteEngineer")]
+        public int SiteEngineerID { get; private set; }
 
         /// <summary>
         /// The date on which the intervention shall be performed

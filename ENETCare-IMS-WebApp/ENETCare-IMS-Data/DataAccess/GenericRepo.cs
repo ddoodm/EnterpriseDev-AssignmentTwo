@@ -8,6 +8,7 @@ using System.Data.Entity;
 
 using ENETCare.IMS.Interventions;
 using ENETCare.IMS.Users;
+using System.Data.Entity.ModelConfiguration;
 
 namespace ENETCare.IMS.Data.DataAccess
 {
@@ -24,6 +25,19 @@ namespace ENETCare.IMS.Data.DataAccess
 
             public EnetCareDbContext() : base("EnetCareDbContext")
             { }
+
+            protected override void OnModelCreating(DbModelBuilder modelBuilder)
+            {
+                modelBuilder.Entity<EnetCareUser>()
+                    .HasRequired<District>(u => u.District)
+                    .WithMany(d => d.Users);
+
+                modelBuilder.Entity<Client>()
+                    .HasRequired<District>(c => c.District)
+                    .WithMany(d => d.Clients);
+
+                base.OnModelCreating(modelBuilder);
+            }
         }
     }
 }

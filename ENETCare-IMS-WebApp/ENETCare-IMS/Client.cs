@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using ENETCare.IMS.Interventions;
+
 namespace ENETCare.IMS
 {
     public class Client
@@ -22,6 +24,8 @@ namespace ENETCare.IMS
 
         [Required]
         public string Location              { get; private set; }
+
+        public ICollection<Intervention> Interventions { get; private set; }
 
         public string DescriptiveName
         {
