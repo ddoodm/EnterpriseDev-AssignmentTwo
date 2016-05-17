@@ -31,5 +31,26 @@ namespace ENETCare.IMS.Users
         {
             this.Name = name;
         }
+
+        public bool Equals(EnetCareUser other)
+        {
+            return this.Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public static bool operator ==(EnetCareUser lhs, EnetCareUser rhs)
+        {
+            return lhs.ID == rhs.ID;
+        }
+
+        public static bool operator !=(EnetCareUser lhs,  EnetCareUser rhs)
+        {
+            return !(lhs == rhs);
+        }
+
     }
 }
