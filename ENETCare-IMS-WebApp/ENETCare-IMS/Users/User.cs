@@ -32,6 +32,14 @@ namespace ENETCare.IMS.Users
             this.Name = name;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is EnetCareUser))
+                return false;
+
+            return ((EnetCareUser)obj).ID == this.ID;
+        }
+
         public bool Equals(EnetCareUser other)
         {
             return this.Equals(other);
@@ -39,7 +47,8 @@ namespace ENETCare.IMS.Users
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            //return base.GetHashCode();
+            return ID;
         }
 
         public static bool operator ==(EnetCareUser lhs, EnetCareUser rhs)
@@ -51,6 +60,5 @@ namespace ENETCare.IMS.Users
         {
             return !(lhs == rhs);
         }
-        //practise branch sourcetree
     }
 }

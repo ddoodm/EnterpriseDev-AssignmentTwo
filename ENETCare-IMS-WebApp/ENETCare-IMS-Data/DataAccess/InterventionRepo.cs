@@ -92,7 +92,7 @@ namespace ENETCare.IMS.Data.DataAccess
                 db.SaveChanges();
             }
         }
-
+            
         public void Save(InterventionType[] types)
         {
             using (var db = new EnetCareDbContext())

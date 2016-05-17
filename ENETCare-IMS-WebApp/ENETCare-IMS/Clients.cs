@@ -74,5 +74,19 @@ namespace ENETCare.IMS
         {
             return new List<Client>(clients);
         }
+
+        private int NextID
+        {
+            get
+            {
+                if (clients.Count < 1)
+                    return 0;
+
+                var highestClient
+                    = clients.OrderByDescending(i => i.ID)
+                    .FirstOrDefault();
+                return highestClient.ID + 1;
+            }
+        }
     }
 }
