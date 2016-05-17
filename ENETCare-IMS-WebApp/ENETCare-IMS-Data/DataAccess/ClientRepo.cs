@@ -36,7 +36,7 @@ namespace ENETCare.IMS.Data.DataAccess
             {
                 return db.Clients
                     .Include(m => m.District)
-                    .OrderBy(c => c.ID).Skip(n).First<Client>();
+                    .OrderBy(c => c.ID).Skip(n).FirstOrDefault<Client>();
             }
         }
 
@@ -55,7 +55,10 @@ namespace ENETCare.IMS.Data.DataAccess
             using (var db = new EnetCareDbContext())
             {
                 foreach (Client client in clients)
+                {
+                    db.Districts.Attach(client.District);
                     db.Clients.Add(client);
+                }
                 db.SaveChanges();
             }
         }

@@ -38,7 +38,7 @@ namespace ENETCare.IMS
         {
             this.Name = name;
             this.Location = location;
-            this.DistrictID = district.ID;
+            this.District = district;
         }
     }
 }
