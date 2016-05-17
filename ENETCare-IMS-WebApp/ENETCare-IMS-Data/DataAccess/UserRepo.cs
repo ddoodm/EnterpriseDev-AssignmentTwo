@@ -49,7 +49,12 @@ namespace ENETCare.IMS.Data.DataAccess
             using (var db = new EnetCareDbContext())
             {
                 foreach (EnetCareUser user in users)
+                {
+                    if (user is ILocalizedUser)
+                        db.Districts.Attach(((ILocalizedUser)user).District);
+
                     db.Users.Add(user);
+                }
                 db.SaveChanges();
             }
         }

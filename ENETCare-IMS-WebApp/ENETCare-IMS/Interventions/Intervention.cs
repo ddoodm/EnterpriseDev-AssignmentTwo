@@ -168,6 +168,8 @@ namespace ENETCare.IMS.Interventions
             else return false;
         }
 
+        public Intervention() { }
+
         private Intervention (
                 InterventionType interventionType,
                 Client client,

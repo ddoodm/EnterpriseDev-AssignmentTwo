@@ -48,7 +48,7 @@ namespace ENETCare.IMS.Users
             decimal maxApprovableCost)
             : base(name)
         {
-            this.DistrictID = district.ID;
+            this.District = district;
             this.MaxApprovableLabour = maxApprovableLabour;
             this.MaxApprovableCost = maxApprovableCost;
         }
