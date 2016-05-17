@@ -90,7 +90,7 @@ namespace ENETCare.IMS.Interventions
 
             // A site engineer must be the site engineer who proposed the intervention
             if (user is SiteEngineer)
-                if (user.ID != intervention.SiteEngineer.ID)
+                if (((SiteEngineer)user) != intervention.SiteEngineer)
                         outcome = false;
 
             // Must be able to approve *at least* the default labour AND the actual labour

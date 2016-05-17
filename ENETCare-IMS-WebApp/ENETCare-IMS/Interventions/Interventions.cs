@@ -11,41 +11,16 @@ namespace ENETCare.IMS.Interventions
 {
     public class Interventions : IReadOnlyList<Intervention>
     {
-        private ENETCareDAO application;
-
         private List<Intervention> interventions = new List<Intervention>();
 
-        //IF ANYTHING BREAKS: Delete the below property, and replace all instances of 'InterventionList' with 'interventions'
-        private List<Intervention> InterventionList { get { return interventions.Where(i => i.ApprovalState != InterventionApprovalState.Cancelled).Select(i => i).ToList(); } }
-
-        public Interventions(ENETCareDAO application)
+        public Interventions()
         {
-            this.application = application;
-
             interventions = new List<Intervention>();
         }
 
-        public Interventions(ENETCareDAO application, List<Intervention> list)
+        public Interventions(List<Intervention> list)
         {
-            this.application = application;
             this.interventions = list;
-        }
-
-        /// <summary>
-        /// Computes the next available ID number
-        /// </summary>
-        private int NextID
-        {
-            get
-            {
-                if (interventions.Count < 1)
-                    return 0;
-
-                var highestIntervention
-                    = interventions.OrderByDescending(i => i.ID)
-                    .FirstOrDefault();
-                return highestIntervention.ID + 1;
-            }
         }
 
         public Intervention CreateIntervention(
@@ -57,13 +32,10 @@ namespace ENETCare.IMS.Interventions
             decimal? labour,
             string notes)
         {
-            int id = NextID;
-
             Intervention newIntervention = Intervention.Factory.CreateIntervention(
-                id, type, client, siteEngineer, labour, cost, date);
+                type, client, siteEngineer, labour, cost, date);
             newIntervention.UpdateNotes(siteEngineer, notes);
 
-            application.Save(newIntervention);
             Add(newIntervention);
             return newIntervention;
         }
@@ -96,28 +68,28 @@ namespace ENETCare.IMS.Interventions
 
         public Interventions GetInterventionsWithClient(Client client)
         {
-            return new Interventions(application, InterventionList
+            return new Interventions(interventions
                 .Where(x => x.Client.ID == client.ID)
                 .ToList<Intervention>());
         }
 
         public Interventions FilterByDistrict(District district)
         {
-            return new Interventions(application, InterventionList
+            return new Interventions(interventions
                 .Where(x => x.District == district)
                 .ToList<Intervention>());
         }
 
         public Interventions FilterByState(InterventionApprovalState state)
         {
-            return new Interventions(application, InterventionList
+            return new Interventions(interventions
                 .Where(x => x.ApprovalState == state)
                 .ToList<Intervention>());
         }
 
         public Interventions FilterForUserDisplay(IInterventionApprover user)
         {
-            return new Interventions(application, InterventionList
+            return new Interventions(interventions
                 .Where(x =>
                 {
                     bool sameDistrict = x.District == user.District;
@@ -133,7 +105,7 @@ namespace ENETCare.IMS.Interventions
 
         public IEnumerator<Intervention> GetEnumerator()
         {
-            return InterventionList.GetEnumerator();
+            return interventions.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -143,7 +115,7 @@ namespace ENETCare.IMS.Interventions
 
         public List<Intervention> GetInterventions()
         {
-            return InterventionList;
+            return interventions;
         }
     }
 }

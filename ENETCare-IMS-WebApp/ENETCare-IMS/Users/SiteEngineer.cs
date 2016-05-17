@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ENETCare.IMS.Users
 {
@@ -12,8 +14,13 @@ namespace ENETCare.IMS.Users
             TITLE = "Site Engineer",
             HOMEPAGE = "Interventions";
 
-        public District District { get; private set; }
+        public int? DistrictID { get; private set; }
+        [ForeignKey("DistrictID")]
+        public virtual District District { get; private set; }
+
+        [Required]
         public decimal MaxApprovableLabour { get; private set; }
+        [Required]
         public decimal MaxApprovableCost { get; private set; }
 
         public override string Title
@@ -32,15 +39,16 @@ namespace ENETCare.IMS.Users
             }
         }
 
+        public SiteEngineer() { }
+
         public SiteEngineer(
-            int ID,
             string name,
             District district,
             decimal maxApprovableLabour,
             decimal maxApprovableCost)
-            : base(ID, name)
+            : base(name)
         {
-            this.District = district;
+            this.DistrictID = district.ID;
             this.MaxApprovableLabour = maxApprovableLabour;
             this.MaxApprovableCost = maxApprovableCost;
         }

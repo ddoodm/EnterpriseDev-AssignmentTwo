@@ -9,12 +9,10 @@ namespace ENETCare.IMS.Users
 {
     public class Users : IReadOnlyList<EnetCareUser>
     {
-        private ENETCareDAO application;
         private List<EnetCareUser> users;
 
-        public Users(ENETCareDAO application)
+        public Users()
         {
-            this.application = application;
             users = new List<EnetCareUser>();
         }
 
@@ -29,28 +27,11 @@ namespace ENETCare.IMS.Users
                 users.Add(user);
         }
 
-        /// <summary>
-        /// Computes the next available ID number
-        /// </summary>
-        private int NextID
-        {
-            get
-            {
-                if (users.Count < 1)
-                    return 1;
-
-                var highestIntervention
-                    = users.OrderByDescending(i => i.ID)
-                    .FirstOrDefault();
-                return highestIntervention.ID + 1;
-            }
-        }
-
         public SiteEngineer CreateSiteEngineer(
             string name, District district, decimal maxApprovableLabour, decimal maxApprovableCost)
         {
             SiteEngineer engineer =
-                new SiteEngineer(NextID, name, district, maxApprovableLabour, maxApprovableCost);
+                new SiteEngineer(name, district, maxApprovableLabour, maxApprovableCost);
             Add(engineer);
             return engineer;
         }
@@ -59,14 +40,14 @@ namespace ENETCare.IMS.Users
             string name, District district, decimal maxApprovableLabour, decimal maxApprovableCost)
         {
             Manager manager =
-                new Manager(NextID, name, district, maxApprovableLabour, maxApprovableCost);
+                new Manager(name, district, maxApprovableLabour, maxApprovableCost);
             Add(manager);
             return manager;
         }
 
         public Accountant CreateAccountant(string name)
         {
-            Accountant accountant = new Accountant(NextID, name);
+            Accountant accountant = new Accountant(name);
             Add(accountant);
             return accountant;
         }
@@ -93,10 +74,7 @@ namespace ENETCare.IMS.Users
 
         public EnetCareUser this[int index]
         {
-            get
-            {
-                return users.First<EnetCareUser>(user => user.ID == index);
-            }
+            get { return users[index]; }
         }
 
         public List<EnetCareUser> GetUsers()
@@ -141,20 +119,6 @@ namespace ENETCare.IMS.Users
             }
 
             return advancedUsers;
-        }
-
-        //TODO: Make this update the row in the respective table in the DB with ENETDAO
-        public void UpdateUser(EnetCareUser user)
-        {
-            if(user is SiteEngineer)
-            {
-                application.UpdateSiteEngineer(user as SiteEngineer);
-            }
-            else if(user is Manager)
-            {
-                application.UpdateManager(user as Manager);
-            }
-
         }
     }
 }

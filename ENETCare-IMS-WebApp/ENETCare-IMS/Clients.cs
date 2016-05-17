@@ -4,26 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ENETCare.IMS.Interventions;
+
 namespace ENETCare.IMS
 {
     public class Clients
     {
-        private ENETCareDAO application;
-
         private List<Client> clients;
 
-        public Clients(ENETCareDAO application)
+        public Clients()
         {
-            this.application = application;
             clients = new List<Client>();
         }
 
         /// <summary>
         /// Initializes a Clients DTO with a pre-defined collection of Clients.
         /// </summary>
-        private Clients(ENETCareDAO application, List<Client> clients)
+        public Clients(List<Client> clients)
         {
-            this.application = application;
             this.clients = clients;
         }
 
@@ -34,6 +31,14 @@ namespace ENETCare.IMS
             return clients.First<Client>(c => c.ID == id);
         }
 
+        public Client this[int index]
+        {
+            get
+            {
+                return clients[index];
+            }
+        }
+
         public Clients FilterByName(string name)
         {
             name = name.ToLower();
@@ -41,7 +46,7 @@ namespace ENETCare.IMS
                 from client in clients
                 where client.Name.ToLower().Contains(name)
                 select client;
-            return new Clients(application, results.ToList<Client>());
+            return new Clients(results.ToList<Client>());
         }
 
         public Clients FilterByDistrict(District district)
@@ -50,24 +55,7 @@ namespace ENETCare.IMS
                 from client in clients
                 where client.District == district
                 select client;
-            return new Clients(application, results.ToList<Client>());
-        }
-
-        /// <summary>
-        /// Computes the next available ID number
-        /// </summary>
-        private int NextID
-        {
-            get
-            {
-                if (clients.Count < 1)
-                    return 0;
-
-                var highestClient
-                    = clients.OrderByDescending(i => i.ID)
-                    .FirstOrDefault();
-                return highestClient.ID + 1;
-            }
+            return new Clients(results.ToList<Client>());
         }
 
         public void Add(Client client)
@@ -77,9 +65,7 @@ namespace ENETCare.IMS
 
         public Client CreateClient(string name, string location, District district)
         {
-            int id = NextID;
-            Client newClient = new Client(id, name, location, district);
-            application.Save(newClient);
+            Client newClient = new Client(name, location, district);
             Add(newClient);
             return newClient;
         }

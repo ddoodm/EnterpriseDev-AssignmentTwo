@@ -35,7 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
   </ItemGroup>
@@ -54,9 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ClientsTest.cs" />
     <Compile Include="ClientTests.cs" />
-    <Compile Include="DatabaseTests.cs" />
     <Compile Include="DistrictsTests.cs" />
     <Compile Include="InterventionsTests.cs" />
     <Compile Include="MiscTests.cs" />
@@ -64,6 +71,10 @@
     <Compile Include="UsersTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ENETCare-IMS-Data\ENETCare-IMS-Data.csproj">
+      <Project>{f65771e4-d2df-47f8-9bdc-47b27643639d}</Project>
+      <Name>ENETCare-IMS-Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ENETCare-IMS\ENETCare-IMS.csproj">
       <Project>{29bc6fca-c92d-4336-a962-3885b2e6a486}</Project>
       <Name>ENETCare-IMS</Name>
@@ -71,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

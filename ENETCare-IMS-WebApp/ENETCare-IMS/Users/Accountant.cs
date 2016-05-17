@@ -28,13 +28,11 @@ namespace ENETCare.IMS.Users
             }
         }
 
-        public Accountant(
-            int ID,
-            string name)
-            : base (ID, name)
-        {
+        public Accountant() { }
 
+        public Accountant(string name)
+            : base (name)
+        {
         }
-        
     }
 }

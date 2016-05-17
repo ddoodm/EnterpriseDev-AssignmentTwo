@@ -52,7 +52,16 @@
       <HintPath>..\packages\dbup.3.3.4\lib\net35\DbUp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -62,15 +71,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseConstants.cs" />
-    <Compile Include="EnetCareImsDataSet.cs">
-      <DependentUpon>EnetCareImsDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="EnetCareImsDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EnetCareImsDataSet.xsd</DependentUpon>
-    </Compile>
+    <Compile Include="DataAccess\ClientRepo.cs" />
+    <Compile Include="DataAccess\DistrictRepo.cs" />
+    <Compile Include="DataAccess\GenericRepo.cs" />
+    <Compile Include="DataAccess\InterventionRepo.cs" />
+    <Compile Include="DataAccess\UserRepo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -81,33 +86,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="EnetCareImsDataSet.xsc">
-      <DependentUpon>EnetCareImsDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="EnetCareImsDataSet.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>EnetCareImsDataSet.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="EnetCareImsDataSet.xss">
-      <DependentUpon>EnetCareImsDataSet.xsd</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Database\EnetCareIms.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Database\EnetCareIms_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>EnetCareIms.mdf</DependentUpon>
-    </Content>
-    <Content Include="SQLScripts\dbo.Clients.sql" />
-    <Content Include="SQLScripts\dbo.Districts.sql" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -121,8 +104,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="DataAccess\" />
+    <ProjectReference Include="..\ENETCare-IMS\ENETCare-IMS.csproj">
+      <Project>{29bc6fca-c92d-4336-a962-3885b2e6a486}</Project>
+      <Name>ENETCare-IMS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

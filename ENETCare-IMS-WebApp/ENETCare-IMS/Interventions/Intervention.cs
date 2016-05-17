@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 using ENETCare.IMS.Users;
 
@@ -10,39 +11,46 @@ namespace ENETCare.IMS.Interventions
 {
     public class Intervention
     {
+        [Key]
         public int ID { get; private set; }
 
         #region Core Information
         /// <summary>
         /// The type of Intervention to be performed
         /// </summary>
+        [Required]
         public InterventionType InterventionType { get; private set; }
 
         /// <summary>
         /// The client for whom the intervention was created
         /// </summary>
+        [Required]
         public Client Client { get; private set; }
 
         /// <summary>
         /// The Site Engineer who proposed the Intervention
         /// </summary>
+        [Required]
         public SiteEngineer SiteEngineer { get; private set; }
 
         /// <summary>
         /// The date on which the intervention shall be performed
         /// </summary>
+        [Required]
         public DateTime Date { get; private set; }
 
         /// <summary>
         /// The labour required (in hours).
         /// The value is stored as decimal in order to permit fractional values.
         /// </summary>
+        [Required]
         public decimal Labour { get; private set; }
 
         /// <summary>
         /// The projected cost of the Intervention.
         /// Default: interventionType.Cost; can be overridden by the Site Engineer
         /// </summary>
+        [Required]
         public decimal Cost { get; private set; }
 
         /// <summary>
@@ -69,6 +77,7 @@ namespace ENETCare.IMS.Interventions
         /// <summary>
         /// Stores an maintains the Approval State of this Intervention
         /// </summary>
+        [Required]
         private InterventionApproval approval;
 
         /// <summary>
@@ -160,7 +169,6 @@ namespace ENETCare.IMS.Interventions
         }
 
         private Intervention (
-                int ID,
                 InterventionType interventionType,
                 Client client,
                 SiteEngineer siteEngineer,
@@ -168,7 +176,6 @@ namespace ENETCare.IMS.Interventions
                 decimal cost,
                 DateTime date)
         {
-            this.ID = ID;
             this.InterventionType = interventionType;
             this.Client = client;
             this.SiteEngineer = siteEngineer;
@@ -196,7 +203,6 @@ namespace ENETCare.IMS.Interventions
             /// <param name="quality">The object that holds quality control information for this Intervention</param>
             /// <returns>A new Intervention</returns>
             public static Intervention RawCreateIntervention(
-                int ID,
                 InterventionType type,
                 Client client,
                 SiteEngineer siteEngineer,
@@ -209,7 +215,7 @@ namespace ENETCare.IMS.Interventions
                 )
             {
                 Intervention intervention = RawCreateIntervention(
-                    ID, type, client, siteEngineer, labour, cost, date);
+                    type, client, siteEngineer, labour, cost, date);
 
                 // Set extra data
                 if (approval != null) intervention.approval = approval;
@@ -220,7 +226,6 @@ namespace ENETCare.IMS.Interventions
             }
 
             public static Intervention RawCreateIntervention (
-                int ID,
                 InterventionType type,
                 Client client,
                 SiteEngineer siteEngineer,
@@ -233,7 +238,7 @@ namespace ENETCare.IMS.Interventions
                 if (labour == null) labour = type.Labour;
                 if (cost == null) cost = type.Cost;
 
-                return new Intervention(ID, type, client, siteEngineer, labour.Value, cost.Value, date);
+                return new Intervention(type, client, siteEngineer, labour.Value, cost.Value, date);
             }
 
             /// <summary>
@@ -247,7 +252,6 @@ namespace ENETCare.IMS.Interventions
             /// <param name="date">The date of the intervention - overrides the present date</param>
             /// <returns>A new Intervention</returns>
             public static Intervention CreateIntervention (
-                int ID,
                 InterventionType type,
                 Client client,
                 SiteEngineer siteEngineer,
@@ -262,7 +266,7 @@ namespace ENETCare.IMS.Interventions
                     throw new ArgumentException("Cannot create Intervention.\nThe Client must exist in the same district as the Site Engineer.");
 
                 var intervention = RawCreateIntervention(
-                    ID, type, client, siteEngineer, labour, cost, date);
+                    type, client, siteEngineer, labour, cost, date);
 
                 // If possible, auto-approve the intervention on creation
                 if (intervention.UserCanChangeState(siteEngineer))
@@ -279,7 +283,6 @@ namespace ENETCare.IMS.Interventions
             /// <param name="siteEngineer">The engineer proposing the Intervention</param>
             /// <returns></returns>
             public static Intervention CreateIntervention (
-                int ID,
                 InterventionType type,
                 Client client,
                 SiteEngineer siteEngineer
@@ -292,7 +295,7 @@ namespace ENETCare.IMS.Interventions
                 // Use the present date
                 DateTime date = DateTime.Now;
 
-                return CreateIntervention(ID, type, client, siteEngineer, labour, cost, date);
+                return CreateIntervention(type, client, siteEngineer, labour, cost, date);
             }
         }
     }
