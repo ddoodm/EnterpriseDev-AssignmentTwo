@@ -7,100 +7,69 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 
 using ENETCare.IMS.Interventions;
+using ENETCare.IMS.Users;
 
 namespace ENETCare.IMS.Data.DataAccess
 {
     public class InterventionRepo : GenericRepo<Intervention>
     {
-        public static InterventionRepo New
-        {
-            get { return new InterventionRepo(); }
-        }
+        public InterventionRepo(EnetCareDbContext context)
+            : base(context)
+        { }
 
         public int InterventionTypeCount
         {
-            get
-            {
-                using (var db = new EnetCareDbContext())
-                {
-                    return db.InterventionTypes.Count();
-                }
-            }
-        }
-
-        public InterventionTypes AllInterventionTypes
-        {
-            get
-            {
-                using (var db = new EnetCareDbContext())
-                {
-                    return new InterventionTypes(
-                        db.InterventionTypes.ToList<InterventionType>());
-                }
-            }
-        }
-
-        public Interventions.Interventions AllInterventions
-        {
-            get
-            {
-                using (var db = new EnetCareDbContext())
-                {
-                    return new Interventions.Interventions(
-                        db.Interventions.ToList<Intervention>());
-                }
-            }
+            get { return context.InterventionTypes.Count();  }
         }
 
         public Interventions.Interventions GetInterventionHistory(Client client)
         {
-            using (var db = new EnetCareDbContext())
-            {
-                var query = from intervention in db.Interventions
-                            orderby intervention.Date
-                            select intervention;
-                return new Interventions.Interventions(query.ToList<Intervention>());
-            }
+            var query = from intervention in context.Interventions
+                        orderby intervention.Date
+                        select intervention;
+            return new Interventions.Interventions(query.ToList<Intervention>());
+        }
+
+        internal InterventionType GetNthInterventionType(int n)
+        {
+            return context.InterventionTypes
+                .OrderBy(i => i.ID).Skip(n)
+                .First<InterventionType>();
         }
 
         public void EraseAllInterventions()
         {
-            using (var db = new EnetCareDbContext())
-            {
-                if (db.Interventions.Count() < 1) return;
-                db.Interventions.RemoveRange(db.Interventions);
-                db.SaveChanges();
-            }
+            if (context.Interventions.Count() < 1) return;
+            context.Interventions.RemoveRange(context.Interventions);
+            context.SaveChanges();
         }
 
         public void EraseAllInterventionTypes()
         {
-            using (var db = new EnetCareDbContext())
-            {
-                if (db.InterventionTypes.Count() < 1) return;
-                db.InterventionTypes.RemoveRange(db.InterventionTypes);
-                db.SaveChanges();
-            }
+            if (context.InterventionTypes.Count() < 1) return;
+            context.InterventionTypes.RemoveRange(context.InterventionTypes);
+            context.SaveChanges();
         }
 
         public void Save(Intervention[] interventions)
         {
-            using (var db = new EnetCareDbContext())
+            foreach (Intervention intervention in interventions)
             {
-                foreach (Intervention intervention in interventions)
-                    db.Interventions.Add(intervention);
-                db.SaveChanges();
+                context.Clients.Attach(intervention.Client);
+                context.Users.Attach(intervention.SiteEngineer);
+                context.InterventionTypes.Attach(intervention.InterventionType);
+
+                context.Interventions.Add(intervention);
             }
+
+            context.SaveChanges();
         }
             
         public void Save(InterventionType[] types)
         {
-            using (var db = new EnetCareDbContext())
-            {
-                foreach (InterventionType type in types)
-                    db.InterventionTypes.Add(type);
-                db.SaveChanges();
-            }
+            foreach (InterventionType type in types)
+                context.InterventionTypes.Add(type);
+            context.SaveChanges();
         }
     }
 }

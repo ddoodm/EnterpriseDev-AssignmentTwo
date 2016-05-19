@@ -10,57 +10,34 @@ namespace ENETCare.IMS.Data.DataAccess
 {
     public class ClientRepo : GenericRepo<Client>
     {
-        public static ClientRepo New
-        {
-            get { return new ClientRepo(); }
-        }
-
-        public Clients AllClients
-        {
-            get
-            {
-                // Eager-load the 'District' object
-                using (var db = new EnetCareDbContext())
-                {
-                    return new Clients(
-                        db.Clients
-                        .Include(m => m.District)
-                        .ToList<Client>());
-                }
-            }
-        }
+        public ClientRepo(EnetCareDbContext context)
+            : base(context)
+        { }
 
         public Client GetNthClient(int n)
         {
-            using (var db = new EnetCareDbContext())
-            {
-                return db.Clients
-                    .Include(m => m.District)
-                    .OrderBy(c => c.ID).Skip(n).FirstOrDefault<Client>();
-            }
+            return context.Clients
+                .Include(m => m.District)
+                .OrderBy(c => c.ID).Skip(n)
+                .FirstOrDefault<Client>();
         }
 
         public void EraseAllData()
         {
-            using (var db = new EnetCareDbContext())
-            {
-                if (db.Clients.Count() < 1) return;
-                db.Clients.RemoveRange(db.Clients);
-                db.SaveChanges();
-            }
+            if (context.Clients.Count() < 1) return;
+            context.Clients.RemoveRange(context.Clients);
+            context.SaveChanges();
         }
 
         public void Save(Client[] clients)
         {
-            using (var db = new EnetCareDbContext())
+            foreach (Client client in clients)
             {
-                foreach (Client client in clients)
-                {
-                    db.Districts.Attach(client.District);
-                    db.Clients.Add(client);
-                }
-                db.SaveChanges();
+                context.Districts.Attach(client.District);
+                context.Clients.Add(client);
             }
+
+            context.SaveChanges();
         }
     }
 }

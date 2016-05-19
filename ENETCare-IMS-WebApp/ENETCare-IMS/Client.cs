@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using ENETCare.IMS.Interventions;
+
 namespace ENETCare.IMS
 {
     public class Client
@@ -16,9 +18,9 @@ namespace ENETCare.IMS
         [Required]
         public string Name                  { get; private set; }
 
-        public int? DistrictID               { get; private set; }
-        [ForeignKey("DistrictID")]
-        public virtual District District    { get; private set; }
+        public District District    { get; private set; }
+        [ForeignKey("District")]
+        public int DistrictID               { get; private set; }
 
         [Required]
         public string Location              { get; private set; }

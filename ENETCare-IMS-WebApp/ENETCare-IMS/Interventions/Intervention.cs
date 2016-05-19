@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using ENETCare.IMS.Users;
 
@@ -18,20 +19,17 @@ namespace ENETCare.IMS.Interventions
         /// <summary>
         /// The type of Intervention to be performed
         /// </summary>
-        [Required]
-        public InterventionType InterventionType { get; private set; }
+        public virtual InterventionType InterventionType { get; private set; }
 
         /// <summary>
         /// The client for whom the intervention was created
         /// </summary>
-        [Required]
-        public Client Client { get; private set; }
+        public virtual Client Client { get; private set; }
 
         /// <summary>
         /// The Site Engineer who proposed the Intervention
         /// </summary>
-        [Required]
-        public SiteEngineer SiteEngineer { get; private set; }
+        public virtual SiteEngineer SiteEngineer { get; private set; }
 
         /// <summary>
         /// The date on which the intervention shall be performed
@@ -43,14 +41,12 @@ namespace ENETCare.IMS.Interventions
         /// The labour required (in hours).
         /// The value is stored as decimal in order to permit fractional values.
         /// </summary>
-        [Required]
         public decimal Labour { get; private set; }
 
         /// <summary>
         /// The projected cost of the Intervention.
         /// Default: interventionType.Cost; can be overridden by the Site Engineer
         /// </summary>
-        [Required]
         public decimal Cost { get; private set; }
 
         /// <summary>
@@ -77,7 +73,6 @@ namespace ENETCare.IMS.Interventions
         /// <summary>
         /// Stores an maintains the Approval State of this Intervention
         /// </summary>
-        [Required]
         private InterventionApproval approval;
 
         /// <summary>

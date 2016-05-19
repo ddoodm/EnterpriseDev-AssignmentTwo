@@ -10,12 +10,9 @@ namespace ENETCare.IMS.Tests
     [TestClass]
     public class ClientTests
     {
-        private ClientRepo clientRepo;
-
         [TestInitialize]
         public void Setup()
         {
-            clientRepo = ClientRepo.New;
         }
 
         [TestMethod]

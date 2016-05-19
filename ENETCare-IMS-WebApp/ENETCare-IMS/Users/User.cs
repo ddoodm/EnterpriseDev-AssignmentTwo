@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ENETCare.IMS.Users
 {
@@ -47,8 +48,7 @@ namespace ENETCare.IMS.Users
 
         public override int GetHashCode()
         {
-            //return base.GetHashCode();
-            return ID;
+            return ID.GetHashCode();
         }
 
         public static bool operator ==(EnetCareUser lhs, EnetCareUser rhs)

@@ -8,22 +8,17 @@ using System.Data.Entity;
 
 using ENETCare.IMS.Interventions;
 using ENETCare.IMS.Users;
+using System.Data.Entity.ModelConfiguration;
 
 namespace ENETCare.IMS.Data.DataAccess
 {
     public class GenericRepo<T>
     {
-        protected class EnetCareDbContext : DbContext
+        protected EnetCareDbContext context;
+
+        public GenericRepo(EnetCareDbContext context)
         {
-            public DbSet<Intervention>      Interventions { get; set; }
-            public DbSet<InterventionType>  InterventionTypes { get; set; }
-
-            public DbSet<Client>            Clients { get; set; }
-            public DbSet<District>          Districts { get; set; }
-            public DbSet<EnetCareUser>      Users { get; set; }
-
-            public EnetCareDbContext() : base("EnetCareDbContext")
-            { }
+            this.context = context;
         }
     }
 }

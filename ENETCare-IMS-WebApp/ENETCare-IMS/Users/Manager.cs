@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using ENETCare.IMS.Interventions;
+
 namespace ENETCare.IMS.Users
 {
     public class Manager : EnetCareUser, ILocalizedUser, IInterventionApprover, IAdvancedUser
@@ -14,14 +16,12 @@ namespace ENETCare.IMS.Users
             TITLE = "Manager",
             HOMEPAGE = "ProposedInterventions";
 
-        public int? DistrictID { get; private set; }
-        [ForeignKey("DistrictID")]
-        public virtual District District { get; private set; }
-
-        [Required]
+        [Required, Column("MaxApprovableLabour")]
         public decimal MaxApprovableLabour { get; private set; }
-        [Required]
+        [Required, Column("MaxApprovableCost")]
         public decimal MaxApprovableCost { get; private set; }
+
+        public District District { get; protected set; }
 
         public override string Title
         {
