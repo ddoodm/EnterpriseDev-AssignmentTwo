@@ -64,7 +64,7 @@ namespace ENETCare.IMS.Data.DataAccess
 
             context.SaveChanges();
         }
-
+            
         public void Save(InterventionType[] types)
         {
             foreach (InterventionType type in types)
