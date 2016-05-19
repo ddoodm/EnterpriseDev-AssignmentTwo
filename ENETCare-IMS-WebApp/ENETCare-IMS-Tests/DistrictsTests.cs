@@ -8,12 +8,9 @@ namespace ENETCare.IMS.Tests
     [TestClass]
     public class DistrictsTests
     {
-        private DistrictRepo districtRepo;
-
         [TestInitialize]
         public void Setup()
         {
-            districtRepo = DistrictRepo.New;
         }
 
         [TestMethod]

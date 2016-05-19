@@ -8,59 +8,32 @@ namespace ENETCare.IMS.Data.DataAccess
 {
     public class DistrictRepo : GenericRepo<District>
     {
-        public static DistrictRepo New
-        {
-            get { return new DistrictRepo(); }
-        }
-
-        /// <summary>
-        /// NOTICE: This returns a **copy** of the Districts
-        /// </summary>
-        public Districts AllDistricts
-        {
-            get
-            {
-                using (var db = new EnetCareDbContext())
-                {
-                    return new Districts(db.Districts.ToList<District>());
-                }
-            }
-        }
+        public DistrictRepo(EnetCareDbContext context)
+            : base(context)
+        { }
 
         public District GetDistrictById(int ID)
         {
-            using (var db = new EnetCareDbContext())
-            {
-                return db.Districts.Where(d => d.DistrictID == ID).First<District>();
-            }
+            return context.Districts.Where(d => d.DistrictID == ID).First<District>();
         }
 
         public District GetNthDistrict(int n)
         {
-            using (var db = new EnetCareDbContext())
-            {
-                return db.Districts.OrderBy(d => d.DistrictID).Skip(n).First<District>();
-            }
+            return context.Districts.OrderBy(d => d.DistrictID).Skip(n).First<District>();
         }
 
         public void EraseAllData()
         {
-            using (var db = new EnetCareDbContext())
-            {
-                if (db.Districts.Count() < 1) return;
-                db.Districts.RemoveRange(db.Districts);
-                db.SaveChanges();
-            }
+            if (context.Districts.Count() < 1) return;
+            context.Districts.RemoveRange(context.Districts);
+            context.SaveChanges();
         }
 
         public void Save(District[] districts)
         {
-            using (var db = new EnetCareDbContext())
-            {
-                foreach(District district in districts)
-                    db.Districts.Add(district);
-                db.SaveChanges();
-            }
+            foreach(District district in districts)
+                context.Districts.Add(district);
+            context.SaveChanges();
         }
     }
 }

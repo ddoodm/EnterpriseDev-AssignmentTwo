@@ -18,14 +18,12 @@ namespace ENETCare.IMS
         [Required]
         public string Name                  { get; private set; }
 
-        public int? DistrictID               { get; private set; }
-        [ForeignKey("DistrictID")]
-        public virtual District District    { get; private set; }
+        public District District    { get; private set; }
+        [ForeignKey("District")]
+        public int DistrictID               { get; private set; }
 
         [Required]
         public string Location              { get; private set; }
-
-        public ICollection<Intervention> Interventions { get; private set; }
 
         public string DescriptiveName
         {

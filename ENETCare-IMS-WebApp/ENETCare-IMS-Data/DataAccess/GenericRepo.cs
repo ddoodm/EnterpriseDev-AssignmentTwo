@@ -14,30 +14,11 @@ namespace ENETCare.IMS.Data.DataAccess
 {
     public class GenericRepo<T>
     {
-        protected class EnetCareDbContext : DbContext
+        protected EnetCareDbContext context;
+
+        public GenericRepo(EnetCareDbContext context)
         {
-            public DbSet<Intervention>      Interventions { get; set; }
-            public DbSet<InterventionType>  InterventionTypes { get; set; }
-
-            public DbSet<Client>            Clients { get; set; }
-            public DbSet<District>          Districts { get; set; }
-            public DbSet<EnetCareUser>      Users { get; set; }
-
-            public EnetCareDbContext() : base("EnetCareDbContext")
-            { }
-
-            protected override void OnModelCreating(DbModelBuilder modelBuilder)
-            {
-                modelBuilder.Entity<EnetCareUser>()
-                    .HasRequired<District>(u => u.District)
-                    .WithMany(d => d.Users);
-
-                modelBuilder.Entity<Client>()
-                    .HasRequired<District>(c => c.District)
-                    .WithMany(d => d.Clients);
-
-                base.OnModelCreating(modelBuilder);
-            }
+            this.context = context;
         }
     }
 }

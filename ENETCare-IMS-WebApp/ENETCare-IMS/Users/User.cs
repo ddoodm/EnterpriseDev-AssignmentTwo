@@ -26,10 +26,6 @@ namespace ENETCare.IMS.Users
         /// </summary>
         public abstract string HomePage { get; }
 
-        public int? DistrictID { get; protected set; }
-        [ForeignKey("DistrictID")]
-        public virtual District District { get; protected set; }
-
         protected EnetCareUser() { }
 
         protected EnetCareUser(string name)

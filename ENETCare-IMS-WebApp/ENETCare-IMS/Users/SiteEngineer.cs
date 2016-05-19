@@ -16,12 +16,12 @@ namespace ENETCare.IMS.Users
             TITLE = "Site Engineer",
             HOMEPAGE = "Interventions";
 
-        [Required]
+        [Required, Column("MaxApprovableLabour")]
         public decimal MaxApprovableLabour { get; private set; }
-        [Required]
+        [Required, Column("MaxApprovableCost")]
         public decimal MaxApprovableCost { get; private set; }
 
-        public ICollection<Intervention> Interventions { get; private set; }
+        public District District { get; protected set; }
 
         public override string Title
         {

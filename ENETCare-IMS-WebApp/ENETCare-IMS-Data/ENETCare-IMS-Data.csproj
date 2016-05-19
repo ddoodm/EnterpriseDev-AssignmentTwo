@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="DataAccess\ClientRepo.cs" />
     <Compile Include="DataAccess\DistrictRepo.cs" />
+    <Compile Include="DataAccess\EnetCareDbContext.cs" />
     <Compile Include="DataAccess\GenericRepo.cs" />
     <Compile Include="DataAccess\InterventionRepo.cs" />
     <Compile Include="DataAccess\UserRepo.cs" />

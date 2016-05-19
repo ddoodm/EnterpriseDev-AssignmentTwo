@@ -10,53 +10,43 @@ namespace ENETCare.IMS.Data.DataAccess
 {
     public class UserRepo : GenericRepo<EnetCareUser>
     {
-        public static UserRepo New
-        {
-            get { return new UserRepo(); }
-        }
+        public UserRepo(EnetCareDbContext context)
+            : base(context)
+        { }
 
         public EnetCareUser GetUserById(int ID)
         {
-            using (var db = new EnetCareDbContext())
-            {
-                return db.Users.Where(d => d.ID == ID).First<EnetCareUser>();
-            }
+            return context.Users
+                .Where(d => d.ID == ID)
+                .First<EnetCareUser>();
         }
 
         public SiteEngineer GetNthSiteEngineer(int n)
         {
-            using (var db = new EnetCareDbContext())
-            {
-                return db.Users
-                    .OfType<SiteEngineer>().Include(e => e.District)
-                    .OrderBy(d => d.ID)
-                    .Skip(n).FirstOrDefault();
-            }
+            return context.Users
+                .OfType<SiteEngineer>()
+                .Include(e => e.District)
+                .OrderBy(d => d.ID)
+                .Skip(n).FirstOrDefault();
         }
 
         public void EraseAllData()
         {
-            using (var db = new EnetCareDbContext())
-            {
-                if (db.Users.Count() < 1) return;
-                db.Users.RemoveRange(db.Users);
-                db.SaveChanges();
-            }
+            if (context.Users.Count() < 1) return;
+            context.Users.RemoveRange(context.Users);
+            context.SaveChanges();
         }
 
         public void Save(EnetCareUser[] users)
         {
-            using (var db = new EnetCareDbContext())
+            foreach (EnetCareUser user in users)
             {
-                foreach (EnetCareUser user in users)
-                {
-                    if (user is ILocalizedUser)
-                        db.Districts.Attach(((ILocalizedUser)user).District);
+                if (user is ILocalizedUser)
+                    context.Districts.Attach(((ILocalizedUser)user).District);
 
-                    db.Users.Add(user);
-                }
-                db.SaveChanges();
+                context.Users.Add(user);
             }
+            context.SaveChanges();
         }
     }
 }

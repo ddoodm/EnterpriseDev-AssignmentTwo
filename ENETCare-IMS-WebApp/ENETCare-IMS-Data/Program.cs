@@ -16,20 +16,23 @@ namespace ENETCare.IMS.Data
     {
         static int Main(string[] args)
         {
-            PopulateInitialData();
+            Console.WriteLine(">>>>\tBuilding ENETCare DB Context ...");
+
+            using (var context = new EnetCareDbContext())
+                PopulateInitialData(context);
 
             return 0;
         }
 
-        private static void PopulateInitialData()
+        private static void PopulateInitialData(EnetCareDbContext context)
         {
-            DistrictRepo districts = DistrictRepo.New;
-            ClientRepo clients = ClientRepo.New;
-            UserRepo users = UserRepo.New;
-            InterventionRepo interventions = InterventionRepo.New;
+            DistrictRepo districts = new DistrictRepo(context);
+            ClientRepo clients = new ClientRepo(context);
+            UserRepo users = new UserRepo(context);
+            InterventionRepo interventions = new InterventionRepo(context);
 
             // Clear the database (order is important)
-            Console.WriteLine(">>>>\tErasing existing data");
+            Console.WriteLine(">>>>\tErasing existing data ...");
             interventions.EraseAllInterventions();
             interventions.EraseAllInterventionTypes();
             users.EraseAllData();
@@ -37,7 +40,7 @@ namespace ENETCare.IMS.Data
             districts.EraseAllData();
 
             // Re-populate the database
-            Console.WriteLine(">>>>\tPopulating data");
+            Console.WriteLine(">>>>\tPopulating data ...");
             PopulateDistricts(districts);
             PopulateClients(clients, districts);
             PopulateUsers(users, districts);
@@ -66,7 +69,6 @@ namespace ENETCare.IMS.Data
             };
 
             // Clear and re-load
-            repo.EraseAllData();
             repo.Save(defaultDistricts);
         }
 
@@ -92,10 +94,20 @@ namespace ENETCare.IMS.Data
         {
             Console.WriteLine("Populating users ...");
 
-            SiteEngineer testUser = new SiteEngineer(
-                "Bob Ross", districtRepo.GetNthDistrict(0), 100, 10000);
+            EnetCareUser[] users = new EnetCareUser[]
+            {
+                new SiteEngineer("Deinyon Davies",  districtRepo.GetNthDistrict(0),  8,   1000),
+                new SiteEngineer("Henry Saal",      districtRepo.GetNthDistrict(1),  10,  2000),
+                new SiteEngineer("Hans Samson",     districtRepo.GetNthDistrict(2),  100, 10000),
+                new SiteEngineer("Bob James",       districtRepo.GetNthDistrict(3),  10,  2000),
+                new SiteEngineer("Takeshi Itoh",    districtRepo.GetNthDistrict(4),  5, 100),
 
-            userRepo.Save(new EnetCareUser[] { testUser });
+                new Manager("Daum Park", districtRepo.GetNthDistrict(0), 100, 10000),
+
+                new Accountant("Yiannis Chambers"),
+            };
+
+            userRepo.Save(users);
         }
 
         private static void PopulateClients(ClientRepo clientRepo, DistrictRepo districtRepo)
@@ -104,7 +116,7 @@ namespace ENETCare.IMS.Data
 
             Client[] clients = new Client[]
             {
-                new Client("Jane Dow", "1 Fakeway Ln., Fakeville", districtRepo.GetNthDistrict(0)),
+                new Client("Jane Doe", "1 Fakeway Ln., Fakeville", districtRepo.GetNthDistrict(0)),
                 new Client("John Doe", "123 Fake St., Sunnyland", districtRepo.GetNthDistrict(1)),
                 new Client("Markus Samson", "42 Answer Ave., Earthland",districtRepo.GetNthDistrict(2)),
                 new Client("Migi Hidari", "5 Leftlane St., Rightville", districtRepo.GetNthDistrict(3)),
@@ -119,13 +131,32 @@ namespace ENETCare.IMS.Data
         {
             Console.WriteLine("Populating interventions ...");
 
-            InterventionTypes types = interventionRepo.AllInterventionTypes;
-            SiteEngineer testUser = userRepo.GetNthSiteEngineer(0);
-            Client client = clientRepo.GetNthClient(0);
-
             Intervention[] interventions = new Intervention[]
             {
-                Intervention.Factory.CreateIntervention(types[0], client, (SiteEngineer)testUser)
+                Intervention.Factory.CreateIntervention(
+                    interventionRepo.GetNthInterventionType(0),
+                    clientRepo.GetNthClient(0),
+                    userRepo.GetNthSiteEngineer(0)),
+
+                Intervention.Factory.CreateIntervention(
+                    interventionRepo.GetNthInterventionType(1),
+                    clientRepo.GetNthClient(1),
+                    userRepo.GetNthSiteEngineer(1)),
+
+                Intervention.Factory.CreateIntervention(
+                    interventionRepo.GetNthInterventionType(2),
+                    clientRepo.GetNthClient(2),
+                    userRepo.GetNthSiteEngineer(2)),
+
+                Intervention.Factory.CreateIntervention(
+                    interventionRepo.GetNthInterventionType(3),
+                    clientRepo.GetNthClient(3),
+                    userRepo.GetNthSiteEngineer(3)),
+
+                Intervention.Factory.CreateIntervention(
+                    interventionRepo.GetNthInterventionType(4),
+                    clientRepo.GetNthClient(4),
+                    userRepo.GetNthSiteEngineer(4)),
             };
 
             interventionRepo.Save(interventions);

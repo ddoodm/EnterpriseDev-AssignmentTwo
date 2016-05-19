@@ -19,26 +19,17 @@ namespace ENETCare.IMS.Interventions
         /// <summary>
         /// The type of Intervention to be performed
         /// </summary>
-        [Required]
         public virtual InterventionType InterventionType { get; private set; }
-        [ForeignKey("InterventionType")]
-        public int InterventionTypeID { get; private set; }
 
         /// <summary>
         /// The client for whom the intervention was created
         /// </summary>
-        [Required]
         public virtual Client Client { get; private set; }
-        [ForeignKey("Client")]
-        public int ClientId { get; private set; }
 
         /// <summary>
         /// The Site Engineer who proposed the Intervention
         /// </summary>
-        [Required]
         public virtual SiteEngineer SiteEngineer { get; private set; }
-        [ForeignKey("SiteEngineer")]
-        public int SiteEngineerID { get; private set; }
 
         /// <summary>
         /// The date on which the intervention shall be performed
@@ -50,14 +41,12 @@ namespace ENETCare.IMS.Interventions
         /// The labour required (in hours).
         /// The value is stored as decimal in order to permit fractional values.
         /// </summary>
-        [Required]
         public decimal Labour { get; private set; }
 
         /// <summary>
         /// The projected cost of the Intervention.
         /// Default: interventionType.Cost; can be overridden by the Site Engineer
         /// </summary>
-        [Required]
         public decimal Cost { get; private set; }
 
         /// <summary>
@@ -84,7 +73,6 @@ namespace ENETCare.IMS.Interventions
         /// <summary>
         /// Stores an maintains the Approval State of this Intervention
         /// </summary>
-        [Required]
         private InterventionApproval approval;
 
         /// <summary>
