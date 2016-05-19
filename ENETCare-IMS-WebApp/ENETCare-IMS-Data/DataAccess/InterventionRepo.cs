@@ -14,7 +14,7 @@ namespace ENETCare.IMS.Data.DataAccess
     public class InterventionRepo : GenericRepo<Intervention>
     {
         public InterventionRepo(EnetCareDbContext context)
-            : base(context)
+            : base(context, context.Interventions)
         { }
 
         public int InterventionTypeCount
@@ -30,7 +30,7 @@ namespace ENETCare.IMS.Data.DataAccess
             return new Interventions.Interventions(query.ToList<Intervention>());
         }
 
-        internal InterventionType GetNthInterventionType(int n)
+        public InterventionType GetNthInterventionType(int n)
         {
             return context.InterventionTypes
                 .OrderBy(i => i.ID).Skip(n)

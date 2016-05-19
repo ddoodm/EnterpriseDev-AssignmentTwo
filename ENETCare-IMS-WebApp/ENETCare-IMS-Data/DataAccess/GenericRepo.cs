@@ -12,13 +12,23 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace ENETCare.IMS.Data.DataAccess
 {
-    public class GenericRepo<T>
+    public abstract class GenericRepo<T> where T : class
     {
         protected EnetCareDbContext context;
+        private DbSet<T> dataSource;
 
-        public GenericRepo(EnetCareDbContext context)
+        protected GenericRepo(EnetCareDbContext context, DbSet<T> dataSource)
         {
             this.context = context;
+            this.dataSource = dataSource;
+        }
+
+        /// <summary>
+        /// The number of elements in this repository
+        /// </summary>
+        public int Count
+        {
+            get { return dataSource.Count(); }
         }
     }
 }

@@ -11,6 +11,7 @@ namespace ENETCare.IMS.Tests
     [TestClass]
     public class UsersTest
     {
+        EnetCareDbContext context;
         DistrictRepo districtRepo;
 
         District testDistrictA;
@@ -18,8 +19,15 @@ namespace ENETCare.IMS.Tests
         [TestInitialize]
         public void Setup()
         {
-            districtRepo = DistrictRepo.New;
-            testDistrictA = districtRepo.AllDistricts[0];
+            context = new EnetCareDbContext();
+            districtRepo = new DistrictRepo(context);
+            testDistrictA = districtRepo.GetNthDistrict(0);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            context.Dispose();
         }
 
         [TestMethod]
