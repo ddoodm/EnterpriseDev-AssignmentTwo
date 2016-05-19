@@ -11,7 +11,7 @@ namespace ENETCare.IMS.Data.DataAccess
     public class UserRepo : GenericRepo<EnetCareUser>
     {
         public UserRepo(EnetCareDbContext context)
-            : base(context)
+            : base(context, context.Users)
         { }
 
         public EnetCareUser GetUserById(int ID)

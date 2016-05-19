@@ -136,8 +136,3 @@ C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENE
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-WebApp\obj\Debug\ENETCare-IMS-WebApp.csprojResolveAssemblyReference.cache
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-WebApp\obj\Debug\ENETCare-IMS-WebApp.dll
 C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-WebApp\obj\Debug\ENETCare-IMS-WebApp.pdb
-C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-WebApp\obj\Debug\ENETCare_IMS_WebApp.Migrations.InitialModel.resources
-C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-WebApp\obj\Debug\ENETCare-IMS-WebApp.csproj.GenerateResource.Cache
-C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-WebApp\obj\Debug\ENETCare_IMS_WebApp.Migrations.EngineerManagerRemoveDistrictID.resources
-C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-WebApp\obj\Debug\ENETCare_IMS_WebApp.Migrations.EngineerManagerRestoreDistrictId.resources
-C:\Users\Ddoodm\Source\Repos\EnterpriseDev-AssignmentTwo\ENETCare-IMS-WebApp\ENETCare-IMS-WebApp\obj\Debug\ENETCare_IMS_WebApp.Migrations.AddUser.resources

@@ -11,7 +11,7 @@ namespace ENETCare.IMS.Data.DataAccess
     public class ClientRepo : GenericRepo<Client>
     {
         public ClientRepo(EnetCareDbContext context)
-            : base(context)
+            : base(context, context.Clients)
         { }
 
         public Client GetNthClient(int n)

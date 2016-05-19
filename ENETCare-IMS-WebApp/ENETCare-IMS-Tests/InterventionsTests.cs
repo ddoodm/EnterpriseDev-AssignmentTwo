@@ -11,7 +11,8 @@ namespace ENETCare.IMS.Tests
     public class InterventionsTests
     {
         #region Shared Test Data
-        // Repositories
+        private EnetCareDbContext context;
+
         private InterventionRepo interventionRepo;
         private ClientRepo clientRepo;
         private DistrictRepo districtRepo;
@@ -27,7 +28,7 @@ namespace ENETCare.IMS.Tests
         private InterventionType CreateTestInterventionType()
         {
             Assert.IsTrue(interventionRepo.InterventionTypeCount >= 1, "There are no Intervention Types");
-            return interventionRepo.AllInterventionTypes[0];
+            return interventionRepo.GetNthInterventionType(0);
         }
 
         private Client CreateTestClient()
@@ -38,14 +39,12 @@ namespace ENETCare.IMS.Tests
 
         private void CreateTestDistricts()
         {
-            Districts districts = districtRepo.AllDistricts;
-
-            Assert.IsTrue(districts.Count >= NUM_TEST_DISTRICTS,
+            Assert.IsTrue(districtRepo.Count >= NUM_TEST_DISTRICTS,
                 "There are not enough districts for testing.");
 
-            testDistrictA = districts[0];
-            testDistrictB = districts[1];
-            testDistrictC = districts[2];
+            testDistrictA = districtRepo.GetNthDistrict(0);
+            testDistrictB = districtRepo.GetNthDistrict(1);
+            testDistrictC = districtRepo.GetNthDistrict(2);
         }
 
         private SiteEngineer CreateTestSiteEngineer()
@@ -87,13 +86,21 @@ namespace ENETCare.IMS.Tests
         [TestInitialize]
         public void Setup()
         {
-            interventionRepo = InterventionRepo.New;
-            clientRepo = ClientRepo.New;
-            districtRepo = DistrictRepo.New;
+            context = new EnetCareDbContext();
+
+            interventionRepo = new InterventionRepo(context);
+            clientRepo = new ClientRepo(context);
+            districtRepo = new DistrictRepo(context);
 
             CreateTestDistricts();
             testClient = CreateTestClient();
             testEngineer = CreateTestSiteEngineer();
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            context.Dispose();
         }
 
         #region Creation Tests
