@@ -170,6 +170,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SiteEngineerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -182,12 +183,22 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\SBAdmin-Template\blank-page.html" />
+    <Content Include="Content\SBAdmin-Template\bootstrap-elements.html" />
+    <Content Include="Content\SBAdmin-Template\bootstrap-grid.html" />
+    <Content Include="Content\SBAdmin-Template\charts.html" />
+    <Content Include="Content\SBAdmin-Template\forms.html" />
+    <Content Include="Content\SBAdmin-Template\index-rtl.html" />
+    <Content Include="Content\SBAdmin-Template\index.html" />
+    <Content Include="Content\SBAdmin-Template\tables.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\SBAdmin-Template\LICENSE" />
+    <Content Include="Content\SBAdmin-Template\README.md" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -234,9 +245,15 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\SiteEngineer\Index.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\SBAdmin-Template\css\" />
+    <Folder Include="Content\SBAdmin-Template\font-awesome\" />
+    <Folder Include="Content\SBAdmin-Template\fonts\" />
+    <Folder Include="Content\SBAdmin-Template\js\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
