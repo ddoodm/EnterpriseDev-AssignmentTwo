@@ -10,6 +10,8 @@ namespace ENETCare.IMS.Interventions
 {
     public class InterventionApproval
     {
+        public int ID { get; private set; }
+
         /// <summary>
         /// Internally maintained state of the Approval
         /// </summary>
@@ -30,6 +32,8 @@ namespace ENETCare.IMS.Interventions
         public IInterventionApprover ApprovingUser { get; private set; }
 
         private Intervention intervention;
+
+        public InterventionApproval() { }
 
         public InterventionApproval(
             InterventionApprovalState state,

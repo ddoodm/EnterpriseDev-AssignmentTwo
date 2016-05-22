@@ -73,7 +73,7 @@ namespace ENETCare.IMS.Interventions
         /// <summary>
         /// Stores an maintains the Approval State of this Intervention
         /// </summary>
-        private InterventionApproval approval;
+        public InterventionApproval approval { get; private set; }
 
         /// <summary>
         /// Describes the Approval state of this intervention
@@ -95,7 +95,7 @@ namespace ENETCare.IMS.Interventions
         /// <summary>
         /// Describes the 'progress' and 'health' of the intervention
         /// </summary>
-        private InterventionQualityManagement Quality;
+        public InterventionQualityManagement Quality { get; private set; }
 
         public Percentage Health
         {

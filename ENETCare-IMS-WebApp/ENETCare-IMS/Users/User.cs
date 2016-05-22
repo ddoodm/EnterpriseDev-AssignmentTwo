@@ -32,5 +32,10 @@ namespace ENETCare.IMS.Users
         {
             this.Name = name;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

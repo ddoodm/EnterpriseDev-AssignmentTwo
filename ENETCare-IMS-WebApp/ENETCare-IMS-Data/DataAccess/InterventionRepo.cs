@@ -22,6 +22,20 @@ namespace ENETCare.IMS.Data.DataAccess
             get { return context.InterventionTypes.Count();  }
         }
 
+        private IQueryable<Intervention> FullyLoadedInterventionsDbSet
+        {
+            get
+            {
+                return context.Interventions
+                  .Include(i => i.InterventionType)
+                  .Include(i => i.Client)
+                  .Include(i => i.Client.District)
+                  .Include(i => i.SiteEngineer)
+                  .Include(i => i.SiteEngineer.District)
+                  .Include("approval");
+            }
+        }
+
         public Interventions.Interventions GetInterventionHistory(Client client)
         {
             var query = from intervention in context.Interventions
@@ -43,7 +57,8 @@ namespace ENETCare.IMS.Data.DataAccess
 
         public Interventions.Interventions GetAllInterventions()
         {
-            return new Interventions.Interventions(context.Interventions.ToList<Intervention>());
+            return new Interventions.Interventions(
+                FullyLoadedInterventionsDbSet.ToList<Intervention>());
         }
 
         public InterventionType GetNthInterventionType(int n)

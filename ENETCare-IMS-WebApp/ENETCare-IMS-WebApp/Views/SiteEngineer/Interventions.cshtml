@@ -29,7 +29,15 @@
                     @foreach(Intervention intervention in Model)
                     {
                         <tr>
-                            <td>@intervention.Cost</td>
+                            <td>@intervention.InterventionType</td>
+                            <td>@intervention.Client</td>
+                            <td>@intervention.SiteEngineer</td>
+                            <td>@intervention.Date</td>
+                            <td>NUL</td>
+                            <td>@intervention.District</td>
+                            <td>NUL</td>
+                            <td>NUL</td>
+                            <td>@intervention.Notes</td>
                         </tr>
                     }
                 </tbody>

@@ -42,5 +42,10 @@ namespace ENETCare.IMS
             this.Location = location;
             this.District = district;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

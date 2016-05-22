@@ -8,6 +8,8 @@ namespace ENETCare.IMS.Interventions
 {
     public class InterventionQualityManagement
     {
+        public int ID { get; private set; }
+
         /// <summary>
         /// The health of the work completed for the Intervention.
         /// Stored as a percentage from 0 to 100.
