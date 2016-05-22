@@ -25,9 +25,25 @@ namespace ENETCare.IMS.Data.DataAccess
         public Interventions.Interventions GetInterventionHistory(Client client)
         {
             var query = from intervention in context.Interventions
+                        where intervention.Client == client
                         orderby intervention.Date
                         select intervention;
             return new Interventions.Interventions(query.ToList<Intervention>());
+        }
+
+        public Interventions.Interventions GetInterventionHistory(IInterventionApprover user)
+        {
+            var query = from intervention in context.Interventions
+                        orderby intervention.Date
+                        where intervention.SiteEngineer == user ||
+                        intervention.ApprovingUser == user
+                        select intervention;
+            return new Interventions.Interventions(query.ToList<Intervention>());
+        }
+
+        public Interventions.Interventions GetAllInterventions()
+        {
+            return new Interventions.Interventions(context.Interventions.ToList<Intervention>());
         }
 
         public InterventionType GetNthInterventionType(int n)

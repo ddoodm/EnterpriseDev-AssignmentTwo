@@ -305,6 +305,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\SiteEngineer\Index.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\SiteEngineer\Interventions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -320,6 +321,16 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ENETCare-IMS-Data\ENETCare-IMS-Data.csproj">
+      <Project>{f65771e4-d2df-47f8-9bdc-47b27643639d}</Project>
+      <Name>ENETCare-IMS-Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENETCare-IMS\ENETCare-IMS.csproj">
+      <Project>{29bc6fca-c92d-4336-a962-3885b2e6a486}</Project>
+      <Name>ENETCare-IMS</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

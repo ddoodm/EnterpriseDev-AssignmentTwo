@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 using System.Data.Entity;
 
@@ -13,6 +14,10 @@ namespace ENETCare.IMS.Data.DataAccess
 {
     public class EnetCareDbContext : DbContext
     {
+        public EnetCareDbContext()
+            : base("EnetCareImsDatabase")
+        { }
+
         public DbSet<Intervention> Interventions { get; set; }
         public DbSet<InterventionType> InterventionTypes { get; set; }
 

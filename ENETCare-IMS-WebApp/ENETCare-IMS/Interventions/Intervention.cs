@@ -19,17 +19,17 @@ namespace ENETCare.IMS.Interventions
         /// <summary>
         /// The type of Intervention to be performed
         /// </summary>
-        public virtual InterventionType InterventionType { get; private set; }
+        public InterventionType InterventionType { get; private set; }
 
         /// <summary>
         /// The client for whom the intervention was created
         /// </summary>
-        public virtual Client Client { get; private set; }
+        public Client Client { get; private set; }
 
         /// <summary>
         /// The Site Engineer who proposed the Intervention
         /// </summary>
-        public virtual SiteEngineer SiteEngineer { get; private set; }
+        public SiteEngineer SiteEngineer { get; private set; }
 
         /// <summary>
         /// The date on which the intervention shall be performed

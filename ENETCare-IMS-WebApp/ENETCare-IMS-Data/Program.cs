@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.IO;
 
 using ENETCare.IMS.Data.DataAccess;
 
@@ -18,10 +19,26 @@ namespace ENETCare.IMS.Data
         {
             Console.WriteLine(">>>>\tBuilding ENETCare DB Context ...");
 
+            // Configure database directory
+            SetupDataDirectory();
+
             using (var context = new EnetCareDbContext())
                 PopulateInitialData(context);
 
             return 0;
+        }
+
+        /// <summary>
+        /// Sets the path of the Data directory for
+        /// the Connection String to correctly attach
+        /// the MDF database to the server.
+        /// </summary>
+        public static void SetupDataDirectory()
+        {
+            string path = Path.GetFullPath(Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                @"..\..\"));
+            AppDomain.CurrentDomain.SetData("DataDirectory", path);
         }
 
         private static void PopulateInitialData(EnetCareDbContext context)

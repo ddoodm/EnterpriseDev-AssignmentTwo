@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using ENETCare.IMS.Data.DataAccess;
+using ENETCare.IMS.Interventions;
+
 namespace ENETCare_IMS_WebApp.Controllers
 {
     public class SiteEngineerController : Controller
@@ -12,6 +15,19 @@ namespace ENETCare_IMS_WebApp.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult Interventions()
+        {
+            // Retrieve Interventions
+            using (EnetCareDbContext db = new EnetCareDbContext())
+            {
+                InterventionRepo repo = new InterventionRepo(db);
+                Interventions interventions =
+                    repo.GetAllInterventions();
+
+                return View(interventions);
+            }
         }
     }
 }

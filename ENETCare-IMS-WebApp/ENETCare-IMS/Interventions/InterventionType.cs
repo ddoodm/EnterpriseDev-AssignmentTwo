@@ -30,5 +30,10 @@ namespace ENETCare.IMS.Interventions
             this.Cost = Cost;
             this.Labour = Labour;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
