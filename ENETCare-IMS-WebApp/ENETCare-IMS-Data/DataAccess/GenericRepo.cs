@@ -26,9 +26,19 @@ namespace ENETCare.IMS.Data.DataAccess
         /// <summary>
         /// The number of elements in this repository
         /// </summary>
-        public int Count
+        public virtual int Count
         {
             get { return dataSource.Count(); }
+        }
+
+        /// <summary>
+        /// Erase all rows from the data source
+        /// </summary>
+        public virtual void EraseAllData()
+        {
+            if (Count < 1) return;
+            dataSource.RemoveRange(dataSource);
+            context.SaveChanges();
         }
     }
 }

@@ -22,13 +22,6 @@ namespace ENETCare.IMS.Data.DataAccess
                 .FirstOrDefault<Client>();
         }
 
-        public void EraseAllData()
-        {
-            if (context.Clients.Count() < 1) return;
-            context.Clients.RemoveRange(context.Clients);
-            context.SaveChanges();
-        }
-
         public void Save(Client[] clients)
         {
             foreach (Client client in clients)

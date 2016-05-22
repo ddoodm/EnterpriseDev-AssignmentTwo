@@ -30,13 +30,6 @@ namespace ENETCare.IMS.Data.DataAccess
                 .Skip(n).FirstOrDefault();
         }
 
-        public void EraseAllData()
-        {
-            if (context.Users.Count() < 1) return;
-            context.Users.RemoveRange(context.Users);
-            context.SaveChanges();
-        }
-
         public void Save(EnetCareUser[] users)
         {
             foreach (EnetCareUser user in users)

@@ -22,13 +22,6 @@ namespace ENETCare.IMS.Data.DataAccess
             return context.Districts.OrderBy(d => d.DistrictID).Skip(n).First<District>();
         }
 
-        public void EraseAllData()
-        {
-            if (context.Districts.Count() < 1) return;
-            context.Districts.RemoveRange(context.Districts);
-            context.SaveChanges();
-        }
-
         public void Save(District[] districts)
         {
             foreach(District district in districts)

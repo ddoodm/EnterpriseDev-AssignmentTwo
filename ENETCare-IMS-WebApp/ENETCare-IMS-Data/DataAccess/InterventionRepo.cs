@@ -37,6 +37,12 @@ namespace ENETCare.IMS.Data.DataAccess
                 .First<InterventionType>();
         }
 
+        public override void EraseAllData()
+        {
+            EraseAllInterventions();
+            EraseAllInterventionTypes();
+        }
+
         public void EraseAllInterventions()
         {
             if (context.Interventions.Count() < 1) return;

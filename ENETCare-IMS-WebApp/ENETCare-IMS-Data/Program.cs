@@ -33,8 +33,7 @@ namespace ENETCare.IMS.Data
 
             // Clear the database (order is important)
             Console.WriteLine(">>>>\tErasing existing data ...");
-            interventions.EraseAllInterventions();
-            interventions.EraseAllInterventionTypes();
+            interventions.EraseAllData();
             users.EraseAllData();
             clients.EraseAllData();
             districts.EraseAllData();
