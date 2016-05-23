@@ -322,6 +322,7 @@
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Admin\EditIntervention.cshtml" />
     <Content Include="Views\SiteEngineer\CreateIntervention.cshtml" />
+    <Content Include="Views\Accountant\Report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
