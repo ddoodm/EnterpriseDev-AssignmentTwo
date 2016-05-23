@@ -14,6 +14,9 @@ namespace ENETCare_IMS_WebApp.Controllers
         // GET: SiteEngineer
         public ActionResult Index()
         {
+            string accountType = "Site Engineer";
+            ViewData["Title"] = accountType;
+
             return View();
         }
 
