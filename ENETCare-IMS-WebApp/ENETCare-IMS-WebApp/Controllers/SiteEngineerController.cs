@@ -32,5 +32,10 @@ namespace ENETCare_IMS_WebApp.Controllers
                 return View(interventions);
             }
         }
+
+        public ActionResult CreateIntervention()
+        {
+            return View();
+        }
     }
 }
