@@ -39,7 +39,7 @@ namespace ENETCare.IMS.Users
             }
         }
 
-        public SiteEngineer() { }
+        private SiteEngineer() { }
 
         public SiteEngineer(
             string name,

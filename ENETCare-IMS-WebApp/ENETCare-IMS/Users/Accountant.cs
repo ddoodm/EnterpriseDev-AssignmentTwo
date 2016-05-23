@@ -28,7 +28,7 @@ namespace ENETCare.IMS.Users
             }
         }
 
-        public Accountant() { }
+        private Accountant() { }
 
         public Accountant(string name)
             : base (name)

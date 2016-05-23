@@ -21,8 +21,6 @@
                         <th>State</th>
                         <th>District</th>
                         <th>Health</th>
-                        <th>Last Visit</th>
-                        <th>Notes</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,12 +30,10 @@
                             <td>@intervention.InterventionType</td>
                             <td>@intervention.Client</td>
                             <td>@intervention.SiteEngineer</td>
-                            <td>@intervention.Date</td>
-                            <td>NUL</td>
+                            <td>@intervention.Date.ToString("ddd, dd MMM, yyy")</td>
+                            <td>@intervention.Approval</td>
                             <td>@intervention.District</td>
-                            <td>NUL</td>
-                            <td>NUL</td>
-                            <td>@intervention.Notes</td>
+                            <td>@intervention.Health</td>
                         </tr>
                     }
                 </tbody>

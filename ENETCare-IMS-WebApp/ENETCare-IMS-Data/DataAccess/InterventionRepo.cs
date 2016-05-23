@@ -32,7 +32,8 @@ namespace ENETCare.IMS.Data.DataAccess
                   .Include(i => i.Client.District)
                   .Include(i => i.SiteEngineer)
                   .Include(i => i.SiteEngineer.District)
-                  .Include("approval");
+                  .Include(i => i.Approval)
+                  .Include(i => i.Quality);
             }
         }
 

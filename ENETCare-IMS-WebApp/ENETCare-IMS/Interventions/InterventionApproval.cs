@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using ENETCare.IMS.Users;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ENETCare.IMS.Interventions
 {
@@ -15,7 +17,8 @@ namespace ENETCare.IMS.Interventions
         /// <summary>
         /// Internally maintained state of the Approval
         /// </summary>
-        private InterventionApprovalStateWrapper state;
+        [Required]
+        public InterventionApprovalStateWrapper state { get; private set; }
 
         /// <summary>
         /// Describes the current state of the application
@@ -26,30 +29,49 @@ namespace ENETCare.IMS.Interventions
         }
 
         /// <summary>
+        /// Concrete IInterventionApprover implementations for Entity Framework
+        /// </summary>
+        public int? ApprovingSiteEngineerID { get; private set; }
+        [ForeignKey("ApprovingSiteEngineerID")]
+        public SiteEngineer ApprovingSiteEngineer { get; private set; }
+
+        public int? ApprovingManagerID { get; private set; }
+        [ForeignKey("ApprovingManagerID")]
+        public Manager ApprovingManager { get; private set; }
+
+        /// <summary>
         /// The user who approved the Intervention,
         /// null if the Intervention has not been approved.
         /// </summary>
-        public IInterventionApprover ApprovingUser { get; private set; }
-
-        private Intervention intervention;
-
-        public InterventionApproval() { }
-
-        public InterventionApproval(
-            InterventionApprovalState state,
-            IInterventionApprover approvingUser)
+        public IInterventionApprover ApprovingUser
         {
-            // Intervention must be linked later
-            this.state = new InterventionApprovalStateWrapper(state);
-            this.ApprovingUser = approvingUser;
+            get
+            {
+                if (ApprovingSiteEngineer != null) return ApprovingSiteEngineer;
+                if (ApprovingManager != null) return ApprovingManager;
+                return null;
+            }
+
+            private set
+            {
+                if (ApprovingUser != null)
+                    throw new InvalidOperationException("The Intervention has already been approved");
+
+                if (value is SiteEngineer) { ApprovingSiteEngineer = (SiteEngineer)value; return; }
+                if (value is Manager) { ApprovingManager = (Manager)value; return; }
+            }
         }
+
+        public Intervention Intervention { get; private set; }
+
+        private InterventionApproval() { }
 
         public InterventionApproval(Intervention intervention)
         {
             if (intervention == null)
                 throw new ArgumentNullException("An Intervention Approval must be associated with an instantiated Intervention");
 
-            this.intervention = intervention;
+            this.Intervention = intervention;
             this.state = new InterventionApprovalStateWrapper();
         }
 
@@ -89,30 +111,31 @@ namespace ENETCare.IMS.Interventions
 
             // A manager must work in the same district as the intervention
             if (user is Manager)
-                if (user.District != intervention.District)
+                if (user.District != Intervention.District)
                     outcome = false;
 
             // A site engineer must be the site engineer who proposed the intervention
             if (user is SiteEngineer)
-                if (((SiteEngineer)user) != intervention.SiteEngineer)
+                if (((SiteEngineer)user) != Intervention.SiteEngineer)
                         outcome = false;
 
             // Must be able to approve *at least* the default labour AND the actual labour
-            if (user.MaxApprovableLabour < intervention.MaximumLabour)
+            if (user.MaxApprovableLabour < Intervention.MaximumLabour)
                 outcome = false;
 
             // Must be able to approve *at least* the default cost AND the actual cost
-            if (user.MaxApprovableCost < intervention.MaximumCost)
+            if (user.MaxApprovableCost < Intervention.MaximumCost)
                 outcome = false;
 
             return outcome;
         }
 
-        internal void LinkIntervention(Intervention intervention)
+        public override string ToString()
         {
-            if (this.intervention != null)
-                throw new InvalidOperationException("Approval is already linked");
-            this.intervention = intervention;
+            if (State == InterventionApprovalState.Approved)
+                return String.Format("Approved by {0}", ApprovingUser.Name);
+
+            return State.ToString();
         }
     }
 }

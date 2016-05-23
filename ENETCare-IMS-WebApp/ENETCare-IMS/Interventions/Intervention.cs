@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
 
 using ENETCare.IMS.Users;
 
@@ -73,19 +75,20 @@ namespace ENETCare.IMS.Interventions
         /// <summary>
         /// Stores an maintains the Approval State of this Intervention
         /// </summary>
-        public InterventionApproval approval { get; private set; }
+        [Required]
+        public InterventionApproval Approval { get; private set; }
 
         /// <summary>
         /// Describes the Approval state of this intervention
         /// </summary>
         public InterventionApprovalState ApprovalState
         {
-            get { return approval.State; }
+            get { return Approval.State; }
         }
 
         public IInterventionApprover ApprovingUser
         {
-            get { return approval.ApprovingUser; }
+            get { return Approval.ApprovingUser; }
         }
 
         #endregion
@@ -135,22 +138,22 @@ namespace ENETCare.IMS.Interventions
 
         public bool UserCanChangeState(IInterventionApprover user)
         {
-            return approval.CanChangeState(user);
+            return Approval.CanChangeState(user);
         }
 
         public void Approve(IInterventionApprover user)
         {
-            approval.Approve(user);
+            Approval.Approve(user);
         }
 
         public void Cancel(IInterventionApprover user)
         {
-            approval.Cancel(user);
+            Approval.Cancel(user);
         }
 
         public void Complete(SiteEngineer user)
         {
-            approval.Complete(user);
+            Approval.Complete(user);
         }
 
         public bool UserCanChangeQuality(EnetCareUser user)
@@ -163,7 +166,7 @@ namespace ENETCare.IMS.Interventions
             else return false;
         }
 
-        public Intervention() { }
+        private Intervention() { }
 
         private Intervention (
                 InterventionType interventionType,
@@ -180,8 +183,9 @@ namespace ENETCare.IMS.Interventions
             this.Cost = cost;
             this.Date = date;
 
-            // Initialize the Approval
-            approval = new InterventionApproval(this);
+            // Initialize the Approval and Quality
+            Approval = new InterventionApproval(this);
+            Quality = new InterventionQualityManagement();
         }
 
         public class Factory
@@ -215,7 +219,7 @@ namespace ENETCare.IMS.Interventions
                     type, client, siteEngineer, labour, cost, date);
 
                 // Set extra data
-                if (approval != null) intervention.approval = approval;
+                if (approval != null) intervention.Approval = approval;
                 intervention.Notes = notes;
                 intervention.Quality = quality;
 

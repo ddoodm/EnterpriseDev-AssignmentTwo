@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ENETCare.IMS
 {
+    [ComplexType()]
     public class Percentage
     {
-        private decimal value;
+        public decimal Value { get; private set; }
+
+        private Percentage() { }
 
         private Percentage (decimal value)
         {
             // Constrains the percentage value to 0...100
-            this.value = value.Clamp(0m, 100.0m);
+            this.Value = value.Clamp(0m, 100.0m);
         }
 
         public static implicit operator Percentage (decimal value)
@@ -23,12 +27,12 @@ namespace ENETCare.IMS
 
         public static implicit operator decimal (Percentage inValue)
         {
-            return inValue.value;
+            return inValue.Value;
         }
 
         public override string ToString()
         {
-            return String.Format("{0:00.0}%", value);
+            return String.Format("{0:00.0}%", Value);
         }
     }
 }

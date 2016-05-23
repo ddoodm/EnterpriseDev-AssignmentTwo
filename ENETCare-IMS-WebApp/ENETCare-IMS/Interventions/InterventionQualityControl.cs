@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ENETCare.IMS.Interventions
 {
+    [Table("InterventionQualityManagement")]
     public class InterventionQualityManagement
     {
         public int ID { get; private set; }
@@ -15,9 +17,9 @@ namespace ENETCare.IMS.Interventions
         /// Stored as a percentage from 0 to 100.
         /// Values outside 0 to 100 are clamped.
         /// </summary>
-        public Percentage Health;
+        public Percentage Health { get; set; }
 
-        public DateTime LastVisit;
+        public DateTime? LastVisit { get; set; }
 
         public InterventionQualityManagement(Percentage Health, DateTime LastVisit)
         {

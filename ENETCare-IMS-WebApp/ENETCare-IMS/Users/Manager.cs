@@ -39,7 +39,7 @@ namespace ENETCare.IMS.Users
             }
         }
 
-        public Manager() { }
+        private Manager() { }
 
         public Manager(
             string name,
