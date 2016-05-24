@@ -344,6 +344,8 @@
     <Content Include="Views\Admin\ViewClient.cshtml" />
     <Content Include="Views\SiteEngineer\CreateNewClient.cshtml" />
     <Content Include="Views\SiteEngineer\SaveNewClientComplete.cshtml" />
+    <Content Include="Views\Manager\ViewProsposed.cshtml" />
+    <Content Include="Views\Manager\ViewApproved.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
