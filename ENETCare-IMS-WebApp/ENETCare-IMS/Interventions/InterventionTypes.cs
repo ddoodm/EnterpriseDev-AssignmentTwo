@@ -9,31 +9,31 @@ namespace ENETCare.IMS.Interventions
 {
     public class InterventionTypes : IReadOnlyList<InterventionType>
     {
-        private List<InterventionType> types;
+        private List<InterventionType> Types { get; set; }
 
         public InterventionTypes()
         {
-            types = new List<InterventionType>();
+            Types = new List<InterventionType>();
         }
 
         public InterventionTypes(List<InterventionType> types)
         {
-            this.types = types;
+            this.Types = types;
         }
 
         public int Count
         {
-            get { return types.Count; }
+            get { return Types.Count; }
         }
 
         public InterventionType this[int i]
         {
-            get { return types[i]; }
+            get { return Types[i]; }
         }
 
         public IEnumerator<InterventionType> GetEnumerator()
         {
-            return types.GetEnumerator();
+            return Types.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -43,12 +43,12 @@ namespace ENETCare.IMS.Interventions
 
         public InterventionType GetTypeByID(int id)
         {
-            return types.First<InterventionType>(c => c.ID == id);
+            return Types.First<InterventionType>(c => c.ID == id);
         }
 
         public void Add(InterventionType type)
         {
-            types.Add(type);
+            Types.Add(type);
         }
     }
 }

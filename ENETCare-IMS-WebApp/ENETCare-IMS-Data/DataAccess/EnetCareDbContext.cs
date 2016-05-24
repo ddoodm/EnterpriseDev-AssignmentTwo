@@ -21,7 +21,6 @@ namespace ENETCare.IMS.Data.DataAccess
         public DbSet<Intervention> Interventions { get; set; }
         public DbSet<InterventionType> InterventionTypes { get; set; }
         public DbSet<InterventionApproval> InterventionApprovals { get; set; }
-
         public DbSet<EnetCareUser> Users { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<District> Districts { get; set; }

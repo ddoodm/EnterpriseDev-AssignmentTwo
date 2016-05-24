@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using ENETCare.IMS.Interventions;
 
 namespace ENETCare.IMS
 {
-    public class Clients
+    public class Clients : IReadOnlyList<Client>
     {
         private List<Client> clients;
 
@@ -29,6 +30,11 @@ namespace ENETCare.IMS
             if (id == 0)
                 throw new IndexOutOfRangeException("ENETCare data is 1-indexed, but an index of 0 was requested.");
             return clients.First<Client>(c => c.ID == id);
+        }
+
+        public int Count
+        {
+            get { return clients.Count; }
         }
 
         public Client this[int index]
@@ -73,6 +79,16 @@ namespace ENETCare.IMS
         public List<Client> CopyAsList()
         {
             return new List<Client>(clients);
+        }
+
+        public IEnumerator<Client> GetEnumerator()
+        {
+            return clients.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

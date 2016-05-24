@@ -39,8 +39,8 @@ namespace ENETCare.IMS.Data.DataAccess
 
         public Interventions.Interventions GetInterventionHistory(Client client)
         {
-            var query = from intervention in context.Interventions
-                        where intervention.Client == client
+            var query = from intervention in FullyLoadedInterventionsDbSet//context.Interventions
+                        where intervention.Client.ID == client.ID
                         orderby intervention.Date
                         select intervention;
             return new Interventions.Interventions(query.ToList<Intervention>());
@@ -60,6 +60,12 @@ namespace ENETCare.IMS.Data.DataAccess
         {
             return new Interventions.Interventions(
                 FullyLoadedInterventionsDbSet.ToList<Intervention>());
+        }
+
+        public InterventionTypes GetAllInterventionTypes()
+        {
+            return new InterventionTypes(
+                context.InterventionTypes.ToList<InterventionType>());
         }
 
         public InterventionType GetNthInterventionType(int n)
