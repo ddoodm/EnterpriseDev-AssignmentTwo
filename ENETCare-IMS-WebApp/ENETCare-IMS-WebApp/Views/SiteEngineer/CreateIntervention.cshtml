@@ -1,7 +1,68 @@
 ﻿
+@using ENETCare.IMS.WebApp.Models
+@model CreateInterventionViewModel
+
 @{
     ViewBag.Title = "Create";
     ViewBag.SubTitle = "an Intervention";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="panel-group">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-default">
+                <div class="panel-heading">Basic Information</div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label for="SelectedType">Intervention Type:</label>
+                        @Html.DropDownListFor(
+                        m => m.SelectedType,
+                        new SelectList(Model.Types, "ID", "Name", null),
+                        new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SelectedClient">Client:</label>
+                        @Html.ListBoxFor(
+                        m => m.SelectedClient,
+                        new SelectList(Model.Clients, "ID", "DescriptiveName", null),
+                        new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Date">Start Date:</label>
+                        <div class="input-group date" data-provide="datepicker" data-date-format="dd MM yyyy">
+                            @Html.EditorFor(m => m.Date, new { htmlAttributes = new
+                           {
+                               @class = "form-control"
+                           } })
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Optional Information</div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}

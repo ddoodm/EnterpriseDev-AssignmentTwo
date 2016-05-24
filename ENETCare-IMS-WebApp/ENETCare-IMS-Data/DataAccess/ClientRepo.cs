@@ -14,10 +14,23 @@ namespace ENETCare.IMS.Data.DataAccess
             : base(context, context.Clients)
         { }
 
+        private IQueryable<Client> FullyLoadedClients
+        {
+            get
+            {
+                return context.Clients
+                    .Include(m => m.District);
+            }
+        }
+
+        public Clients GetAllClients()
+        {
+            return new Clients(FullyLoadedClients.ToList<Client>());
+        }
+
         public Client GetNthClient(int n)
         {
-            return context.Clients
-                .Include(m => m.District)
+            return FullyLoadedClients
                 .OrderBy(c => c.ID).Skip(n)
                 .FirstOrDefault<Client>();
         }

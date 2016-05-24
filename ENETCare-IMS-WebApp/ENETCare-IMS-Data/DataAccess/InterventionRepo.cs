@@ -62,6 +62,12 @@ namespace ENETCare.IMS.Data.DataAccess
                 FullyLoadedInterventionsDbSet.ToList<Intervention>());
         }
 
+        public InterventionTypes GetAllInterventionTypes()
+        {
+            return new InterventionTypes(
+                context.InterventionTypes.ToList<InterventionType>());
+        }
+
         public InterventionType GetNthInterventionType(int n)
         {
             return context.InterventionTypes
