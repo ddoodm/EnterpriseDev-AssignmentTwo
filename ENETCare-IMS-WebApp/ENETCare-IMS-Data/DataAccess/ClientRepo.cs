@@ -39,10 +39,15 @@ namespace ENETCare.IMS.Data.DataAccess
         {
             foreach (Client client in clients)
             {
-                context.Districts.Attach(client.District);
-                context.Clients.Add(client);
+                Save(client);
             }
+        }
 
+        public void Save(Client client)
+        {
+            context.Districts.Attach(client.District);
+            context.Clients.Add(client);
+           
             context.SaveChanges();
         }
     }
