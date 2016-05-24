@@ -56,5 +56,18 @@ namespace ENETCare_IMS_WebApp.Controllers
                 });
             }
         }
+
+        public ActionResult Clients()
+        {
+            // Retrieve Clients
+            using (EnetCareDbContext db = new EnetCareDbContext())
+            {
+                ClientRepo repo = new ClientRepo(db);
+                Clients clients = repo.GetAllClients();  //To be replaced with GetClientsByDistrict(currentUser.District);
+
+                return View(clients);
+            }
+        }
+
     }
 }
