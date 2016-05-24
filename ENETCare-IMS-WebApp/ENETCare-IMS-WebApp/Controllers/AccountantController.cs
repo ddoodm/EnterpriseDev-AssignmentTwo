@@ -8,13 +8,31 @@ namespace ENETCare_IMS_WebApp.Controllers
 {
     public class AccountantController : Controller
     {
+
+        string accountType = "Accountant";
+
+
         // GET: Accountant
         public ActionResult Index()
         {
-            string accountType = "Accountant";
             ViewData["Title"] = accountType;
 
             return View();
         }
+
+        public ActionResult Report()
+        {
+            ViewData["Title"] = accountType;
+
+            return View();
+        }
+
+        public ActionResult ViewList()
+        {
+            ViewData["Title"] = accountType;
+
+            return View();
+        }
+
     }
 }
