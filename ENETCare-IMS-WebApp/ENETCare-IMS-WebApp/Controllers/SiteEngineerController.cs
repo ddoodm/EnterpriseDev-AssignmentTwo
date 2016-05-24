@@ -56,5 +56,17 @@ namespace ENETCare_IMS_WebApp.Controllers
                 });
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateIntervention(CreateInterventionViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+
+            }
+
+            return CreateIntervention();
+        }
     }
 }

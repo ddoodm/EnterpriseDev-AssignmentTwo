@@ -16,12 +16,24 @@ namespace ENETCare.IMS.WebApp.Models
         public Clients Clients { get; set; }
 
         [Required]
-        public InterventionType SelectedType { get; set; }
+        [Display(Name = "Intervention Type")]
+        public int SelectedTypeID { get; set; }
 
         [Required]
-        public Client SelectedClient { get; set; }
+        [Display(Name = "Client")]
+        public int SelectedClientID { get; set; }
 
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd MMMM yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
+
+        [DataType(DataType.Currency)]
+        public decimal? Cost { get; set; }
+        
+        [DataType(DataType.Time)]
+        public decimal? Labour { get; set; }
+
+        [MaxLength(2500)]
+        public string Notes { get; set; }
     }
 }
