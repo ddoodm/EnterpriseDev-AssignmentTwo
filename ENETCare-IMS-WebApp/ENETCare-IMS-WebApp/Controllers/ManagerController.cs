@@ -11,6 +11,11 @@ namespace ENETCare_IMS_WebApp.Controllers
 {
     public class ManagerController : Controller
     {
+        /// <summary>
+        /// TODO: Replace this Controller with Navbar creation code that only
+        ///       allows a Manager to access the Proposed and Approved 
+        ///       Intervention screens.
+        /// </summary>
         string accountType = "Manager";
 
         // GET: Manager
@@ -21,39 +26,5 @@ namespace ENETCare_IMS_WebApp.Controllers
             return View();
         }
 
-        public ActionResult ViewProsposed()
-        {
-            ViewData["Title"] = accountType;
-
-            using (EnetCareDbContext db = new EnetCareDbContext())
-            {
-                InterventionRepo repo = new InterventionRepo(db);
-                Interventions interventions =
-                    repo.GetAllInterventions();
-
-                interventions.FilterByState(InterventionApprovalState.Proposed);
-
-                return View(interventions);
-            }
-        }
-
-        public ActionResult ViewApproved()
-        {
-            using (EnetCareDbContext db = new EnetCareDbContext())
-            {
-                InterventionRepo repo = new InterventionRepo(db);
-                Interventions interventions =
-                    repo.GetAllInterventions();
-
-                interventions.FilterByState(InterventionApprovalState.Approved);
-
-                return View(interventions);
-            }
-        }
-
-        public ActionResult EditIntervention()
-        {
-            return View();
-        }
     }
 }

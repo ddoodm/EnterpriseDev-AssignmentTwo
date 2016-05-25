@@ -1,0 +1,17 @@
+﻿@using ENETCare.IMS.WebApp.Models
+@model CreateNewClientViewModel
+
+@{
+    ViewBag.Title = "Client Created";
+    ViewBag.SubTitle = "";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h3 style="text-align:center">New Client</h3>
+<h2 style="text-align:center">@Model.NewClientName</h2>
+<h3 style="text-align:center">created successfully.</h3>
+    <br/>
+
+<div class="well-sm" style="text-align:center" >
+    <a class="btn btn-primary" href="@Url.Action("Index")">Return to Clients</a>
+</div>

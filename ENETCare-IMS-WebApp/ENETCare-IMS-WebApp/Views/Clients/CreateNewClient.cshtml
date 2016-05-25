@@ -1,0 +1,48 @@
+﻿@using ENETCare.IMS.WebApp.Models
+@model CreateNewClientViewModel
+
+@{
+    ViewBag.Title = "Create";
+    ViewBag.SubTitle = "a new Client";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="panel-group">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Client Details</div>
+                    <div class="panel-body">
+                        
+                        <div class="form-group">
+                            <label for="NewClientName">Client Name:</label>
+                            @Html.TextBoxFor(model => model.NewClientName, new { @class = "form-control" })  
+                            @Html.ValidationMessageFor(m => m.NewClientName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label for="NewLocationName">Location:</label>
+                            @Html.TextBoxFor(model => model.NewLocationName, new { @class = "form-control" })    
+                            @Html.ValidationMessageFor(m => m.NewLocationName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label for="NewDistrict">District:</label>
+                            @Html.Label("NewDistrictText", Model.NewDistrict.Name, new { @class = "form-control" })
+                            @Html.HiddenFor(model => model.NewDistrictID, new { @Value = Model.NewDistrict.DistrictID})
+                        </div>
+
+                        <div class="text-right">
+                            <input class="btn btn-success" type="submit" id="submitId" value="Create New Client" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+
+ }
