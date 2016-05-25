@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
 using ENETCare.IMS;
 using ENETCare.IMS.Interventions;
 using ENETCare.IMS.Users;
@@ -83,9 +84,23 @@ namespace ENETCare.IMS.Tests
 
         #endregion
 
+        /// <summary>
+        /// Sets the path of "DataDirectory" to the
+        /// absolute path of the data directory
+        /// within the Data project.
+        /// </summary>
+        private void ConfigureDataDirectoryPath()
+        {
+            string path = Path.GetFullPath(Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\ENETCare-IMS-Data"));
+            AppDomain.CurrentDomain.SetData("DataDirectory", path);
+        }
+
         [TestInitialize]
         public void Setup()
         {
+            ConfigureDataDirectoryPath();
+
             context = new EnetCareDbContext();
 
             interventionRepo = new InterventionRepo(context);
