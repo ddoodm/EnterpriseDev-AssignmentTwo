@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using ENETCare.IMS;
 using ENETCare.IMS.Data.DataAccess;
 using ENETCare.IMS.Interventions;
+using ENETCare.IMS.Users;
 
 using ENETCare.IMS.WebApp.Models;
 
@@ -112,11 +113,27 @@ namespace ENETCare_IMS_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateIntervention(CreateInterventionViewModel model)
         {
-            if (ModelState.IsValid)
-                return RedirectToAction("Interventions");
+            // Display validation errors
+            if (!ModelState.IsValid)
+                return CreateIntervention();
 
-            SetNavbarItems();
-            return CreateIntervention();
+            using (EnetCareDbContext db = new EnetCareDbContext())
+            {
+                InterventionRepo interventions = new InterventionRepo(db);
+                ClientRepo clients = new ClientRepo(db);
+                UserRepo users = new UserRepo(db);
+
+                InterventionType type = interventions.GetInterventionTypeById(model.SelectedTypeID);
+                Client client = clients.GetClientById(model.SelectedClientID);
+                SiteEngineer siteEngineer = users.GetNthSiteEngineer(0);    // TODO: Replace with session User
+
+                Intervention intervention = Intervention.Factory.CreateIntervention(
+                    type, client, siteEngineer, model.Labour, model.Cost, model.Date);
+
+                interventions.Save(intervention);
+            }
+
+            return RedirectToAction("Interventions");
         }
 
         public ActionResult Clients()
@@ -162,7 +179,7 @@ namespace ENETCare_IMS_WebApp.Controllers
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
                 DistrictRepo districtRepo = new DistrictRepo(db);
-                District district = districtRepo.GetNthDistrict(model.NewDistrictID - 1);
+                District district = districtRepo.GetDistrictById(model.NewDistrictID);
                 Client client = new Client(model.NewClientName, model.NewLocationName, district);
                 ClientRepo clientRepo = new ClientRepo(db);
                 clientRepo.Save(client);

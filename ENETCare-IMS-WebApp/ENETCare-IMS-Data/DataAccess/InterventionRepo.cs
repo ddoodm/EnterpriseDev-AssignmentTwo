@@ -68,6 +68,12 @@ namespace ENETCare.IMS.Data.DataAccess
                 context.InterventionTypes.ToList<InterventionType>());
         }
 
+        public InterventionType GetInterventionTypeById(int ID)
+        {
+            return context.InterventionTypes
+                .SingleOrDefault<InterventionType>(t => t.ID == ID);
+        }
+
         public InterventionType GetNthInterventionType(int n)
         {
             return context.InterventionTypes
@@ -95,14 +101,25 @@ namespace ENETCare.IMS.Data.DataAccess
             context.SaveChanges();
         }
 
+        private void AttachNewInterventionToContext(Intervention intervention)
+        {
+            context.Clients.Attach(intervention.Client);
+            context.Users.Attach(intervention.SiteEngineer);
+            context.InterventionTypes.Attach(intervention.InterventionType);
+        }
+
+        public void Save(Intervention intervention)
+        {
+            AttachNewInterventionToContext(intervention);
+            context.Interventions.Add(intervention);
+            context.SaveChanges();
+        }
+
         public void Save(Intervention[] interventions)
         {
             foreach (Intervention intervention in interventions)
             {
-                context.Clients.Attach(intervention.Client);
-                context.Users.Attach(intervention.SiteEngineer);
-                context.InterventionTypes.Attach(intervention.InterventionType);
-
+                AttachNewInterventionToContext(intervention);
                 context.Interventions.Add(intervention);
             }
 

@@ -28,6 +28,11 @@ namespace ENETCare.IMS.Data.DataAccess
             return new Clients(FullyLoadedClients.ToList<Client>());
         }
 
+        public Client GetClientById(int ID)
+        {
+            return FullyLoadedClients.SingleOrDefault<Client>(c => c.ID == ID);
+        }
+
         public Client GetNthClient(int n)
         {
             return FullyLoadedClients
