@@ -152,8 +152,12 @@ namespace ENETCare_IMS_WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveNewClientComplete(CreateNewClientViewModel model)
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateNewClient(CreateNewClientViewModel model)
         {
+            // Check that the form validates
+            if (!ModelState.IsValid)
+                return CreateNewClient();
 
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
@@ -164,9 +168,13 @@ namespace ENETCare_IMS_WebApp.Controllers
                 clientRepo.Save(client);
             }
 
-            return View(model);
-            
+            return View("SaveNewClientComplete", model);
         }
 
+        [HttpPost]
+        public ActionResult SaveNewClientComplete(CreateNewClientViewModel model)
+        {
+            return View(model);
+        }
     }
 }
