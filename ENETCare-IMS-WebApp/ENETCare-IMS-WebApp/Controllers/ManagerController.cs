@@ -11,7 +11,6 @@ namespace ENETCare_IMS_WebApp.Controllers
 {
     public class ManagerController : Controller
     {
-
         string accountType = "Manager";
 
         // GET: Manager
@@ -24,13 +23,10 @@ namespace ENETCare_IMS_WebApp.Controllers
 
         public ActionResult ViewProsposed()
         {
-
-
             ViewData["Title"] = accountType;
 
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
-
                 InterventionRepo repo = new InterventionRepo(db);
                 Interventions interventions =
                     repo.GetAllInterventions();
@@ -45,7 +41,6 @@ namespace ENETCare_IMS_WebApp.Controllers
         {
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
-
                 InterventionRepo repo = new InterventionRepo(db);
                 Interventions interventions =
                     repo.GetAllInterventions();

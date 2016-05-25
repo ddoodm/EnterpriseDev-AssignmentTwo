@@ -20,12 +20,12 @@
                         
                         <div class="form-group">
                             <label for="NewClientName">Client Name:</label>
-                            @Html.TextBoxFor(model => model.NewClientName)  
+                            @Html.TextBoxFor(model => model.NewClientName, new { @class = "form-control" })  
                         </div>
 
                         <div class="form-group">
                             <label for="NewLocationName">Location:</label>
-                            @Html.TextBoxFor(model => model.NewLocationName)    
+                            @Html.TextBoxFor(model => model.NewLocationName, new { @class = "form-control" })    
                         </div>
 
                         <div class="form-group">
@@ -34,8 +34,9 @@
                             @Html.HiddenFor(model => model.NewDistrictID, new { @Value = Model.NewDistrict.DistrictID})
                         </div>
 
-                        <input type="submit" id="submitId" value="Create New Client" />
-
+                        <div class="text-right">
+                            <input class="btn btn-success" type="submit" id="submitId" value="Create New Client" />
+                        </div>
                     </div>
                 </div>
             </div>

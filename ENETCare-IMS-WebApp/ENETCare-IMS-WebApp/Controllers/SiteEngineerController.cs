@@ -14,9 +14,56 @@ namespace ENETCare_IMS_WebApp.Controllers
 {
     public class SiteEngineerController : Controller
     {
+        /// <summary>
+        /// TODO: This will be a User method
+        /// </summary>
+        private void SetNavbarItems()
+        {
+            NavbarItems items = new NavbarItems(
+                new NavbarItems.NavbarItem()
+                {
+                    Title = "Dashboard",
+                    BootstrapIcon = "fa-dashboard",
+                    ActionName = "Index",
+                },
+
+                new NavbarItems.NavbarItem()
+                {
+                    Title = "Interventions",
+                    BootstrapIcon = "fa-table",
+                    ActionName = "Interventions",
+                },
+
+                new NavbarItems.NavbarItem()
+                {
+                    Title = "Create an Intervention",
+                    BootstrapIcon = "fa-calendar",
+                    ActionName = "CreateIntervention",
+                },
+
+                new NavbarItems.NavbarItem()
+                {
+                    Title = "Clients",
+                    BootstrapIcon = "fa-users",
+                    ActionName = "Clients",
+                },
+
+                new NavbarItems.NavbarItem()
+                {
+                    Title = "Create a Client",
+                    BootstrapIcon = "fa-user",
+                    ActionName = "CreateNewClient",
+                }
+            );
+
+            ViewBag.NavbarItems = items;
+        }
+
         // GET: SiteEngineer
         public ActionResult Index()
         {
+            SetNavbarItems();
+
             string accountType = "Site Engineer";
             ViewData["Title"] = accountType;
 
@@ -25,6 +72,8 @@ namespace ENETCare_IMS_WebApp.Controllers
 
         public ActionResult Interventions()
         {
+            SetNavbarItems();
+
             // Retrieve Interventions
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
@@ -38,6 +87,8 @@ namespace ENETCare_IMS_WebApp.Controllers
 
         public ActionResult CreateIntervention()
         {
+            SetNavbarItems();
+
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
                 InterventionRepo interventionRepo = new InterventionRepo(db);
@@ -61,16 +112,17 @@ namespace ENETCare_IMS_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateIntervention(CreateInterventionViewModel model)
         {
-            if(ModelState.IsValid)
-            {
+            if (ModelState.IsValid)
+                return RedirectToAction("Interventions");
 
-            }
-
+            SetNavbarItems();
             return CreateIntervention();
         }
 
         public ActionResult Clients()
         {
+            SetNavbarItems();
+
             // Retrieve Clients
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
@@ -83,6 +135,8 @@ namespace ENETCare_IMS_WebApp.Controllers
 
         public ActionResult CreateNewClient()
         {
+            SetNavbarItems();
+
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
                 DistrictRepo repo = new DistrictRepo(db);

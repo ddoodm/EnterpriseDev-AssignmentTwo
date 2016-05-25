@@ -190,6 +190,7 @@
     <Compile Include="Models\CreateInterventionViewModel.cs" />
     <Compile Include="Models\CreateNewClientViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LayoutViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ViewClientInterventionsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
