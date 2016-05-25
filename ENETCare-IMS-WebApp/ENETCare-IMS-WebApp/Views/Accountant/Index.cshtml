@@ -5,14 +5,73 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<div class="row">
+    <div class="col-lg-8">
+        <div class="well">
+            <a class="btn btn-primary" href='@Url.Action("Report", "Accountant")'>Generate a Report</a>
+        </div>
 
-<h2>Index</h2>
+        <div class="panel panel-default">
+            <div class="panel-heading">Site Engineers</div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Name</th>
+                                <th>District</th>
+                                <th>Cost</th>
+                                <th>Labour Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Site Engineer</td>
+                                <td>Henry Saal</td>
+                                <td>Rural Indonesia</td>
+                                <td>$8,000.00</td>
+                                <td>42 Hours</td>
+                            </tr>
+                            <tr>
+                                <td>Site Engineer</td>
+                                <td>Deinyon Davies</td>
+                                <td>Urban Indonesia</td>
+                                <td>$4,000.00</td>
+                                <td>84 Hours</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-<body>
- 
-</body>
-
-<div class="button">
-    <button type="button" onclick="location.href='@Url.Action("Report", "Accountant")'">Generate Report</button>
-    <button type="button" onclick="location.href='@Url.Action("ViewList", "Accountant")'">View List</button>
+        <div class="panel panel-default">
+            <div class="panel-heading">Managers</div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Name</th>
+                                <th>District</th>
+                                <th>Cost</th>
+                                <th>Labour Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Manager</td>
+                                <td>Daum Park</td>
+                                <td>Rural Indonesia</td>
+                                <td>$8,000.00</td>
+                                <td>42 Hours</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
