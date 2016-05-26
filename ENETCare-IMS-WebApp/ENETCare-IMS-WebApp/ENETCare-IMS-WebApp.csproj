@@ -343,7 +343,7 @@
     <Content Include="Views\Interventions\CreateIntervention.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Clients\Index.cshtml" />
-    <Content Include="Views\Admin\ViewClient.cshtml" />
+    <Content Include="Views\Clients\ViewClient.cshtml" />
     <Content Include="Views\Clients\CreateNewClient.cshtml" />
     <Content Include="Views\Clients\SaveNewClientComplete.cshtml" />
     <Content Include="Views\Interventions\ViewProposed.cshtml" />

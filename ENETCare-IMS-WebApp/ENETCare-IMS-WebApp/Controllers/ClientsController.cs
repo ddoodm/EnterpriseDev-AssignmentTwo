@@ -81,6 +81,25 @@ namespace ENETCare_IMS_WebApp.Controllers
             ViewBag.NavbarItems = items;
         }
 
+        public ActionResult ViewClient(int ID)
+        {
+            using (EnetCareDbContext db = new EnetCareDbContext())
+            {
+                ClientRepo clientRepo = new ClientRepo(db);
+                InterventionRepo interventionRepo = new InterventionRepo(db);
+
+                Client client = clientRepo.GetClientById(ID);
+                Interventions interventions = interventionRepo.GetInterventionHistory(client);
+
+                return View(new ViewClientInterventionsViewModel()
+                {
+                    ClientName = client.DescriptiveName,
+                    DistrictName = client.District.Name,
+                    LocationName = client.Location,
+                    Interventions = interventions,
+                });
+            }
+        }
 
         public ActionResult CreateNewClient()
         {

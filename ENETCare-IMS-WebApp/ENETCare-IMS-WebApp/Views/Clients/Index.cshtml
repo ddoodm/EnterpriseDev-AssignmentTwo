@@ -13,7 +13,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-10">
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped">
                 <thead>
@@ -31,9 +31,9 @@
                             <td>
                                 @* View Client Interventions link button *@
                                 <a href="@Url.Action(
-                                        "ViewClient", "Admin",
+                                        "ViewClient",
                                         new { id = client.ID })">
-                                    <span class="glyphicon glyphicon-edit"></span> View Interventions
+                                    <span class="glyphicon glyphicon-user"></span> View
                                 </a>
                             </td>
                             <td>@client.DescriptiveName</td>

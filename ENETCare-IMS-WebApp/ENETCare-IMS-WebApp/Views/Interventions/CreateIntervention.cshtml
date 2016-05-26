@@ -1,64 +1,57 @@
 ﻿
 @using ENETCare.IMS.WebApp.Models
 @model CreateInterventionViewModel
-
 @{
     ViewBag.Title = "Create";
     ViewBag.SubTitle = "an Intervention";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
 
-    <div class="panel-group">
-        <div class="row">
-            <div class="col-lg-5">
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="panel-group">
                 <div class="panel panel-default">
-                <div class="panel-heading">Basic Information</div>
-                <div class="panel-body">
-
-                    <div class="form-group">
-                        <label for="SelectedType">Intervention Type:</label>
-                        @Html.DropDownListFor(
-                        m => m.SelectedTypeID,
-                        new SelectList(Model.Types, "ID", "Name", null),
-                        "Please select a type ...",
-                        new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.SelectedTypeID, "", new { @class = "text-danger" })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="SelectedClient">Client:</label>
-                        @Html.DropDownListFor(
-                        m => m.SelectedClientID,
-                        new SelectList(Model.Clients, "ID", "DescriptiveName", null),
-                        "Please select a client ...",
-                        new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.SelectedClientID, "", new { @class = "text-danger" })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Date">Start Date:</label>
-                        <div class="input-group date" data-provide="datepicker" data-date-format="dd MM yyyy">
-                            @Html.EditorFor(m => m.Date, new { htmlAttributes = new
-                               {
-                                   @class = "form-control"
-                               } })
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-th"></span>
+                    <div class="panel-heading">Basic Information</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="SelectedType">Intervention Type:</label>
+                            @Html.DropDownListFor(
+                             m => m.SelectedTypeID,
+                             new SelectList(Model.Types, "ID", "Name", null),
+                             "Please select a type ...",
+                             new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.SelectedTypeID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="SelectedClient">Client:</label>
+                            @Html.DropDownListFor(
+                             m => m.SelectedClientID,
+                             new SelectList(Model.Clients, "ID", "DescriptiveName", null),
+                             "Please select a client ...",
+                             new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.SelectedClientID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="Date">Start Date:</label>
+                            <div class="input-group date" data-provide="datepicker" data-date-format="dd MM yyyy">
+                                @Html.EditorFor(m => m.Date, new
+                                   {
+                                       htmlAttributes = new
+                                       {
+                                           @class = "form-control"
+                                       }
+                                   })
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">Optional Information</div>
                     <div class="panel-body">
@@ -79,14 +72,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div> <!--Panel Group-->
-
-    <div class="row">
-        <div class="col-lg-5 text-right">
-            <div class="well">
-                <button type="submit" class="btn btn-success">Create</button>
+                <div class="well text-right">
+                    <button type="submit" class="btn btn-success">Create</button>
+                </div>
             </div>
         </div>
     </div>

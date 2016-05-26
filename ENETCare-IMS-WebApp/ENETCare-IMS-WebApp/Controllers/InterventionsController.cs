@@ -83,9 +83,6 @@ namespace ENETCare_IMS_WebApp.Controllers
             ViewBag.NavbarItems = items;
         }
 
-        // GET: SiteEngineer
-
-
         public ActionResult CreateIntervention()
         {
             SetNavbarItems();
