@@ -23,7 +23,7 @@
                              m => m.SelectedTypeID,
                              new SelectList(Model.Types, "ID", "Name", null),
                              "Please select a type ...",
-                             new { @class = "form-control" })
+                             new { @class = "form-control", id = "interventionTypeDropdown" })
                             @Html.ValidationMessageFor(m => m.SelectedTypeID, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
@@ -79,3 +79,32 @@
         </div>
     </div>
 }
+
+<script type="text/javascript">
+    function setInterventionHints(data)
+    {
+        var $costInput = $("#Cost");
+        var $labourInput = $("#Labour");
+
+        $costInput.attr("placeholder", (data == null) ? "" : "$" + data.Cost.toFixed(2));
+        $labourInput.attr("placeholder", (data == null) ? "" : data.Labour + " hours");
+    }
+
+    function ajaxGetInterventionTypeDefaults(event)
+    {
+        var typeId = $(this).val();
+        if (typeId == null)
+            return setInterventionHints(null);
+
+        $.ajax({
+            url: "@(Url.Action("InterventionType"))",
+            method: "POST",
+        data: { id: parseInt(typeId) }
+        }).done(function (result) {
+            setInterventionHints(result);
+        });
+    };
+
+    $("#interventionTypeDropdown").change(ajaxGetInterventionTypeDefaults);
+    $("#interventionTypeDropdown").ready(ajaxGetInterventionTypeDefaults);
+</script>

@@ -165,5 +165,20 @@ namespace ENETCare_IMS_WebApp.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// Returns Intervention Type details as a JSON object.
+        /// Used in Create Intervention AJAX transaction.
+        /// </summary>
+        [HttpPost]
+        public JsonResult InterventionType(int ID)
+        {
+            using (EnetCareDbContext db = new EnetCareDbContext())
+            {
+                InterventionRepo repo = new InterventionRepo(db);
+                InterventionType type = repo.GetInterventionTypeById(ID);
+                return Json(type);
+            }
+        }
     }
 }
