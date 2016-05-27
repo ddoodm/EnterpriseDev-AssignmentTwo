@@ -28,5 +28,19 @@ namespace ENETCare.IMS.Tests
             // With EF, we cannot guarantee any primary key, so this test no longer makes sense
             Assert.Fail();
         }
+
+        [TestMethod]
+        public void Clients_Save_Client_To_Repo_Test_Getting_Nth_Client_By_Name()
+        {
+            using (EnetCareDbContext db = new EnetCareDbContext())
+            {
+                ClientRepo testRepo = new ClientRepo(db);
+                Client storedClient = new Client("testName", "testLocation", new District("testDistrict"));
+                testRepo.Save(storedClient);
+
+                Assert.IsTrue(testRepo.GetNthClient(0).Name == "testName");
+            }
+        }
     }
 }
+
