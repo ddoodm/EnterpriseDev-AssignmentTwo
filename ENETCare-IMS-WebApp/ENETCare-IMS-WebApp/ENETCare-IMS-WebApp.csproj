@@ -187,6 +187,10 @@
     <Compile Include="Migrations\201605280803378_RestructureContexts.Designer.cs">
       <DependentUpon>201605280803378_RestructureContexts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605280859096_ConvertEnetUserToIdentityUser.cs" />
+    <Compile Include="Migrations\201605280859096_ConvertEnetUserToIdentityUser.Designer.cs">
+      <DependentUpon>201605280859096_ConvertEnetUserToIdentityUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreateInterventionViewModel.cs" />
@@ -380,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605280803378_RestructureContexts.resx">
       <DependentUpon>201605280803378_RestructureContexts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605280859096_ConvertEnetUserToIdentityUser.resx">
+      <DependentUpon>201605280859096_ConvertEnetUserToIdentityUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

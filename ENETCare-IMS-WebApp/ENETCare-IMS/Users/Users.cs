@@ -52,12 +52,10 @@ namespace ENETCare.IMS.Users
             return accountant;
         }
 
-        public EnetCareUser GetUserByID(int ID)
+        public EnetCareUser GetUserByID(string ID)
         {
-            if (ID == 0)
-                throw new IndexOutOfRangeException("ENETCare data is 1-indexed, but an index of 0 was requested.");
             return users.First<EnetCareUser>(
-                user => user.ID == ID);
+                user => user.Id == ID);
         }
 
         public IEnumerator<EnetCareUser> GetEnumerator()

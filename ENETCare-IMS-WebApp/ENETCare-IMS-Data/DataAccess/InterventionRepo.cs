@@ -104,7 +104,7 @@ namespace ENETCare.IMS.Data.DataAccess
         private void AttachNewInterventionToContext(Intervention intervention)
         {
             context.Clients.Attach(intervention.Client);
-            context.UserProfiles.Attach(intervention.SiteEngineer);
+            context.Users.Attach(intervention.SiteEngineer);
             context.InterventionTypes.Attach(intervention.InterventionType);
         }
 

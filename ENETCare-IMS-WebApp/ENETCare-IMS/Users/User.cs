@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Security.Claims;
+using Microsoft.AspNet.Identity;
 
 namespace ENETCare.IMS.Users
 {
-    public abstract class EnetCareUser : IEnetCareUser
+    public abstract class EnetCareUser : IdentityUser, IEnetCareUser
     {
-        [Key]
-        public int ID { get; private set; }
-
         [Required]
         public string Name { get; private set; }
 
@@ -27,6 +27,14 @@ namespace ENETCare.IMS.Users
         public abstract string HomePage { get; }
 
         protected EnetCareUser() { }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<EnetCareUser> manager)
+        {
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            // Add custom user claims here
+            return userIdentity;
+        }
 
         protected EnetCareUser(string name)
         {

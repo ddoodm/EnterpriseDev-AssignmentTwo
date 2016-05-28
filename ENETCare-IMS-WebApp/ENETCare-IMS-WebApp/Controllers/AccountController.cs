@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ENETCare_IMS_WebApp.Models;
 using ENETCare.IMS.Data.DataAccess;
+using ENETCare.IMS.Users;
 
 namespace ENETCare_IMS_WebApp.Controllers
 {
@@ -152,7 +153,7 @@ namespace ENETCare_IMS_WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new SiteEngineerAppUser { UserName = model.Email, Email = model.Email };
+                var user = new SiteEngineer ("Bob Bobx", null, 100, 1000) { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -354,7 +355,7 @@ namespace ENETCare_IMS_WebApp.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
-        {
+        {/*
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Manage");
@@ -383,7 +384,9 @@ namespace ENETCare_IMS_WebApp.Controllers
             }
 
             ViewBag.ReturnUrl = returnUrl;
-            return View(model);
+            return View(model);*/
+
+            throw new NotImplementedException();
         }
 
         //
