@@ -11,19 +11,19 @@ namespace ENETCare.IMS.Data.DataAccess
     public class UserRepo : GenericRepo<EnetCareUser>
     {
         public UserRepo(EnetCareDbContext context)
-            : base(context, context.Users)
+            : base(context, context.UserProfiles)
         { }
 
         public EnetCareUser GetUserById(int ID)
         {
-            return context.Users
+            return context.UserProfiles
                 .Where(d => d.ID == ID)
                 .First<EnetCareUser>();
         }
 
         public SiteEngineer GetNthSiteEngineer(int n)
         {
-            return context.Users
+            return context.UserProfiles
                 .OfType<SiteEngineer>()
                 .Include(e => e.District)
                 .OrderBy(d => d.ID)
@@ -37,7 +37,7 @@ namespace ENETCare.IMS.Data.DataAccess
                 if (user is ILocalizedUser)
                     context.Districts.Attach(((ILocalizedUser)user).District);
 
-                context.Users.Add(user);
+                context.UserProfiles.Add(user);
             }
             context.SaveChanges();
         }

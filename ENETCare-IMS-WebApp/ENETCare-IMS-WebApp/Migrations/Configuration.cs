@@ -1,28 +1,38 @@
 namespace ENETCare_IMS_WebApp.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
     using ENETCare.IMS;
     using ENETCare.IMS.Data.DataAccess;
     using ENETCare.IMS.Interventions;
     using ENETCare.IMS.Users;
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.IO;
+    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ENETCare_IMS_WebApp.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+
+            ConfigDataPath();
         }
 
+        private void ConfigDataPath()
+        {
+            string path = Path.GetFullPath(Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                @"..\..\ENETCare-IMS-Data\"));
+            AppDomain.CurrentDomain.SetData("DataDirectory", path);
+        }
+
+        /// <summary>
+        /// This method will be called after migrating to the latest version.
+        /// </summary>
         protected override void Seed(ENETCare_IMS_WebApp.Models.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            using (var db = new EnetCareDbContext())
-                PopulateInitialData(db);
+            
         }
 
         private static void PopulateInitialData(EnetCareDbContext context)
@@ -161,6 +171,5 @@ namespace ENETCare_IMS_WebApp.Migrations
 
             interventionRepo.Save(interventions);
         }
-
     }
 }

@@ -14,10 +14,10 @@ namespace ENETCare.IMS.Data.DataAccess
 {
     public abstract class GenericRepo<T> where T : class
     {
-        protected EnetCareDbContext context;
+        protected BaseEnetCareDbContext context;
         private DbSet<T> dataSource;
 
-        protected GenericRepo(EnetCareDbContext context, DbSet<T> dataSource)
+        protected GenericRepo(BaseEnetCareDbContext context, DbSet<T> dataSource)
         {
             this.context = context;
             this.dataSource = dataSource;
