@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ENETCare_IMS_WebApp.Models;
+using ENETCare.IMS.Data.DataAccess;
 
 namespace ENETCare_IMS_WebApp.Controllers
 {

@@ -10,7 +10,7 @@ namespace ENETCare_IMS_WebApp.Migrations
     using System.IO;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ENETCare_IMS_WebApp.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<EnetCareDbContext>
     {
         public Configuration()
         {
@@ -30,12 +30,7 @@ namespace ENETCare_IMS_WebApp.Migrations
         /// <summary>
         /// This method will be called after migrating to the latest version.
         /// </summary>
-        protected override void Seed(ENETCare_IMS_WebApp.Models.ApplicationDbContext context)
-        {
-            
-        }
-
-        private static void PopulateInitialData(EnetCareDbContext context)
+        protected override void Seed(EnetCareDbContext context)
         {
             DistrictRepo districts = new DistrictRepo(context);
             ClientRepo clients = new ClientRepo(context);
@@ -56,9 +51,6 @@ namespace ENETCare_IMS_WebApp.Migrations
             PopulateUsers(users, districts);
             PopulateInterventionTypes(interventions);
             PopulateInterventions(interventions, users, clients, districts);
-
-            Console.WriteLine(">>>>\tSuccess! Press RETURN to exit.");
-            Console.ReadLine();
         }
 
         /// <summary>

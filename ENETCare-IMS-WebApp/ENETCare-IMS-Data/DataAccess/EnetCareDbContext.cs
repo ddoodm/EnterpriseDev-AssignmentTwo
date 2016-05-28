@@ -44,5 +44,13 @@ namespace ENETCare.IMS.Data.DataAccess
         public DbSet<EnetCareUser> UserProfiles { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<District> Districts { get; set; }
+
+        /// <summary>
+        /// Required for ASP Identity delegate
+        /// </summary>
+        public static EnetCareDbContext Create()
+        {
+            return new EnetCareDbContext();
+        }
     }
 }

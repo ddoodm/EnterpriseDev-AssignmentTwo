@@ -183,6 +183,10 @@
     <Compile Include="Migrations\201605280715019_InitialModel.Designer.cs">
       <DependentUpon>201605280715019_InitialModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605280803378_RestructureContexts.cs" />
+    <Compile Include="Migrations\201605280803378_RestructureContexts.Designer.cs">
+      <DependentUpon>201605280803378_RestructureContexts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreateInterventionViewModel.cs" />
@@ -373,6 +377,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605280715019_InitialModel.resx">
       <DependentUpon>201605280715019_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605280803378_RestructureContexts.resx">
+      <DependentUpon>201605280803378_RestructureContexts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
