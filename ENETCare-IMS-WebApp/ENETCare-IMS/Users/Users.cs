@@ -27,31 +27,6 @@ namespace ENETCare.IMS.Users
                 users.Add(user);
         }
 
-        public SiteEngineer CreateSiteEngineer(
-            string name, District district, decimal maxApprovableLabour, decimal maxApprovableCost)
-        {
-            SiteEngineer engineer =
-                new SiteEngineer(name, district, maxApprovableLabour, maxApprovableCost);
-            Add(engineer);
-            return engineer;
-        }
-
-        public Manager CreateManager(
-            string name, District district, decimal maxApprovableLabour, decimal maxApprovableCost)
-        {
-            Manager manager =
-                new Manager(name, district, maxApprovableLabour, maxApprovableCost);
-            Add(manager);
-            return manager;
-        }
-
-        public Accountant CreateAccountant(string name)
-        {
-            Accountant accountant = new Accountant(name);
-            Add(accountant);
-            return accountant;
-        }
-
         public EnetCareUser GetUserByID(string ID)
         {
             return users.First<EnetCareUser>(

@@ -30,8 +30,8 @@ namespace ENETCare.IMS.Users
 
         private Accountant() { }
 
-        public Accountant(string name)
-            : base (name)
+        public Accountant(string name, string email, string password)
+            : base (name, email, password)
         {
         }
     }

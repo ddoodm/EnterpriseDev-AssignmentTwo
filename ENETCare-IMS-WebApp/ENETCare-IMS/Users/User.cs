@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
+using System.Configuration;
 
 namespace ENETCare.IMS.Users
 {
@@ -36,9 +37,32 @@ namespace ENETCare.IMS.Users
             return userIdentity;
         }
 
-        protected EnetCareUser(string name)
+        protected EnetCareUser(string name, string email, string password)
         {
             this.Name = name;
+            this.UserName = MakeUsernameFrom(name);
+            this.Email = email;
+            this.PasswordHash = HashPassword(password);
+        }
+
+        /// <summary>
+        /// Generates a username from a full name, of the form:
+        /// first.last
+        /// 
+        /// For example:
+        /// deinyon.davies
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private string MakeUsernameFrom(string name)
+        {
+            return String.Join(".", name.ToLower().Split(' '));
+        }
+
+        private string HashPassword(string password)
+        {
+            var hasher = new PasswordHasher();
+            return hasher.HashPassword(password);
         }
 
         public override string ToString()

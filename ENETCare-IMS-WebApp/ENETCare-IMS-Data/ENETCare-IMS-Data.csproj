@@ -47,6 +47,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DbUp, Version=3.3.4.0, Culture=neutral, PublicKeyToken=4b419c53bdfd4cbf, processorArchitecture=MSIL">
       <HintPath>..\packages\dbup.3.3.4\lib\net35\DbUp.dll</HintPath>
@@ -85,6 +88,11 @@
     <Compile Include="DataAccess\GenericRepo.cs" />
     <Compile Include="DataAccess\InterventionRepo.cs" />
     <Compile Include="DataAccess\UserRepo.cs" />
+    <Compile Include="Migrations\201605280958159_InitialModel.cs" />
+    <Compile Include="Migrations\201605280958159_InitialModel.Designer.cs">
+      <DependentUpon>201605280958159_InitialModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -123,6 +131,11 @@
       <Project>{29bc6fca-c92d-4336-a962-3885b2e6a486}</Project>
       <Name>ENETCare-IMS</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605280958159_InitialModel.resx">
+      <DependentUpon>201605280958159_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

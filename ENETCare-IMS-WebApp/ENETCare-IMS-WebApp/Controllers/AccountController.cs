@@ -153,7 +153,7 @@ namespace ENETCare_IMS_WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new SiteEngineer ("Bob Bobx", null, 100, 1000) { UserName = model.Email, Email = model.Email };
+                var user = new SiteEngineer("Bob Bobs", model.Email, model.Password, null, 100, 1000);
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

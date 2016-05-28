@@ -122,7 +122,9 @@ namespace ENETCare_IMS_WebApp.Controllers
 
                 InterventionType type = interventions.GetInterventionTypeById(model.SelectedTypeID);
                 Client client = clients.GetClientById(model.SelectedClientID);
-                SiteEngineer siteEngineer = users.GetNthSiteEngineer(0);    // TODO: Replace with session User
+
+                // TODO: Replace with session User
+                SiteEngineer siteEngineer = users.GetUserByEmail<SiteEngineer>("deinyon@enet.com");
 
                 Intervention intervention = Intervention.Factory.CreateIntervention(
                     type, client, siteEngineer, model.Labour, model.Cost, model.Date);

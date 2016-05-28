@@ -21,13 +21,16 @@ namespace ENETCare.IMS.Data.DataAccess
                 .First<EnetCareUser>();
         }
 
-        public SiteEngineer GetNthSiteEngineer(int n)
+        public T GetUserByEmail<T>(string email) where T : EnetCareUser
         {
-            return context.Users
-                .OfType<SiteEngineer>()
-                .Include(e => e.District)
-                .OrderBy(d => d.Id)
-                .Skip(n).FirstOrDefault();
+            var user = context.Users
+                .Where(u => u.Email == email)
+                .SingleOrDefault();
+
+            if (!(user is T))
+                throw new InvalidOperationException(String.Format("User {0} is not a {1}", email, typeof(T)));
+
+            return (T)user;
         }
 
         public void Save(EnetCareUser[] users)

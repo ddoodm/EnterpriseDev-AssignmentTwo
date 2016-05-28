@@ -34,7 +34,8 @@ namespace ENETCare.IMS.Tests
         public void Check_Manager_District()
         {
             Manager testManager = new Manager(
-                "Bob Bobson", testDistrictA, 50, 50);
+                "Bob Bobson", "bob@mail.com", "TestPass1!", 
+                testDistrictA, 50, 50);
 
             Assert.IsTrue(testManager.District == testDistrictA);
         }
@@ -45,7 +46,9 @@ namespace ENETCare.IMS.Tests
         [TestMethod]
         public void User_Equality_Test_Success()
         {
-            SiteEngineer userA = new SiteEngineer("Markus Roberts", testDistrictA, 50, 5000);
+            SiteEngineer userA = new SiteEngineer(
+                "Markus Roberts", "markus@enet.com", "TestPass1!",
+                testDistrictA, 50, 5000);
             SiteEngineer userB = userA;
 
             // Fail if userA != userB
@@ -59,8 +62,8 @@ namespace ENETCare.IMS.Tests
         public void User_Equality_Test_Failure()
         {
             // User A and User B are not the same user, though their fields are equal
-            SiteEngineer userA = new SiteEngineer("Markus Roberts", testDistrictA, 50, 5000);
-            SiteEngineer userB = new SiteEngineer("Markas Roberts", testDistrictA, 50, 5000);
+            SiteEngineer userA = new SiteEngineer("Markus Roberts", "markus@enet.com", "TestPass1!", testDistrictA, 50, 5000);
+            SiteEngineer userB = new SiteEngineer("Markas Roberts", "markus@enet.com", "TestPass1!", testDistrictA, 50, 5000);
 
             // Fail if userA == userB
             Assert.AreNotEqual(userA, userB);

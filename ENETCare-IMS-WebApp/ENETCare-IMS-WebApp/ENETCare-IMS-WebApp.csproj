@@ -179,19 +179,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201605280715019_InitialModel.cs" />
-    <Compile Include="Migrations\201605280715019_InitialModel.Designer.cs">
-      <DependentUpon>201605280715019_InitialModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605280803378_RestructureContexts.cs" />
-    <Compile Include="Migrations\201605280803378_RestructureContexts.Designer.cs">
-      <DependentUpon>201605280803378_RestructureContexts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605280859096_ConvertEnetUserToIdentityUser.cs" />
-    <Compile Include="Migrations\201605280859096_ConvertEnetUserToIdentityUser.Designer.cs">
-      <DependentUpon>201605280859096_ConvertEnetUserToIdentityUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreateInterventionViewModel.cs" />
     <Compile Include="Models\CreateNewClientViewModel.cs" />
@@ -305,7 +292,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -377,17 +366,6 @@
       <Project>{29bc6fca-c92d-4336-a962-3885b2e6a486}</Project>
       <Name>ENETCare-IMS</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605280715019_InitialModel.resx">
-      <DependentUpon>201605280715019_InitialModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605280803378_RestructureContexts.resx">
-      <DependentUpon>201605280803378_RestructureContexts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605280859096_ConvertEnetUserToIdentityUser.resx">
-      <DependentUpon>201605280859096_ConvertEnetUserToIdentityUser.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
