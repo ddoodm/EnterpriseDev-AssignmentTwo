@@ -21,8 +21,11 @@ namespace ENETCare_IMS_WebApp
         /// </summary>
         private void ConfigureDataDirectoryPath()
         {
+            string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string immediateDirectoryName = Path.GetFileName(Path.GetDirectoryName(appDirectory));
+
             string path = Path.GetFullPath(Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory, @"..\ENETCare-IMS-Data"));
+                appDirectory, @"..\ENETCare-IMS-Data\"));
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
         }
     }

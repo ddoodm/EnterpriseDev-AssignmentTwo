@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using ENETCare.IMS.Users;
 
+using System.Data.Entity.Migrations;
+
 namespace ENETCare.IMS.Data.DataAccess
 {
     public class UserRepo : GenericRepo<EnetCareUser>
@@ -40,7 +42,10 @@ namespace ENETCare.IMS.Data.DataAccess
                 if (user is ILocalizedUser)
                     context.Districts.Attach(((ILocalizedUser)user).District);
 
-                context.Users.Add(user);
+                // If a user exists with the same E-Mail, update instead
+                context.Users.AddOrUpdate(
+                    u => u.Email,
+                    user);
             }
             context.SaveChanges();
         }
