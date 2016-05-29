@@ -40,9 +40,10 @@ namespace ENETCare.IMS.Users
         protected EnetCareUser(string name, string email, string password)
         {
             this.Name = name;
-            this.UserName = MakeUsernameFrom(name);
+            this.UserName = email;
             this.Email = email;
             this.PasswordHash = HashPassword(password);
+            this.SecurityStamp = Guid.NewGuid().ToString();
         }
 
         /// <summary>
