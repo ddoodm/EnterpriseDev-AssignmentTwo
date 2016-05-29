@@ -23,12 +23,34 @@ namespace ENETCare.IMS.Data
         /// Sets the path of the Data directory for
         /// the Connection String to correctly attach
         /// the MDF database to the server.
+        /// 
+        /// This method may be called by the EF Migrator,
+        /// and as such, may originate from either project directory.
+        /// 
+        /// This method supports only origins "Data" and "WebApp"
         /// </summary>
         public static void SetupDataDirectory()
         {
+            string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string immediateDirectoryName = Path.GetFileName(Path.GetDirectoryName(appDirectory));
+
+            // Determine the relative path of the Data directory
+            string relativePath = "";
+            switch(immediateDirectoryName)
+            {
+                case "ENETCare-IMS-Data":   relativePath = @"..\..\"; break;
+                case "ENETCare-IMS-WebApp": relativePath = @"..\ENETCare-IMS-Data\"; break;
+                default:
+                    Debug.WriteLine(
+                        "Assuming relative path to Data Directory is '..\\..\\..\\ENETCare-IMS-Data'.\nCannot determine the relative path of the Data Directory from the application path:\n"
+                        + appDirectory + "\n(" + immediateDirectoryName + ")");
+                    relativePath = @"..\..\..\ENETCare-IMS-Data";
+                    break;
+            }
+
             string path = Path.GetFullPath(Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                @"..\..\"));
+                appDirectory, relativePath));
+
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
         }
 
@@ -48,6 +70,13 @@ namespace ENETCare.IMS.Data
             ClientRepo clients = new ClientRepo(context);
             UserRepo users = new UserRepo(context);
             InterventionRepo interventions = new InterventionRepo(context);
+
+            // Clear the database (order is important)
+            Console.WriteLine(">>>>\tErasing existing data ...");
+            interventions.EraseAllData();
+            users.EraseAllData();
+            clients.EraseAllData();
+            districts.EraseAllData();
 
             // Re-populate the database
             Console.WriteLine(">>>>\tPopulating data ...");

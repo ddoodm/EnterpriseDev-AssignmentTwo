@@ -12,13 +12,14 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using ENETCare.IMS.Interventions;
 using ENETCare.IMS.Users;
 using System.Security.Claims;
+using System.IO;
 
 namespace ENETCare.IMS.Data.DataAccess
 {
     public class EnetCareDbContext : IdentityDbContext<EnetCareUser>
     {
         public EnetCareDbContext()
-            : base("EnetCareImsDatabase")
+            : base("name=EnetCareImsDatabase")
         { }
 
         public DbSet<Intervention> Interventions { get; set; }
