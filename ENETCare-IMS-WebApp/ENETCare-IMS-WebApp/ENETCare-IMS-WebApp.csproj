@@ -341,6 +341,7 @@
     <Content Include="Views\Clients\SaveNewClientComplete.cshtml" />
     <Content Include="Views\Interventions\ViewProposed.cshtml" />
     <Content Include="Views\Interventions\ViewApproved.cshtml" />
+    <Content Include="Views\Account\UserMenuBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
