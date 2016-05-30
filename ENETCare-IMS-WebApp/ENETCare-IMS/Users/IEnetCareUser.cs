@@ -20,6 +20,9 @@ namespace ENETCare.IMS.Users
         /// <summary>
         /// The page to which the User is directed upon log-in
         /// </summary>
-        string HomePage { get; }
+        string HomePageAction { get; }
+        string HomePageController { get; }
+
+        string Role { get; }
     }
 }

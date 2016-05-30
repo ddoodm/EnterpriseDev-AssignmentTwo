@@ -87,7 +87,7 @@ namespace ENETCare_IMS_WebApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal();
+                    return RedirectToLocal(model);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -134,13 +134,6 @@ namespace ENETCare_IMS_WebApp.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -303,9 +296,20 @@ namespace ENETCare_IMS_WebApp.Controllers
             }
         }
 
-        private ActionResult RedirectToLocal()
+        /// <summary>
+        /// Redirects the user to their respective homepage,
+        /// given their account type.
+        /// </summary>
+        private ActionResult RedirectToLocal(LoginViewModel model)
         {
-            return RedirectToAction("Index", "Home");
+            // Obtain the ENETCare user from the database, using their E-Mail
+            using (var db = new EnetCareDbContext())
+            {
+                UserRepo repo = new UserRepo(db);
+                EnetCareUser user = repo.GetUserByEmail<EnetCareUser>(model.Email);
+
+                return RedirectToAction(user.HomePageAction, user.HomePageController);
+            }
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

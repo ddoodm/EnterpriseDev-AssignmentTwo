@@ -8,25 +8,10 @@ namespace ENETCare.IMS.Users
 {
     public class Accountant : EnetCareUser
     {
-        private const string
-            TITLE = "Accountant",
-            HOMEPAGE = "Accountants";
-
-        public override string Title
-        {
-            get
-            {
-                return TITLE;
-            }
-        }
-
-        public override string HomePage
-        {
-            get
-            {
-                return HOMEPAGE;
-            }
-        }
+        public override string Title { get { return "Accountant"; } }
+        public override string HomePageAction { get { return "Index"; } }
+        public override string HomePageController { get { return "Accountant"; } }
+        public override string Role { get { return "Accountant"; } }
 
         private Accountant() { }
 

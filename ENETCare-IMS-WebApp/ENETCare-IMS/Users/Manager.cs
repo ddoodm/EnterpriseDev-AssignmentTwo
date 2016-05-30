@@ -12,9 +12,10 @@ namespace ENETCare.IMS.Users
 {
     public class Manager : EnetCareUser, ILocalizedUser, IInterventionApprover, IAdvancedUser
     {
-        private const string
-            TITLE = "Manager",
-            HOMEPAGE = "ProposedInterventions";
+        public override string Title { get { return "Manager"; } }
+        public override string HomePageAction { get { return "Index"; } }
+        public override string HomePageController { get { return "Manager"; } }
+        public override string Role { get { return "Manager"; } }
 
         [Required, Column("MaxApprovableLabour")]
         public decimal MaxApprovableLabour { get; private set; }
@@ -22,22 +23,6 @@ namespace ENETCare.IMS.Users
         public decimal MaxApprovableCost { get; private set; }
 
         public District District { get; protected set; }
-
-        public override string Title
-        {
-            get
-            {
-                return TITLE;
-            }
-        }
-
-        public override string HomePage
-        {
-            get
-            {
-                return HOMEPAGE;
-            }
-        }
 
         private Manager() { }
 

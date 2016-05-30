@@ -25,7 +25,9 @@ namespace ENETCare.IMS.Users
         /// <summary>
         /// The page to which the User is directed upon log-in
         /// </summary>
-        public abstract string HomePage { get; }
+        public abstract string HomePageAction { get; }
+        public abstract string HomePageController { get; }
+        public abstract string Role { get; }
 
         protected EnetCareUser() { }
 

@@ -14,6 +14,7 @@ using ENETCare.IMS.WebApp.Models;
 
 namespace ENETCare_IMS_WebApp.Controllers
 {
+    [Authorize]
     public class InterventionsController : Controller
     {
         // GET: Interventions

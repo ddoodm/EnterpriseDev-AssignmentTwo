@@ -12,9 +12,10 @@ namespace ENETCare.IMS.Users
 {
     public class SiteEngineer : EnetCareUser, ILocalizedUser, IInterventionApprover, IAdvancedUser
     {
-        private const string
-            TITLE = "Site Engineer",
-            HOMEPAGE = "Interventions";
+        public override string Title { get { return "Site Engineer"; } }
+        public override string HomePageAction { get { return "Index"; } }
+        public override string HomePageController { get { return "Interventions"; } }
+        public override string Role { get { return "SiteEngineer"; } }
 
         [Required, Column("MaxApprovableLabour")]
         public decimal MaxApprovableLabour { get; private set; }
@@ -22,22 +23,6 @@ namespace ENETCare.IMS.Users
         public decimal MaxApprovableCost { get; private set; }
 
         public District District { get; protected set; }
-
-        public override string Title
-        {
-            get
-            {
-                return TITLE;
-            }
-        }
-
-        public override string HomePage
-        {
-            get
-            {
-                return HOMEPAGE;
-            }
-        }
 
         private SiteEngineer() { }
 
