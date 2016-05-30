@@ -22,7 +22,7 @@ namespace ENETCare_IMS_WebApp.Controllers
             string interventionsTitle = "Interventions";
             ViewData["Title"] = interventionsTitle;
 
-            SetNavbarItems();
+            //SetNavbarItems();
 
             // Retrieve Interventions
             using (EnetCareDbContext db = new EnetCareDbContext())
@@ -35,6 +35,7 @@ namespace ENETCare_IMS_WebApp.Controllers
             }
         }
 
+        /*
         /// <summary>
         /// TODO: This will be a User method
         /// </summary>
@@ -83,9 +84,11 @@ namespace ENETCare_IMS_WebApp.Controllers
             ViewBag.NavbarItems = items;
         }
 
+        */
+
         public ActionResult CreateIntervention()
         {
-            SetNavbarItems();
+            //SetNavbarItems();
 
             using (EnetCareDbContext db = new EnetCareDbContext())
             {

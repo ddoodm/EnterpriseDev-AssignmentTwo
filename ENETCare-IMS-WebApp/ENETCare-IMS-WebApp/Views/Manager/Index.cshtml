@@ -6,9 +6,23 @@
 }
 
 
+@section NavBar{
+
+    <li class="active">
+        <a href="@Url.Action("Index", "Manager")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+    </li>
+
+
+    <li>
+        <a href="@Url.Action("ViewProposed", "Interventions")"><i class="fa fa-fw fa-print"></i> Proposed Interventions</a>
+    </li>
+
+    <li>
+        <a href="@Url.Action("ViewApproved", "Interventions")"><i class="fa fa-fw fa-print"></i> Approved Interventions</a>
+    </li>
+
+
+}
+
 <h2>Index</h2>
 
-<div class="button">
-    <button type="button" onclick="location.href='@Url.Action("ViewProposed", "Interventions")'">View Proposed Interventions</button>
-    <button type="button" onclick="location.href='@Url.Action("ViewApproved", "Interventions")'">View Approved Interventions</button>
-</div>
