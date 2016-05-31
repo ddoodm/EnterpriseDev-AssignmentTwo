@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Security.Claims;
+using Microsoft.AspNet.Identity;
+using System.Configuration;
 
 namespace ENETCare.IMS.Users
 {
-    public abstract class EnetCareUser : IEnetCareUser
+    public abstract class EnetCareUser : IdentityUser, IEnetCareUser
     {
-        [Key]
-        public int ID { get; private set; }
-
         [Required]
         public string Name { get; private set; }
 
@@ -24,13 +25,47 @@ namespace ENETCare.IMS.Users
         /// <summary>
         /// The page to which the User is directed upon log-in
         /// </summary>
-        public abstract string HomePage { get; }
+        public abstract string HomePageAction { get; }
+        public abstract string HomePageController { get; }
+        public abstract string Role { get; }
 
         protected EnetCareUser() { }
 
-        protected EnetCareUser(string name)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<EnetCareUser> manager)
+        {
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            // Add custom user claims here
+            return userIdentity;
+        }
+
+        protected EnetCareUser(string name, string email, string password)
         {
             this.Name = name;
+            this.UserName = email;
+            this.Email = email;
+            this.PasswordHash = HashPassword(password);
+            this.SecurityStamp = Guid.NewGuid().ToString();
+        }
+
+        /// <summary>
+        /// Generates a username from a full name, of the form:
+        /// first.last
+        /// 
+        /// For example:
+        /// deinyon.davies
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private string MakeUsernameFrom(string name)
+        {
+            return String.Join(".", name.ToLower().Split(' '));
+        }
+
+        private string HashPassword(string password)
+        {
+            var hasher = new PasswordHasher();
+            return hasher.HashPassword(password);
         }
 
         public override string ToString()

@@ -93,10 +93,10 @@ namespace ENETCare.IMS.Interventions
                 .Where(x =>
                 {
                     bool sameDistrict = x.District == user.District;
-                    bool sameProposer = x.SiteEngineer.ID == user.ID;
+                    bool sameProposer = x.SiteEngineer.Id == user.Id;
 
                     bool sameApprover = x.ApprovingUser == null? false :
-                        x.ApprovingUser.ID == user.ID;
+                        x.ApprovingUser.Id == user.Id;
 
                     return sameDistrict || sameProposer || sameApprover;
                 })

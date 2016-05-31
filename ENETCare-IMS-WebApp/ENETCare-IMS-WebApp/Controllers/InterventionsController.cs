@@ -10,12 +10,24 @@ using ENETCare.IMS.Interventions;
 using ENETCare.IMS.Users;
 
 using ENETCare.IMS.WebApp.Models;
-
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ENETCare_IMS_WebApp.Controllers
 {
+    [Authorize]
     public class InterventionsController : Controller
     {
+        private EnetCareDbContext DbContext { get; set; }
+        private ApplicationUserManager UserManager { get; set; }
+
+        public InterventionsController()
+            :base()
+        {
+            DbContext = new EnetCareDbContext();
+            UserManager = new ApplicationUserManager(new UserStore<EnetCareUser>(DbContext));
+        }
+
         // GET: Interventions
         public ActionResult Index()
         {
@@ -90,15 +102,19 @@ namespace ENETCare_IMS_WebApp.Controllers
         {
             //SetNavbarItems();
 
-            using (EnetCareDbContext db = new EnetCareDbContext())
+            using (var db = new EnetCareDbContext())
             {
-                InterventionRepo interventionRepo = new InterventionRepo(db);
-                ClientRepo clientRepo = new ClientRepo(db);
+                var interventionRepo = new InterventionRepo(db);
+                var clientRepo = new ClientRepo(db);
+                var userRepo = new UserRepo(db);
+
+                SiteEngineer engineer =
+                    userRepo.GetUserById<SiteEngineer>(User.Identity.GetUserId());
 
                 InterventionTypes interventionTypes =
                     interventionRepo.GetAllInterventionTypes();
                 Clients clients =
-                    clientRepo.GetAllClients();
+                    clientRepo.GetClientsInDistrict(engineer.District);
 
                 return View(new CreateInterventionViewModel()
                 {
@@ -125,7 +141,9 @@ namespace ENETCare_IMS_WebApp.Controllers
 
                 InterventionType type = interventions.GetInterventionTypeById(model.SelectedTypeID);
                 Client client = clients.GetClientById(model.SelectedClientID);
-                SiteEngineer siteEngineer = users.GetNthSiteEngineer(0);    // TODO: Replace with session User
+
+                // TODO: Replace with session User
+                SiteEngineer siteEngineer = users.GetUserByEmail<SiteEngineer>("deinyon@enet.com");
 
                 Intervention intervention = Intervention.Factory.CreateIntervention(
                     type, client, siteEngineer, model.Labour, model.Cost, model.Date);

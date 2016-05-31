@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using ENETCare.IMS.Users;
 
+using System.Data.Entity.Migrations;
+
 namespace ENETCare.IMS.Data.DataAccess
 {
     public class UserRepo : GenericRepo<EnetCareUser>
@@ -14,20 +16,33 @@ namespace ENETCare.IMS.Data.DataAccess
             : base(context, context.Users)
         { }
 
-        public EnetCareUser GetUserById(int ID)
+        private T GetUserByFunc<T>(Func<EnetCareUser, bool> func) where T : EnetCareUser
         {
-            return context.Users
-                .Where(d => d.ID == ID)
-                .First<EnetCareUser>();
+            EnetCareUser user;
+
+            // If the user is an ILocalizedUser, include "District"
+            if (typeof(ILocalizedUser).IsAssignableFrom(typeof(T)))
+                user = context.Users.OfType<T>().Include("District").Where(func).SingleOrDefault();
+            else
+                user = context.Users.Where(func).SingleOrDefault();
+
+            if (user == null)
+                throw new InvalidOperationException("A user matching the function could not be found.");
+
+            if (!(user is T))
+                throw new InvalidOperationException(String.Format("User {0} is not a {1}", user.Email, typeof(T)));
+
+            return (T)user;
         }
 
-        public SiteEngineer GetNthSiteEngineer(int n)
+        public T GetUserById<T>(string ID) where T : EnetCareUser
         {
-            return context.Users
-                .OfType<SiteEngineer>()
-                .Include(e => e.District)
-                .OrderBy(d => d.ID)
-                .Skip(n).FirstOrDefault();
+            return GetUserByFunc<T>(u => u.Id == ID);
+        }
+
+        public T GetUserByEmail<T>(string email) where T : EnetCareUser
+        {
+            return GetUserByFunc<T>(u => u.Email == email);
         }
 
         public void Save(EnetCareUser[] users)
@@ -37,7 +52,10 @@ namespace ENETCare.IMS.Data.DataAccess
                 if (user is ILocalizedUser)
                     context.Districts.Attach(((ILocalizedUser)user).District);
 
-                context.Users.Add(user);
+                // If a user exists with the same E-Mail, update instead
+                context.Users.AddOrUpdate(
+                    u => u.Email,
+                    user);
             }
             context.SaveChanges();
         }

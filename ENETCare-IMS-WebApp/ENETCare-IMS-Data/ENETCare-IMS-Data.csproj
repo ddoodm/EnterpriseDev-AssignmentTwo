@@ -47,6 +47,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DbUp, Version=3.3.4.0, Culture=neutral, PublicKeyToken=4b419c53bdfd4cbf, processorArchitecture=MSIL">
       <HintPath>..\packages\dbup.3.3.4\lib\net35\DbUp.dll</HintPath>
@@ -58,6 +61,14 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -77,6 +88,23 @@
     <Compile Include="DataAccess\GenericRepo.cs" />
     <Compile Include="DataAccess\InterventionRepo.cs" />
     <Compile Include="DataAccess\UserRepo.cs" />
+    <Compile Include="Migrations\201605280958159_InitialModel.cs" />
+    <Compile Include="Migrations\201605280958159_InitialModel.Designer.cs">
+      <DependentUpon>201605280958159_InitialModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605300846428_UserDistrictColName.cs" />
+    <Compile Include="Migrations\201605300846428_UserDistrictColName.Designer.cs">
+      <DependentUpon>201605300846428_UserDistrictColName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605300849495_UserDistrictVirtual.cs" />
+    <Compile Include="Migrations\201605300849495_UserDistrictVirtual.Designer.cs">
+      <DependentUpon>201605300849495_UserDistrictVirtual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605300900410_DistrictIDFkey.cs" />
+    <Compile Include="Migrations\201605300900410_DistrictIDFkey.Designer.cs">
+      <DependentUpon>201605300900410_DistrictIDFkey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -115,6 +143,20 @@
       <Project>{29bc6fca-c92d-4336-a962-3885b2e6a486}</Project>
       <Name>ENETCare-IMS</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605280958159_InitialModel.resx">
+      <DependentUpon>201605280958159_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605300846428_UserDistrictColName.resx">
+      <DependentUpon>201605300846428_UserDistrictColName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605300849495_UserDistrictVirtual.resx">
+      <DependentUpon>201605300849495_UserDistrictVirtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605300900410_DistrictIDFkey.resx">
+      <DependentUpon>201605300900410_DistrictIDFkey.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -27,37 +27,10 @@ namespace ENETCare.IMS.Users
                 users.Add(user);
         }
 
-        public SiteEngineer CreateSiteEngineer(
-            string name, District district, decimal maxApprovableLabour, decimal maxApprovableCost)
+        public EnetCareUser GetUserByID(string ID)
         {
-            SiteEngineer engineer =
-                new SiteEngineer(name, district, maxApprovableLabour, maxApprovableCost);
-            Add(engineer);
-            return engineer;
-        }
-
-        public Manager CreateManager(
-            string name, District district, decimal maxApprovableLabour, decimal maxApprovableCost)
-        {
-            Manager manager =
-                new Manager(name, district, maxApprovableLabour, maxApprovableCost);
-            Add(manager);
-            return manager;
-        }
-
-        public Accountant CreateAccountant(string name)
-        {
-            Accountant accountant = new Accountant(name);
-            Add(accountant);
-            return accountant;
-        }
-
-        public EnetCareUser GetUserByID(int ID)
-        {
-            if (ID == 0)
-                throw new IndexOutOfRangeException("ENETCare data is 1-indexed, but an index of 0 was requested.");
             return users.First<EnetCareUser>(
-                user => user.ID == ID);
+                user => user.Id == ID);
         }
 
         public IEnumerator<EnetCareUser> GetEnumerator()

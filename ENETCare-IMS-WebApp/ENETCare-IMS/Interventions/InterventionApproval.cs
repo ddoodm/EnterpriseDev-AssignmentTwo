@@ -31,13 +31,8 @@ namespace ENETCare.IMS.Interventions
         /// <summary>
         /// Concrete IInterventionApprover implementations for Entity Framework
         /// </summary>
-        public int? ApprovingSiteEngineerID { get; private set; }
-        [ForeignKey("ApprovingSiteEngineerID")]
-        public SiteEngineer ApprovingSiteEngineer { get; private set; }
-
-        public int? ApprovingManagerID { get; private set; }
-        [ForeignKey("ApprovingManagerID")]
-        public Manager ApprovingManager { get; private set; }
+        public virtual SiteEngineer ApprovingSiteEngineer { get; private set; }
+        public virtual Manager ApprovingManager { get; private set; }
 
         /// <summary>
         /// The user who approved the Intervention,

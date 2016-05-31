@@ -10,38 +10,61 @@ using ENETCare.IMS.Data.DataAccess;
 
 using ENETCare.IMS.Interventions;
 using ENETCare.IMS.Users;
+using ENETCare.IMS.Data.Migrations;
+using System.Data.Entity.Migrations;
+using System.Data.Entity.Migrations.Infrastructure;
+using System.Diagnostics;
 
 namespace ENETCare.IMS.Data
 {
     class Program
     {
-        static int Main(string[] args)
-        {
-            Console.WriteLine(">>>>\tBuilding ENETCare DB Context ...");
-
-            // Configure database directory
-            SetupDataDirectory();
-
-            using (var context = new EnetCareDbContext())
-                PopulateInitialData(context);
-
-            return 0;
-        }
-
         /// <summary>
         /// Sets the path of the Data directory for
         /// the Connection String to correctly attach
         /// the MDF database to the server.
+        /// 
+        /// This method may be called by the EF Migrator,
+        /// and as such, may originate from either project directory.
+        /// 
+        /// This method supports only origins "Data" and "WebApp"
         /// </summary>
         public static void SetupDataDirectory()
         {
+            string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string immediateDirectoryName = Path.GetFileName(Path.GetDirectoryName(appDirectory));
+
+            // Determine the relative path of the Data directory
+            string relativePath = "";
+            switch(immediateDirectoryName)
+            {
+                case "ENETCare-IMS-Data":   relativePath = @"..\..\"; break;
+                case "ENETCare-IMS-WebApp": relativePath = @"..\ENETCare-IMS-Data\"; break;
+                default:
+                    Debug.WriteLine(
+                        "Assuming relative path to Data Directory is '..\\..\\..\\ENETCare-IMS-Data'.\nCannot determine the relative path of the Data Directory from the application path:\n"
+                        + appDirectory + "\n(" + immediateDirectoryName + ")");
+                    relativePath = @"..\..\..\ENETCare-IMS-Data";
+                    break;
+            }
+
             string path = Path.GetFullPath(Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                @"..\..\"));
+                appDirectory, relativePath));
+
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
         }
 
-        private static void PopulateInitialData(EnetCareDbContext context)
+        public static void Main()
+        {
+            SetupDataDirectory();
+
+            Console.WriteLine("Building a DB Context ...");
+
+            using (var db = new EnetCareDbContext())
+                SeedDatabase(db);
+        }
+
+        public static void SeedDatabase(EnetCareDbContext context)
         {
             DistrictRepo districts = new DistrictRepo(context);
             ClientRepo clients = new ClientRepo(context);
@@ -62,9 +85,6 @@ namespace ENETCare.IMS.Data
             PopulateUsers(users, districts);
             PopulateInterventionTypes(interventions);
             PopulateInterventions(interventions, users, clients, districts);
-
-            Console.WriteLine(">>>>\tSuccess! Press RETURN to exit.");
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -112,15 +132,15 @@ namespace ENETCare.IMS.Data
 
             EnetCareUser[] users = new EnetCareUser[]
             {
-                new SiteEngineer("Deinyon Davies",  districtRepo.GetNthDistrict(0),  8,   1000),
-                new SiteEngineer("Henry Saal",      districtRepo.GetNthDistrict(1),  10,  2000),
-                new SiteEngineer("Hans Samson",     districtRepo.GetNthDistrict(2),  100, 10000),
-                new SiteEngineer("Bob James",       districtRepo.GetNthDistrict(3),  10,  2000),
-                new SiteEngineer("Takeshi Itoh",    districtRepo.GetNthDistrict(4),  5, 100),
+                new SiteEngineer("Deinyon Davies",  "deinyon@enet.com", "TestPass1!",   districtRepo.GetNthDistrict(0),  8,   1000),
+                new SiteEngineer("Henry Saal",      "henry@enet.com", "TestPass1!",     districtRepo.GetNthDistrict(1),  10,  2000),
+                new SiteEngineer("Hans Samson",     "hans@enet.com", "TestPass1!",      districtRepo.GetNthDistrict(2),  100, 10000),
+                new SiteEngineer("Bob James",       "bob@enet.com", "TestPass1!",       districtRepo.GetNthDistrict(3),  10,  2000),
+                new SiteEngineer("Takeshi Itoh",    "takeshi@enet.com", "TestPass1!",   districtRepo.GetNthDistrict(4),  5, 100),
 
-                new Manager("Daum Park", districtRepo.GetNthDistrict(0), 100, 10000),
+                new Manager("Daum Park", "daum@enet.com", "TestPass1!", districtRepo.GetNthDistrict(0), 100, 10000),
 
-                new Accountant("Yiannis Chambers"),
+                new Accountant("Yiannis Chambers", "yiannis@enet.com", "TestPass1!"),
             };
 
             userRepo.Save(users);
@@ -152,27 +172,27 @@ namespace ENETCare.IMS.Data
                 Intervention.Factory.CreateIntervention(
                     interventionRepo.GetNthInterventionType(0),
                     clientRepo.GetNthClient(0),
-                    userRepo.GetNthSiteEngineer(0)),
+                    userRepo.GetUserByEmail<SiteEngineer>("deinyon@enet.com")),
 
                 Intervention.Factory.CreateIntervention(
                     interventionRepo.GetNthInterventionType(1),
                     clientRepo.GetNthClient(1),
-                    userRepo.GetNthSiteEngineer(1)),
+                    userRepo.GetUserByEmail<SiteEngineer>("henry@enet.com")),
 
                 Intervention.Factory.CreateIntervention(
                     interventionRepo.GetNthInterventionType(2),
                     clientRepo.GetNthClient(2),
-                    userRepo.GetNthSiteEngineer(2)),
+                    userRepo.GetUserByEmail<SiteEngineer>("hans@enet.com")),
 
                 Intervention.Factory.CreateIntervention(
                     interventionRepo.GetNthInterventionType(3),
                     clientRepo.GetNthClient(3),
-                    userRepo.GetNthSiteEngineer(3)),
+                    userRepo.GetUserByEmail<SiteEngineer>("bob@enet.com")),
 
                 Intervention.Factory.CreateIntervention(
                     interventionRepo.GetNthInterventionType(4),
                     clientRepo.GetNthClient(4),
-                    userRepo.GetNthSiteEngineer(4)),
+                    userRepo.GetUserByEmail<SiteEngineer>("takeshi@enet.com")),
             };
 
             interventionRepo.Save(interventions);
