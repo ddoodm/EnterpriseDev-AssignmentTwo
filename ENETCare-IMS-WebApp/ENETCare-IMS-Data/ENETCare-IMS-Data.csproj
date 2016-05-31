@@ -92,6 +92,18 @@
     <Compile Include="Migrations\201605280958159_InitialModel.Designer.cs">
       <DependentUpon>201605280958159_InitialModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605300846428_UserDistrictColName.cs" />
+    <Compile Include="Migrations\201605300846428_UserDistrictColName.Designer.cs">
+      <DependentUpon>201605300846428_UserDistrictColName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605300849495_UserDistrictVirtual.cs" />
+    <Compile Include="Migrations\201605300849495_UserDistrictVirtual.Designer.cs">
+      <DependentUpon>201605300849495_UserDistrictVirtual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605300900410_DistrictIDFkey.cs" />
+    <Compile Include="Migrations\201605300900410_DistrictIDFkey.Designer.cs">
+      <DependentUpon>201605300900410_DistrictIDFkey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -135,6 +147,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605280958159_InitialModel.resx">
       <DependentUpon>201605280958159_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605300846428_UserDistrictColName.resx">
+      <DependentUpon>201605300846428_UserDistrictColName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605300849495_UserDistrictVirtual.resx">
+      <DependentUpon>201605300849495_UserDistrictVirtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605300900410_DistrictIDFkey.resx">
+      <DependentUpon>201605300900410_DistrictIDFkey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

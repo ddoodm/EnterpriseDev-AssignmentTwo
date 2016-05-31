@@ -16,23 +16,33 @@ namespace ENETCare.IMS.Data.DataAccess
             : base(context, context.Users)
         { }
 
-        public EnetCareUser GetUserById(string ID)
+        private T GetUserByFunc<T>(Func<EnetCareUser, bool> func) where T : EnetCareUser
         {
-            return context.Users
-                .Where(d => d.Id == ID)
-                .First<EnetCareUser>();
+            EnetCareUser user;
+
+            // If the user is an ILocalizedUser, include "District"
+            if (typeof(ILocalizedUser).IsAssignableFrom(typeof(T)))
+                user = context.Users.OfType<T>().Include("District").Where(func).SingleOrDefault();
+            else
+                user = context.Users.Where(func).SingleOrDefault();
+
+            if (user == null)
+                throw new InvalidOperationException("A user matching the function could not be found.");
+
+            if (!(user is T))
+                throw new InvalidOperationException(String.Format("User {0} is not a {1}", user.Email, typeof(T)));
+
+            return (T)user;
+        }
+
+        public T GetUserById<T>(string ID) where T : EnetCareUser
+        {
+            return GetUserByFunc<T>(u => u.Id == ID);
         }
 
         public T GetUserByEmail<T>(string email) where T : EnetCareUser
         {
-            var user = context.Users
-                .Where(u => u.Email == email)
-                .SingleOrDefault();
-
-            if (!(user is T))
-                throw new InvalidOperationException(String.Format("User {0} is not a {1}", email, typeof(T)));
-
-            return (T)user;
+            return GetUserByFunc<T>(u => u.Email == email);
         }
 
         public void Save(EnetCareUser[] users)

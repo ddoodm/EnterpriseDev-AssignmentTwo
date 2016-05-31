@@ -10,9 +10,11 @@ using ENETCare.IMS.Interventions;
 using ENETCare.IMS.Users;
 
 using ENETCare.IMS.WebApp.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ENETCare_IMS_WebApp.Controllers
 {
+    [Authorize]
     public class ClientsController : Controller
     {
         // GET: Clients
@@ -107,8 +109,11 @@ namespace ENETCare_IMS_WebApp.Controllers
 
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
-                DistrictRepo repo = new DistrictRepo(db);
-                District district = repo.GetNthDistrict(1); //Replace with currentUser's District.DistrictID
+                UserRepo userRepo = new UserRepo(db);
+                SiteEngineer engineer =
+                    userRepo.GetUserById<SiteEngineer>(User.Identity.GetUserId());
+                District district = engineer.District;
+
                 return View(new CreateNewClientViewModel()
                 {
                     NewClientName = "",

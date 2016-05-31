@@ -40,6 +40,14 @@ namespace ENETCare.IMS.Data.DataAccess
                 .FirstOrDefault<Client>();
         }
 
+        public Clients GetClientsInDistrict(District district)
+        {
+            return new Clients(
+                FullyLoadedClients
+                .Where(c => c.District.DistrictID == district.DistrictID)
+                .ToList<Client>());
+        }
+
         public void Save(Client[] clients)
         {
             foreach (Client client in clients)

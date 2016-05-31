@@ -20,7 +20,9 @@ namespace ENETCare.IMS.Data.DataAccess
     {
         public EnetCareDbContext()
             : base("name=EnetCareImsDatabase")
-        { }
+        {
+            Configuration.LazyLoadingEnabled = true;
+        }
 
         public DbSet<Intervention> Interventions { get; set; }
         public DbSet<InterventionType> InterventionTypes { get; set; }

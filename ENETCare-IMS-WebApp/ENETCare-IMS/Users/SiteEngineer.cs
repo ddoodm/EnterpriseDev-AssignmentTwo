@@ -22,7 +22,9 @@ namespace ENETCare.IMS.Users
         [Required, Column("MaxApprovableCost")]
         public decimal MaxApprovableCost { get; private set; }
 
-        public District District { get; protected set; }
+        [Column("DistrictID"), ForeignKey("District")]
+        public int? DistrictID { get; private set; }
+        public virtual District District { get; protected set; }
 
         private SiteEngineer() { }
 
