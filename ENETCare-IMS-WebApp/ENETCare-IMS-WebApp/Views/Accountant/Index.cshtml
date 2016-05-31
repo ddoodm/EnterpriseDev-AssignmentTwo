@@ -1,4 +1,7 @@
-﻿
+﻿@using ENETCare.IMS.WebApp.Models
+@using ENETCare.IMS.Users;
+@model AccountantUsersViewModel
+
 @{
     ViewBag.Title = ViewData["Title"];
     ViewBag.SubTitle = "Dashboard";
@@ -11,9 +14,9 @@
         <a href="@Url.Action("Index", "Accountant")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
     </li>
 
-    
+
     <li>
-    <a href="@Url.Action("Index", "Reports")"><i class="fa fa-fw fa-print"></i> Generate a Report</a>
+        <a href="@Url.Action("Index", "Reports")"><i class="fa fa-fw fa-print"></i> Generate a Report</a>
     </li>
 
 
@@ -34,7 +37,7 @@
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
-                                <th>Type</th>
+                                <th>Edit</th>
                                 <th>Name</th>
                                 <th>District</th>
                                 <th>Cost</th>
@@ -42,20 +45,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Site Engineer</td>
-                                <td>Henry Saal</td>
-                                <td>Rural Indonesia</td>
-                                <td>$8,000.00</td>
-                                <td>42 Hours</td>
-                            </tr>
-                            <tr>
-                                <td>Site Engineer</td>
-                                <td>Deinyon Davies</td>
-                                <td>Urban Indonesia</td>
-                                <td>$4,000.00</td>
-                                <td>84 Hours</td>
-                            </tr>
+                            @foreach (SiteEngineer engineer in Model.Engineers)
+                            {
+                                <tr>
+                                    <td>
+                                        @* Edit Intervention link button *@
+                                        <a href="@Url.Action(
+                                        "EditSiteEngineer", "Users",
+                                        new { id = engineer.Id })">
+                                            <span class="glyphicon glyphicon-edit"></span> Edit
+                                        </a>
+                                    </td>
+                                    <td>@engineer.Name</td>
+                                    <td>@engineer.District.Name</td>
+                                    <td>@engineer.MaxApprovableCost</td>
+                                    <td>@engineer.MaxApprovableLabour</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -77,13 +83,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Manager</td>
-                                <td>Daum Park</td>
-                                <td>Rural Indonesia</td>
-                                <td>$8,000.00</td>
-                                <td>42 Hours</td>
-                            </tr>
+                            @foreach (Manager manager in Model.Managers)
+                            {
+                                <tr>
+                                    <td>
+                                        @* Edit Intervention link button *@
+                                        <a href="@Url.Action(
+                                        "EditManager", "Users",
+                                        new { id = manager.Id })">
+                                            <span class="glyphicon glyphicon-edit"></span> Edit
+                                        </a>
+                                    </td>
+                                    <td>@manager.Name</td>
+                                    <td>@manager.District.Name</td>
+                                    <td>@manager.MaxApprovableCost</td>
+                                    <td>@manager.MaxApprovableLabour</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

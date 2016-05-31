@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ENETCare.IMS.WebApp.Models;
+using ENETCare.IMS.Data.DataAccess;
 
 namespace ENETCare_IMS_WebApp.Controllers
 {
@@ -21,7 +23,17 @@ namespace ENETCare_IMS_WebApp.Controllers
         {
             ViewData["Title"] = accountType;
 
-            return View();
+            AccountantUsersViewModel model = new AccountantUsersViewModel();
+
+            using (EnetCareDbContext db = new EnetCareDbContext())
+            {
+                UserRepo repo = new UserRepo(db);
+
+                model.Engineers = repo.GetAllSiteEngineers();
+                model.Managers = repo.GetAllManagers();
+
+                return View(model);
+            }
         }
     }
 }

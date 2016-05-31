@@ -1,0 +1,46 @@
+﻿@using ENETCare.IMS.WebApp.Models
+@model EditManagerDistrictViewModel
+
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="panel-group">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Edit District</div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <label for="NewClientName">User:</label>
+                            @Html.Label(Model.Manager.Name)
+                            @Html.HiddenFor(model => model.ManagerID, new { @Value = Model.Manager.Id })
+                        </div>
+                        <div class="form-group">
+                            <label for="NewLocationName">Current District:</label>
+                            @Html.Label(Model.Manager.District.Name)
+                        </div>
+                        <div class="form-group">
+                            <label for="NewDistrict">New District:</label>
+                            @Html.DropDownListFor(
+                              m => m.SelectedDistrictID,
+                              new SelectList(Model.Districts, "DistrictID", "Name", null),
+                              "Please select a District ...",
+                              new { @class = "form-control", id = "districtDropdown" })
+                            @Html.ValidationMessageFor(m => m.SelectedDistrictID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="text-right">
+                            <input class="btn btn-success" type="submit" id="submitId" value="Save New District" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

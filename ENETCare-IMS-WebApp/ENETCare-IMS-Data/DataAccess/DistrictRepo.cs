@@ -28,5 +28,13 @@ namespace ENETCare.IMS.Data.DataAccess
                 context.Districts.Add(district);
             context.SaveChanges();
         }
+
+        public List<District> GetAllDistricts()
+        {
+            return context.Districts
+                .OfType<District>()
+                .OrderBy(d => d.DistrictID)
+                .ToList<District>();
+        }
     }
 }

@@ -59,5 +59,62 @@ namespace ENETCare.IMS.Data.DataAccess
             }
             context.SaveChanges();
         }
+
+        public void Save(EnetCareUser user)
+        {
+            if (user is ILocalizedUser)
+            {
+                context.Districts.Attach(((ILocalizedUser)user).District);
+            }
+            context.Users.Add(user);
+
+            context.SaveChanges();
+        }
+
+
+        public void Update(EnetCareUser[] users)
+        {
+            foreach (EnetCareUser user in users)
+            {
+                if (user is ILocalizedUser)
+                {
+                    context.Districts.Attach(((ILocalizedUser)user).District);
+                }
+
+                context.Users.AddOrUpdate(user);
+            }
+            context.SaveChanges();
+        }
+
+
+        public void Update(EnetCareUser user)
+        {
+            if (user is ILocalizedUser)
+            {
+                context.Districts.Attach(((ILocalizedUser)user).District);
+            }
+            context.Users.AddOrUpdate(user);
+
+            context.SaveChanges();
+        }
+
+
+        public List<SiteEngineer> GetAllSiteEngineers()
+        {
+            return context.Users
+                .OfType<SiteEngineer>()
+                .Include(e => e.District)
+                .OrderBy(d => d.Id)
+                .ToList<SiteEngineer>();
+        }
+
+        public List<Manager> GetAllManagers()
+        {
+            return context.Users
+                .OfType<Manager>()
+                .Include(e => e.District)
+                .OrderBy(d => d.Id)
+                .ToList<Manager>();
+        }
     }
 }
