@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using ENETCare.IMS;
 using ENETCare.IMS.Interventions;
 using ENETCare.IMS.Users;
@@ -67,6 +68,24 @@ namespace ENETCare.IMS.Tests
 
             // Fail if userA == userB
             Assert.AreNotEqual(userA, userB);
+        }
+
+        /// <summary>
+        /// Tests creating a site engineer, adding to a list of users then retrieving
+        /// the site engineer and comparing its name to the expected value
+        /// </summary>
+        [TestMethod]
+        public void Users_Get_Site_Engineers()
+        {
+            // User A and User B are not the same user, though their fields are equal
+            SiteEngineer userA = new SiteEngineer("Markus Roberts", testDistrictA, 50, 5000);
+
+            Users.Users users = new Users.Users();
+            users.Add(userA);
+
+            List<SiteEngineer> siteEngineers = users.GetSiteEngineers();
+
+            Assert.IsTrue(siteEngineers[0].Name == "Markus Roberts");
         }
     }
 }

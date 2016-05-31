@@ -189,6 +189,15 @@ namespace ENETCare.IMS.Tests
             Intervention intervention = Intervention.Factory.CreateIntervention
                 (interventionType, testClient, testEngineer);
 
+            // Check if the intervention was approved on creation due to a qualified engineer
+            Console.WriteLine(intervention.ApprovalState);
+
+            //Check the intervention has been approved by the qualified engineer given in the constructor
+            if(intervention.ApprovalState == InterventionApprovalState.Approved)
+            {
+                return;
+            }
+
             // Attempt to approve the intervention by the Engineer who proposed it
             intervention.Approve(testEngineer);
 
