@@ -77,9 +77,8 @@ namespace ENETCare.IMS.Tests
         [TestMethod]
         public void Users_Get_Site_Engineers()
         {
-            // User A and User B are not the same user, though their fields are equal
-            SiteEngineer userA = new SiteEngineer("Markus Roberts", testDistrictA, 50, 5000);
-
+            SiteEngineer userA = new SiteEngineer("Markus Roberts", "markus@enet.com", "TestPass1!", testDistrictA, 50, 5000);
+            
             Users.Users users = new Users.Users();
             users.Add(userA);
 
