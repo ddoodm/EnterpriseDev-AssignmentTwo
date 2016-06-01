@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace ENETCare_IMS_WebApp.Controllers
 {
+    [Authorize(Roles = "Accountant")]
     public class ReportsController : Controller
     {
         // GET: Reports

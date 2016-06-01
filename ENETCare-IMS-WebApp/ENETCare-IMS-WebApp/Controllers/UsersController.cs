@@ -10,6 +10,7 @@ using ENETCare.IMS.Data.DataAccess;
 
 namespace ENETCare_IMS_WebApp.Controllers
 {
+    [Authorize(Roles = "Accountant")]
     public class UsersController : Controller
     {
         // GET: Users

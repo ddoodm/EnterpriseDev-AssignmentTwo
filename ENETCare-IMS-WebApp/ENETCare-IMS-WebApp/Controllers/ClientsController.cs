@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity;
 
 namespace ENETCare_IMS_WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "SiteEngineer, Manager")]
     public class ClientsController : Controller
     {
         // GET: Clients
@@ -29,7 +29,7 @@ namespace ENETCare_IMS_WebApp.Controllers
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
                 ClientRepo repo = new ClientRepo(db);
-                Clients clients = repo.GetAllClients();  //To be replaced with GetClientsByDistrict(currentUser.District);
+                Clients clients = repo.GetAllClients();  //TODO: To be replaced with GetClientsByDistrict(currentUser.District);
 
                 return View(clients);
             }
