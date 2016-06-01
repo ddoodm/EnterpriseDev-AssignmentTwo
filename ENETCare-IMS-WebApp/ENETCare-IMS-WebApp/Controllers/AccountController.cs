@@ -58,7 +58,17 @@ namespace ENETCare_IMS_WebApp.Controllers
         [AllowAnonymous]
         public ActionResult UserMenuBar()
         {
-            return PartialView();
+            // Do not pass a user if the user is not logged in
+            if(User.Identity == null || !User.Identity.IsAuthenticated)
+                return PartialView();
+
+            using (var db = new EnetCareDbContext())
+            {
+                // Obtain the current session's user from the database
+                var users = new UserRepo(db);
+                var user = users.GetUserById<EnetCareUser>(User.Identity.GetUserId());
+                return PartialView(user);
+            }
         }
 
         //
