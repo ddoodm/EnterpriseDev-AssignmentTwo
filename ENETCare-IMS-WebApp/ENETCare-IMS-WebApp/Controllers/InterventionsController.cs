@@ -15,7 +15,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ENETCare_IMS_WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "SiteEngineer, Manager")]
     public class InterventionsController : Controller
     {
         private EnetCareDbContext DbContext { get; set; }
@@ -29,12 +29,11 @@ namespace ENETCare_IMS_WebApp.Controllers
         }
 
         // GET: Interventions
+        [Authorize(Roles = "SiteEngineer")]
         public ActionResult Index()
         {
             string interventionsTitle = "Interventions";
             ViewData["Title"] = interventionsTitle;
-
-            //SetNavbarItems();
 
             // Retrieve Interventions
             using (EnetCareDbContext db = new EnetCareDbContext())
@@ -47,61 +46,9 @@ namespace ENETCare_IMS_WebApp.Controllers
             }
         }
 
-        /*
-        /// <summary>
-        /// TODO: This will be a User method
-        /// </summary>
-        private void SetNavbarItems()
-        {
-            NavbarItems items = new NavbarItems(
-                new NavbarItems.NavbarItem()
-                {
-                    Title = "Dashboard",
-                    BootstrapIcon = "fa-dashboard",
-                    ControllerName = "Home",
-                    ActionName = "Index",
-                },
-
-                new NavbarItems.NavbarItem()
-                {
-                    Title = "Interventions",
-                    BootstrapIcon = "fa-table",
-                    ActionName = "Index",
-                },
-
-                new NavbarItems.NavbarItem()
-                {
-                    Title = "Create an Intervention",
-                    BootstrapIcon = "fa-calendar",
-                    ActionName = "CreateIntervention",
-                },
-
-                new NavbarItems.NavbarItem()
-                {
-                    Title = "Clients",
-                    BootstrapIcon = "fa-users",
-                    ControllerName = "Clients",
-                    ActionName = "Index",
-                },
-
-                new NavbarItems.NavbarItem()
-                {
-                    Title = "Create a Client",
-                    BootstrapIcon = "fa-user",
-                    ControllerName = "Clients",
-                    ActionName = "CreateNewClient",
-                }
-            );
-
-            ViewBag.NavbarItems = items;
-        }
-
-        */
-
+        [Authorize(Roles = "SiteEngineer")]
         public ActionResult CreateIntervention()
         {
-            //SetNavbarItems();
-
             using (var db = new EnetCareDbContext())
             {
                 var interventionRepo = new InterventionRepo(db);
@@ -127,6 +74,7 @@ namespace ENETCare_IMS_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SiteEngineer")]
         public ActionResult CreateIntervention(CreateInterventionViewModel model)
         {
             // Display validation errors
@@ -155,6 +103,7 @@ namespace ENETCare_IMS_WebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Manager")]
         public ActionResult ViewProposed()
         {
             using (EnetCareDbContext db = new EnetCareDbContext())
@@ -163,12 +112,14 @@ namespace ENETCare_IMS_WebApp.Controllers
                 Interventions interventions =
                     repo.GetAllInterventions();
 
-                interventions.FilterByState(InterventionApprovalState.Proposed);
+                interventions =
+                    interventions.FilterByState(InterventionApprovalState.Proposed);
 
                 return View(interventions);
             }
         }
 
+        [Authorize(Roles = "Manager")]
         public ActionResult ViewApproved()
         {
             using (EnetCareDbContext db = new EnetCareDbContext())
@@ -177,12 +128,14 @@ namespace ENETCare_IMS_WebApp.Controllers
                 Interventions interventions =
                     repo.GetAllInterventions();
 
-                interventions.FilterByState(InterventionApprovalState.Approved);
+                interventions =
+                    interventions.FilterByState(InterventionApprovalState.Approved);
 
                 return View(interventions);
             }
         }
 
+        [Authorize(Roles = "SiteEngineer, Manager")]
         public ActionResult EditIntervention()
         {
             return View();

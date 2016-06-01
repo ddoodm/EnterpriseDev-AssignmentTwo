@@ -14,6 +14,8 @@ using ENETCare.IMS.Data.Migrations;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Migrations.Infrastructure;
 using System.Diagnostics;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
 
 namespace ENETCare.IMS.Data
 {
@@ -82,7 +84,7 @@ namespace ENETCare.IMS.Data
             Console.WriteLine(">>>>\tPopulating data ...");
             PopulateDistricts(districts);
             PopulateClients(clients, districts);
-            PopulateUsers(users, districts);
+            PopulateUsers(users, districts, context);
             PopulateInterventionTypes(interventions);
             PopulateInterventions(interventions, users, clients, districts);
         }
@@ -126,7 +128,7 @@ namespace ENETCare.IMS.Data
             repo.Save(types);
         }
 
-        private static void PopulateUsers(UserRepo userRepo, DistrictRepo districtRepo)
+        private static void PopulateUsers(UserRepo userRepo, DistrictRepo districtRepo, EnetCareDbContext context)
         {
             Console.WriteLine("Populating users ...");
 
@@ -144,6 +146,9 @@ namespace ENETCare.IMS.Data
             };
 
             userRepo.Save(users);
+
+            // Build user roles from users
+            PopulateRoles(context, users);
         }
 
         private static void PopulateClients(ClientRepo clientRepo, DistrictRepo districtRepo)
@@ -196,6 +201,30 @@ namespace ENETCare.IMS.Data
             };
 
             interventionRepo.Save(interventions);
+        }
+
+        private static void PopulateRoles(EnetCareDbContext context, EnetCareUser[] users)
+        {
+            Console.WriteLine(">>>>\tBuilding user roles ...");
+
+            // TODO: Should use ENETCareRole / store / manager, but they are in the Web assembly
+            var roleStore = new RoleStore<IdentityRole>(context);
+            var roleManager = new RoleManager<IdentityRole>(roleStore);
+
+            // TODO: Should use Application user store / manager, but they are in the Web assembly
+            var userStore = new UserStore<EnetCareUser>(context);
+            var userManager = new UserManager<EnetCareUser>(userStore);
+
+            // For each user, add their role if it does not already exist
+            foreach (EnetCareUser user in users)
+            {
+                // Create new roles
+                if (!roleManager.RoleExists(user.Role))
+                    roleManager.Create(new IdentityRole(user.Role));
+
+                // Add user to role
+                userManager.AddToRole(user.Id, user.Role);
+            }
         }
     }
 }

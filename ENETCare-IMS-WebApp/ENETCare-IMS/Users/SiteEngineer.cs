@@ -15,6 +15,7 @@ namespace ENETCare.IMS.Users
         public override string Title { get { return "Site Engineer"; } }
         public override string HomePageAction { get { return "Index"; } }
         public override string HomePageController { get { return "Interventions"; } }
+
         public override string Role { get { return "SiteEngineer"; } }
 
         [Required, Column("MaxApprovableLabour")]

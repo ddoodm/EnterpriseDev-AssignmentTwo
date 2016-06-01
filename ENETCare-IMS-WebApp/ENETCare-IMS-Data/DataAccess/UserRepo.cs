@@ -98,7 +98,6 @@ namespace ENETCare.IMS.Data.DataAccess
             context.SaveChanges();
         }
 
-
         public List<SiteEngineer> GetAllSiteEngineers()
         {
             return context.Users
