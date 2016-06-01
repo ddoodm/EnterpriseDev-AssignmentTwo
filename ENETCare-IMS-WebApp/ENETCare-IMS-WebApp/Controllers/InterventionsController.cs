@@ -136,7 +136,7 @@ namespace ENETCare_IMS_WebApp.Controllers
         }
 
         [Authorize(Roles = "SiteEngineer, Manager")]
-        public ActionResult EditIntervention()
+        public ActionResult Edit()
         {
             return View();
         }
