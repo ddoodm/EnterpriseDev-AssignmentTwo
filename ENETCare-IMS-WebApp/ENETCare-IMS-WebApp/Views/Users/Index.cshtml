@@ -1,0 +1,107 @@
+﻿@using ENETCare.IMS.WebApp.Models
+@using ENETCare.IMS.Users;
+@model AccountantUsersViewModel
+
+@{
+    ViewBag.Title = ViewData["Title"];
+    ViewBag.SubTitle = "Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section NavBar{
+
+    <li class="active">
+        <a href="@Url.Action("Index", "Accountant")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+    </li>
+
+
+    <li>
+        <a href="@Url.Action("Index", "Reports")"><i class="fa fa-fw fa-print"></i> Generate a Report</a>
+    </li>
+
+
+}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="well">
+            <a class="btn btn-primary" href='@Url.Action("Index", "Reports")'>Generate a Report</a>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Site Engineers</div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Edit</th>
+                                <th>Name</th>
+                                <th>District</th>
+                                <th>Cost</th>
+                                <th>Labour Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (SiteEngineer engineer in Model.Engineers)
+                            {
+                                <tr>
+                                    <td>
+                                        @* Edit Intervention link button *@
+                                        <a href="@Url.Action(
+                                        "EditSiteEngineer", "Users",
+                                        new { id = engineer.Id })">
+                                            <span class="glyphicon glyphicon-edit"></span> Edit
+                                        </a>
+                                    </td>
+                                    <td>@engineer.Name</td>
+                                    <td>@engineer.District.Name</td>
+                                    <td>@engineer.MaxApprovableCost</td>
+                                    <td>@engineer.MaxApprovableLabour</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Managers</div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Name</th>
+                                <th>District</th>
+                                <th>Cost</th>
+                                <th>Labour Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Manager manager in Model.Managers)
+                            {
+                                <tr>
+                                    <td>
+                                        @* Edit Intervention link button *@
+                                        <a href="@Url.Action(
+                                        "EditManager", "Users",
+                                        new { id = manager.Id })">
+                                            <span class="glyphicon glyphicon-edit"></span> Edit
+                                        </a>
+                                    </td>
+                                    <td>@manager.Name</td>
+                                    <td>@manager.District.Name</td>
+                                    <td>@manager.MaxApprovableCost</td>
+                                    <td>@manager.MaxApprovableLabour</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

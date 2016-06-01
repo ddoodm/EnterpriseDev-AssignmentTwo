@@ -10,7 +10,7 @@ namespace ENETCare.IMS.Users
     {
         public override string Title { get { return "Accountant"; } }
         public override string HomePageAction { get { return "Index"; } }
-        public override string HomePageController { get { return "Accountant"; } }
+        public override string HomePageController { get { return "Users"; } }
         public override string Role { get { return "Accountant"; } }
 
         private Accountant() { }

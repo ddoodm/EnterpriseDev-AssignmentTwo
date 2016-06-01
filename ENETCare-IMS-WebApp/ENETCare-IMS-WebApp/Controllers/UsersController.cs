@@ -13,10 +13,24 @@ namespace ENETCare_IMS_WebApp.Controllers
     [Authorize(Roles = "Accountant")]
     public class UsersController : Controller
     {
+        string accountType = "Accountant";
+
         // GET: Users
         public ActionResult Index()
         {
-            return View();
+            ViewData["Title"] = accountType;
+
+            AccountantUsersViewModel model = new AccountantUsersViewModel();
+
+            using (EnetCareDbContext db = new EnetCareDbContext())
+            {
+                UserRepo repo = new UserRepo(db);
+
+                model.Engineers = repo.GetAllSiteEngineers();
+                model.Managers = repo.GetAllManagers();
+
+                return View(model);
+            }
         }
 
         public ActionResult EditSiteEngineer(string ID)
