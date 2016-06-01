@@ -16,6 +16,23 @@ namespace ENETCare.IMS.Tests
         }
 
         /// <summary>
+        /// Tests the correct client is retrieved by the given ID
+        /// </summary>
+        [TestMethod]
+        public void Clients_Get_Client_By_ID_Method_Returns_Client()
+        {
+            /*
+            int id = 2;
+            Client client = application.Clients.GetClientByID(id);
+
+            Assert.IsTrue(client.ID == id);
+            */
+
+            // With EF, we cannot guarantee any primary key, so this test no longer makes sense
+            Assert.Fail();
+        }
+
+        /// <summary>
         /// Tests retrieving a client by index
         /// </summary>
         [TestMethod]

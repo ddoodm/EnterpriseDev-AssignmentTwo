@@ -1,6 +1,168 @@
-﻿
+﻿@using ENETCare.IMS.WebApp.Models
+@model EditInterventionViewModel
 @{
     ViewBag.Title = "Edit";
+    ViewBag.SubTitle = "an Intervention";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
+@section NavBar{
+    @if (User.IsInRole("Manager"))
+    {
+
+        <li>
+            <a href="@Url.Action("ViewProposed", "Interventions")"><i class="fa fa-fw fa-print"></i> Proposed Interventions</a>
+        </li>
+
+        <li>
+            <a href="@Url.Action("ViewApproved", "Interventions")"><i class="fa fa-fw fa-print"></i> Approved Interventions</a>
+        </li>
+    }
+    else if (User.IsInRole("SiteEngineer"))
+    {
+        <li>
+            <a href="@Url.Action("Index", "Interventions")"><i class="fa fa-fw fa-dashboard"></i> Interventions</a>
+        </li>
+
+        <li>
+            <a href="@Url.Action("CreateIntervention", "Interventions")"><i class="fa fa-fw fa-dashboard"></i> Create New Intervention</a>
+        </li>
+
+        <li>
+            <a href="@Url.Action("Index", "Clients")"><i class="fa fa-fw fa-print"></i> Clients</a>
+        </li>
+
+        <li>
+            <a href="@Url.Action("CreateNewClient", "Clients")"><i class="fa fa-fw fa-print"></i> Create New Client</a>
+        </li>
+
+    }
+    else if (User.IsInRole("Accountant"))
+    {
+        <li>
+            <a href="@Url.Action("Index", "Users")"><i class="fa fa-fw fa-dashboard"></i> Users</a>
+        </li>
+
+        <li>
+            <a href="@Url.Action("Index", "Reports")"><i class="fa fa-fw fa-print"></i> Generate a Report</a>
+        </li>
+
+    }
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    <h3>Intervention Information</h3>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Client</th>
+                            <th>Proposer</th>
+                            <th>Date</th>
+                            <th>State</th>
+                            <th>District</th>
+                            <th>Health</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.Intervention.InterventionType</td>
+                            <td>@Model.Intervention.Client</td>
+                            <td>@Model.Intervention.SiteEngineer</td>
+                            <td>@Model.Intervention.Date.ToString("ddd, dd MMM, yyy")</td>
+                            <td>@Model.Intervention.Approval</td>
+                            <td>@Model.Intervention.District</td>
+                            <td>@Model.Intervention.Health</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            @Html.HiddenFor(model => model.InterventionID, new { @Value = Model.Intervention.ID })
+            @Html.HiddenFor(model => model.UserID, new { @Value = Model.User.Id })
+
+
+            @if (@Model.CanModifyState)
+                {
+                <div>
+                    @if (@Model.CanApprove)
+                    {
+                        <button name="Approve" type="submit" class="btn btn-success">Approve</button>
+
+                    }
+
+                    @if (@Model.CanComplete)
+                    {
+
+                        <button name="Complete" type="submit" class="btn btn-success">Complete</button>
+                    }
+
+                    @if (@Model.CanCancel)
+                    {
+                        <button name="Cancel" type="submit" class="btn btn-success">Cancel</button>
+                    }
+
+                </div>
+            }
+
+            <h3>Quality Information</h3>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Last Visit</th>
+                            <th>Health</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.Intervention.LastVisit</td>
+                            <td>@Model.Intervention.Health</td>
+                            <td>@Model.Notes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            @if (@Model.CanModifyQuality)
+            {
+                <div class="panel-body">
+                    <br />
+                    <label for="Date">Last Visit Date:</label>
+                    <div class="input-group date" data-provide="datepicker" data-date-format="dd MM yyyy">
+                        @Html.EditorFor(m => m.Date, new { @class = "form-control" })
+                    </div>
+
+                    <label for="Health">Health:</label>
+                    @Html.EditorFor(m => m.Health, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Health, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        <label for="Notes">Notes:</label>
+                        @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Notes, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <button name="Save Quality" type="submit" class="btn btn-success">Save Quality Changes</button>
+            }
+
+        </div>
+    </div>
+
+}
+
+
+
+
 

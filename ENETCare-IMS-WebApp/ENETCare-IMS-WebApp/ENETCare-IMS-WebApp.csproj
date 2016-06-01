@@ -181,6 +181,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreateInterventionViewModel.cs" />
     <Compile Include="Models\CreateNewClientViewModel.cs" />
+    <Compile Include="Models\EditInterventionViewModel.cs" />
     <Compile Include="Models\EditManagerDistrictViewModel.cs" />
     <Compile Include="Models\EditSiteEngineerDistrictViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />

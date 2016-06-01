@@ -73,7 +73,10 @@ namespace ENETCare.IMS.Data.DataAccess
             return new InterventionTypes(
                 context.InterventionTypes.ToList<InterventionType>());
         }
-
+        public Intervention GetInterventionByID(int ID)
+        {
+            return GetAllInterventions().GetInterventions().Where(i => i.ID == ID).First();
+        }
         public InterventionType GetInterventionTypeById(int ID)
         {
             return context.InterventionTypes
@@ -138,5 +141,13 @@ namespace ENETCare.IMS.Data.DataAccess
                 context.InterventionTypes.Add(type);
             context.SaveChanges();
         }
+
+        public void Update(Intervention intervention)
+        {
+            AttachNewInterventionToContext(intervention);
+            context.Interventions.Attach(intervention);
+            context.SaveChanges();
+        }
+
     }
 }

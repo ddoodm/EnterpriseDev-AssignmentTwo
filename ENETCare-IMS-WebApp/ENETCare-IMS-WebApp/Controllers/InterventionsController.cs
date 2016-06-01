@@ -136,10 +136,77 @@ namespace ENETCare_IMS_WebApp.Controllers
         }
 
         [Authorize(Roles = "SiteEngineer, Manager")]
-        public ActionResult Edit()
+        public ActionResult Edit(int ID)
         {
-            return View();
+            using (EnetCareDbContext db = new EnetCareDbContext())
+            {
+                InterventionRepo interventionRepo = new InterventionRepo(db);
+                Intervention intervention = interventionRepo.GetAllInterventions().GetInterventions().Where(i => i.ID == ID).First();
+                var users = new UserRepo(db);
+                var user = users.GetUserById<EnetCareUser>(User.Identity.GetUserId());
+
+                bool canModifyState = intervention.UserCanChangeState((IInterventionApprover)user);
+                bool canModifyQuality = intervention.UserCanChangeQuality(user);
+                bool canApprove = intervention.CanApprove();
+                bool canCancel = intervention.CanCancel();
+                bool canComplete = intervention.CanComplete();
+
+                EditInterventionViewModel model = new EditInterventionViewModel();
+                model.Intervention = intervention;
+                model.CanApprove = canApprove;
+                model.CanCancel = canCancel;
+                model.CanComplete = canComplete;
+                model.CanModifyState = canModifyState;
+                model.CanModifyQuality = canModifyQuality;
+                model.User = user;
+                model.Notes = intervention.Notes;
+                model.Health = intervention.Health;
+                model.Date = intervention.LastVisit ?? DateTime.Today; 
+
+                return View(model);
+            }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SiteEngineer, Manager")]
+        public ActionResult Edit(EditInterventionViewModel model)
+        {
+
+            using (EnetCareDbContext db = new EnetCareDbContext())
+            {
+                InterventionRepo interventionRepo = new InterventionRepo(db);
+                Intervention intervention = interventionRepo.GetAllInterventions().GetInterventions().Where(i => i.ID == model.InterventionID).First();
+                var users = new UserRepo(db);
+               
+                if (Request.Form["Approve"] != null)
+                {
+                    var user = users.GetUserById<EnetCareUser>(User.Identity.GetUserId());
+                    intervention.Approve((IInterventionApprover)user);
+                }
+                else if(Request.Form["Cancel"] != null)
+                {
+                    var user = users.GetUserById<EnetCareUser>(User.Identity.GetUserId());
+                    intervention.Cancel((IInterventionApprover)user);
+                }
+                else if(Request.Form["Complete"] != null)
+                {
+                    var user = users.GetUserById<SiteEngineer>(User.Identity.GetUserId());
+                    intervention.Complete(user);
+                }
+                else if (Request.Form["Save Quality"] != null)
+                {
+                    var user = users.GetUserById<SiteEngineer>(User.Identity.GetUserId());
+                    intervention.UpdateNotes(user, model.Notes);
+                    intervention.Quality.LastVisit = model.Date;
+                    intervention.Quality.Health = model.Health;
+                }
+                interventionRepo.Update(intervention);
+                return RedirectToAction("Edit");
+            }
+        }
+
+      
 
         /// <summary>
         /// Returns Intervention Type details as a JSON object.

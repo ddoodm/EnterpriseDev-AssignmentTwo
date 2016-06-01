@@ -141,6 +141,21 @@ namespace ENETCare.IMS.Interventions
             return Approval.CanChangeState(user);
         }
 
+        public bool CanApprove()
+        {
+            return ApprovalState == InterventionApprovalState.Proposed;
+        }
+
+        public bool CanCancel()
+        {
+            return ApprovalState != InterventionApprovalState.Cancelled && ApprovalState != InterventionApprovalState.Completed;
+        }
+
+        public bool CanComplete()
+        {
+            return ApprovalState != InterventionApprovalState.Cancelled && ApprovalState != InterventionApprovalState.Completed;
+        }
+
         public void Approve(IInterventionApprover user)
         {
             Approval.Approve(user);

@@ -12,5 +12,19 @@ namespace ENETCare.IMS.Tests
         public void Setup()
         {
         }
+
+        [TestMethod]
+        public void Get_District_By_ID_Returns_Valid_District()
+        {
+            /*
+            int id = 1;
+            District district = districtRepo.GetDistrictByID(id);
+
+            Assert.IsTrue(district.ID == id);
+            */
+
+            // With EF, we cannot guarantee any primary key, so this test no longer makes sense
+            Assert.Fail();
+        }
     }
 }
