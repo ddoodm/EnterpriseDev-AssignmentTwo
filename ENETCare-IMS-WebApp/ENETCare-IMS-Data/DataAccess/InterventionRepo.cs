@@ -62,6 +62,12 @@ namespace ENETCare.IMS.Data.DataAccess
                 FullyLoadedInterventionsDbSet.ToList<Intervention>());
         }
 
+        public Interventions.Interventions GetInterventionsByDistrict(District district)
+        {
+            return new Interventions.Interventions(
+                FullyLoadedInterventionsDbSet.ToList<Intervention>().Where(t => t.District.DistrictID == district.DistrictID).ToList<Intervention>());
+        }
+
         public InterventionTypes GetAllInterventionTypes()
         {
             return new InterventionTypes(

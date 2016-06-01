@@ -1,0 +1,29 @@
+﻿@using ENETCare.IMS.WebApp.Models
+@model GenerateReportViewModel
+
+@{
+    ViewBag.Title = ViewData["Title"];
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section NavBar{
+
+    <li class="active">
+        <a href="@Url.Action("Index", "Accountant")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+    </li>
+
+
+    <li>
+        <a href="@Url.Action("Index", "Reports")"><i class="fa fa-fw fa-print"></i> Generate a Report</a>
+    </li>
+
+
+}
+
+<h3>Report generated!</h3>
+
+@Html.Raw(""+Model.Report+"")
+
+
+
+

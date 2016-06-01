@@ -1,4 +1,6 @@
-﻿
+﻿@using ENETCare.IMS.WebApp.Models
+@model GenerateReportViewModel
+
 @{
     ViewBag.Title = ViewData["Title"];
     ViewBag.SubTitle = "Generate Report";
@@ -9,12 +11,12 @@
 
 @section NavBar{
 
-    <li class="active">
+    <li>
         <a href="@Url.Action("Index", "Accountant")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
     </li>
 
 
-    <li>
+    <li class="active">
         <a href="@Url.Action("Index", "Reports")"><i class="fa fa-fw fa-print"></i> Generate a Report</a>
     </li>
 
@@ -24,10 +26,35 @@
 @using (Html.BeginForm())
 {
 
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
 
-
-
-
-
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Reports</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="SelectedType">Select Report Type:</label>
+                            @Html.DropDownListFor(
+                             m => m.ID,
+                             new SelectList(Model.ReportTypes),
+                             new { @class = "form-control", id = "reportTypeDropdown" })
+                            @Html.ValidationMessageFor(m => m.ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    
+                    <div class="well text-right">
+                        <button type="submit" class="btn btn-success">Generate Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 }
+
+
+
+
