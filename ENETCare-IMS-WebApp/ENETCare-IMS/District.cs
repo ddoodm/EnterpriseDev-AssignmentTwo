@@ -9,7 +9,7 @@ using ENETCare.IMS.Users;
 
 namespace ENETCare.IMS
 {
-    public class District : IEquatable<District>
+    public class District
     {
         [Key]
         public int DistrictID { get; private set; }
@@ -34,33 +34,6 @@ namespace ENETCare.IMS
         public override string ToString()
         {
             return Name;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (!(obj is District))
-                return false;
-            return this.Equals(obj as District);
-        }
-
-        public bool Equals(District other)
-        {
-            return this.DistrictID == other.DistrictID;
-        }
-
-        public override int GetHashCode()
-        {
-            return this.DistrictID.GetHashCode();
-        }
-
-        public static bool operator ==(District lhs, District rhs)
-        {
-            return lhs.Equals(rhs);
-        }
-
-        public static bool operator !=(District lhs, District rhs)
-        {
-            return !lhs.Equals(rhs);
         }
     }
 }
