@@ -48,28 +48,9 @@
             <!-- User login bar -->
             @{ Html.RenderAction("UserMenuBar", "Account"); }
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <!--
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav side-nav">
-                    @if (ViewBag.NavBarItems != null)
-                    {
-                        foreach (NavbarItems.NavbarItem item in ViewBag.NavbarItems)
-                        {
-                        <li @(item.Active? "class='active'" : "")>
-                            <a href="@Url.Action(item.ActionName, item.ControllerName)">
-                                <i class="fa fa-fw @item.BootstrapIcon"></i>
-                                @item.Title
-                            </a>
-                        </li>
-                        }
-                    }
-                </ul>
-            </div>
-            -->
             <div class="collapse navbar-collapse navbar-ex1-collpse">
                 <ul class="nav navbar-nav side-nav">
-                    @RenderSection("NavBar", false)
-
+                    @{ Html.RenderAction("MenuBar", "Menu"); }
                 </ul>
             </div>
 

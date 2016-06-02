@@ -8,52 +8,6 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-
-@section NavBar{
-    @if (User.IsInRole("Manager"))
-    {
-
-        <li>
-            <a href="@Url.Action("ViewProposed", "Interventions")"><i class="fa fa-fw fa-print"></i> Proposed Interventions</a>
-        </li>
-
-        <li>
-            <a href="@Url.Action("ViewApproved", "Interventions")"><i class="fa fa-fw fa-print"></i> Approved Interventions</a>
-        </li>
-    }
-    else if (User.IsInRole("SiteEngineer"))
-    {
-        <li>
-            <a href="@Url.Action("Index", "Interventions")"><i class="fa fa-fw fa-dashboard"></i> Interventions</a>
-        </li>
-
-        <li>
-            <a href="@Url.Action("CreateIntervention", "Interventions")"><i class="fa fa-fw fa-dashboard"></i> Create New Intervention</a>
-        </li>
-
-        <li>
-            <a href="@Url.Action("Index", "Clients")"><i class="fa fa-fw fa-print"></i> Clients</a>
-        </li>
-
-        <li>
-            <a href="@Url.Action("CreateNewClient", "Clients")"><i class="fa fa-fw fa-print"></i> Create New Client</a>
-        </li>
-
-    }
-    else if (User.IsInRole("Accountant"))
-    {
-        <li>
-            <a href="@Url.Action("Index", "Users")"><i class="fa fa-fw fa-dashboard"></i> Users</a>
-        </li>
-
-        <li>
-            <a href="@Url.Action("Index", "Reports")"><i class="fa fa-fw fa-print"></i> Generate a Report</a>
-        </li>
-
-    }
-}
-
-
 <div class="well-sm">
     <a class="btn btn-primary" href="@Url.Action("CreateIntervention")">Create New Intervention</a>
 </div>

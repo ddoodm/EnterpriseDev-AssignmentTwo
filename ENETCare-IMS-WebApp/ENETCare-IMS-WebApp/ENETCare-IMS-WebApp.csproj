@@ -172,6 +172,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InterventionsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -347,6 +348,7 @@
     <Content Include="Views\Interventions\Edit.cshtml" />
     <Content Include="Views\Reports\ViewReport.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Menu\MenuBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
