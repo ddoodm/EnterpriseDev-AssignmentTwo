@@ -8,9 +8,13 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="well-sm">
-    <a class="btn btn-primary" href="@Url.Action("CreateIntervention")">Create New Intervention</a>
-</div>
+@* Only display "Create Intervention" to Site Engineers *@
+@if (User.IsInRole("SiteEngineer"))
+{
+    <div class="well-sm">
+        <a class="btn btn-primary" href="@Url.Action("CreateIntervention")">Create New Intervention</a>
+    </div>
+}
 
 <div class="row">
     <div class="col-lg-12">

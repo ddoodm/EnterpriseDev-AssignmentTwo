@@ -48,7 +48,6 @@ namespace ENETCare_IMS_WebApp.Controllers
                 model.Districts = districts;
                 return View(model);
             }
-             
         }
 
         [HttpPost]
@@ -72,7 +71,7 @@ namespace ENETCare_IMS_WebApp.Controllers
                 userRepo.Update(engineer);
             }
 
-            return RedirectToAction("Index", "Accountant");
+            return RedirectToAction("Index");
         }
 
         public ActionResult EditManager(String ID)
@@ -114,7 +113,7 @@ namespace ENETCare_IMS_WebApp.Controllers
                 userRepo.Update(manager);
             }
 
-            return RedirectToAction("Index", "Accountant");
+            return RedirectToAction("Index");
         }
     }
 }

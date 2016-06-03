@@ -24,5 +24,6 @@ namespace ENETCare.IMS.Users
         string HomePageController { get; }
 
         string Role { get; }
+        string Email { get; }
     }
 }

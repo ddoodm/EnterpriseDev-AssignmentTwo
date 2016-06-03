@@ -28,9 +28,30 @@ namespace ENETCare_IMS_WebApp.Controllers
             UserManager = new ApplicationUserManager(new UserStore<EnetCareUser>(DbContext));
         }
 
+        private T GetSessionUser<T>(EnetCareDbContext context) where T : EnetCareUser
+        {
+            var repo = new UserRepo(context);
+            return repo.GetUserById<T>(User.Identity.GetUserId());
+        }
+
+        private IInterventionApprover GetSessionApproverUser(EnetCareDbContext context)
+        {
+            if (User.IsInRole("SiteEngineer"))
+                return GetSessionUser<SiteEngineer>(context);
+            if (User.IsInRole("Manager"))
+                return GetSessionUser<Manager>(context);
+
+            return null;
+        }
+
+        private SiteEngineer GetSessionSiteEngineer(EnetCareDbContext context)
+        {
+            return GetSessionUser<SiteEngineer>(context);
+        }
+
         // GET: Interventions
-        [Authorize(Roles = "SiteEngineer")]
-        public ActionResult Index()
+        [Authorize(Roles = "SiteEngineer, Manager")]
+        public ActionResult Index(InterventionApprovalState? state)
         {
             string interventionsTitle = "Interventions";
             ViewData["Title"] = interventionsTitle;
@@ -38,9 +59,15 @@ namespace ENETCare_IMS_WebApp.Controllers
             // Retrieve Interventions
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
+                IInterventionApprover user = GetSessionApproverUser(db);
+
                 InterventionRepo repo = new InterventionRepo(db);
                 Interventions interventions =
-                    repo.GetAllInterventions();
+                    repo.GetInterventionHistory(user);
+
+                // Filter by state if a state is supplied
+                if (state.HasValue)
+                    interventions = interventions.FilterByState(state.Value);
 
                 return View(interventions);
             }
@@ -53,10 +80,8 @@ namespace ENETCare_IMS_WebApp.Controllers
             {
                 var interventionRepo = new InterventionRepo(db);
                 var clientRepo = new ClientRepo(db);
-                var userRepo = new UserRepo(db);
 
-                SiteEngineer engineer =
-                    userRepo.GetUserById<SiteEngineer>(User.Identity.GetUserId());
+                SiteEngineer engineer = GetSessionSiteEngineer(db);
 
                 InterventionTypes interventionTypes =
                     interventionRepo.GetAllInterventionTypes();
@@ -85,14 +110,12 @@ namespace ENETCare_IMS_WebApp.Controllers
             {
                 InterventionRepo interventions = new InterventionRepo(db);
                 ClientRepo clients = new ClientRepo(db);
-                UserRepo users = new UserRepo(db);
 
                 InterventionType type = interventions.GetInterventionTypeById(model.SelectedTypeID);
                 Client client = clients.GetClientById(model.SelectedClientID);
 
                 // Obtain the current session's user from the database
-                SiteEngineer siteEngineer =
-                    users.GetUserById<SiteEngineer>(User.Identity.GetUserId());
+                SiteEngineer siteEngineer = GetSessionSiteEngineer(db);
 
                 Intervention intervention = Intervention.Factory.CreateIntervention(
                     type, client, siteEngineer, model.Labour, model.Cost, model.Date);
@@ -106,33 +129,13 @@ namespace ENETCare_IMS_WebApp.Controllers
         [Authorize(Roles = "Manager")]
         public ActionResult ViewProposed()
         {
-            using (EnetCareDbContext db = new EnetCareDbContext())
-            {
-                InterventionRepo repo = new InterventionRepo(db);
-                Interventions interventions =
-                    repo.GetAllInterventions();
-
-                interventions =
-                    interventions.FilterByState(InterventionApprovalState.Proposed);
-
-                return View(interventions);
-            }
+            return RedirectToAction("Index", new { state = InterventionApprovalState.Proposed });
         }
 
         [Authorize(Roles = "Manager")]
         public ActionResult ViewApproved()
         {
-            using (EnetCareDbContext db = new EnetCareDbContext())
-            {
-                InterventionRepo repo = new InterventionRepo(db);
-                Interventions interventions =
-                    repo.GetAllInterventions();
-
-                interventions =
-                    interventions.FilterByState(InterventionApprovalState.Approved);
-
-                return View(interventions);
-            }
+            return RedirectToAction("Index", new { state = InterventionApprovalState.Approved });
         }
 
         [Authorize(Roles = "SiteEngineer, Manager")]
@@ -172,41 +175,36 @@ namespace ENETCare_IMS_WebApp.Controllers
         [Authorize(Roles = "SiteEngineer, Manager")]
         public ActionResult Edit(EditInterventionViewModel model)
         {
-
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
                 InterventionRepo interventionRepo = new InterventionRepo(db);
                 Intervention intervention = interventionRepo.GetAllInterventions().GetInterventions().Where(i => i.ID == model.InterventionID).First();
-                var users = new UserRepo(db);
-               
+
+                UserRepo userRepo = new UserRepo(db);
+                var user = 
+                    userRepo.GetUserById<EnetCareUser>(User.Identity.GetUserId()) as IInterventionApprover;
+
                 if (Request.Form["Approve"] != null)
-                {
-                    var user = users.GetUserById<EnetCareUser>(User.Identity.GetUserId());
                     intervention.Approve((IInterventionApprover)user);
-                }
+
                 else if(Request.Form["Cancel"] != null)
-                {
-                    var user = users.GetUserById<EnetCareUser>(User.Identity.GetUserId());
                     intervention.Cancel((IInterventionApprover)user);
-                }
+
                 else if(Request.Form["Complete"] != null)
-                {
-                    var user = users.GetUserById<SiteEngineer>(User.Identity.GetUserId());
-                    intervention.Complete(user);
-                }
+                    intervention.Complete(user as SiteEngineer);
+
                 else if (Request.Form["Save Quality"] != null)
                 {
-                    var user = users.GetUserById<SiteEngineer>(User.Identity.GetUserId());
-                    intervention.UpdateNotes(user, model.Notes);
+                    intervention.UpdateNotes(user as SiteEngineer, model.Notes);
                     intervention.Quality.LastVisit = model.Date;
                     intervention.Quality.Health = model.Health;
                 }
+
                 interventionRepo.Update(intervention);
                 return RedirectToAction("Edit");
             }
         }
 
-      
 
         /// <summary>
         /// Returns Intervention Type details as a JSON object.

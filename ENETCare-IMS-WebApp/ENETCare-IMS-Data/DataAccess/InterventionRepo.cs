@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Data.Entity;
+using LinqKit;
 
 using ENETCare.IMS.Interventions;
 using ENETCare.IMS.Users;
@@ -33,13 +34,15 @@ namespace ENETCare.IMS.Data.DataAccess
                   .Include(i => i.SiteEngineer)
                   .Include(i => i.SiteEngineer.District)
                   .Include(i => i.Approval)
+                  .Include(i => i.Approval.ApprovingManager)
+                  .Include(i => i.Approval.ApprovingSiteEngineer)
                   .Include(i => i.Quality);
             }
         }
 
         public Interventions.Interventions GetInterventionHistory(Client client)
         {
-            var query = from intervention in FullyLoadedInterventionsDbSet//context.Interventions
+            var query = from intervention in FullyLoadedInterventionsDbSet
                         where intervention.Client.ID == client.ID
                         orderby intervention.Date
                         select intervention;
@@ -48,12 +51,27 @@ namespace ENETCare.IMS.Data.DataAccess
 
         public Interventions.Interventions GetInterventionHistory(IInterventionApprover user)
         {
-            var query = from intervention in context.Interventions
-                        orderby intervention.Date
-                        where intervention.SiteEngineer == user ||
-                        intervention.ApprovingUser == user
-                        select intervention;
-            return new Interventions.Interventions(query.ToList<Intervention>());
+            // Construct a dynamic LINQ to SQL query using a Predicate Builder
+            var predicate = PredicateBuilder.False<Intervention>();
+
+            // Dynamically select approving Site Engineer or Manager,
+            // for we may not use the dynamic property "ApprovingUser" in SQL.
+            if (user is SiteEngineer)
+            {
+                // The proposing site engineer is the user
+                predicate = predicate.Or(i => i.SiteEngineer.Id == user.Id);
+
+                // Or the approver is the site engineer
+                predicate = predicate.Or(i => i.Approval.ApprovingSiteEngineer.Id == user.Id);
+            }
+            else if (user is Manager)
+                predicate = predicate.Or(i => i.Approval.ApprovingManager.Id == user.Id);
+
+            // ... Or the Intervention's district is the same as the user's
+            predicate = predicate.Or(i => i.Client.DistrictID == user.District.DistrictID);
+
+            var selection = FullyLoadedInterventionsDbSet.AsExpandable().Where(predicate);
+            return new Interventions.Interventions(selection.ToList<Intervention>());
         }
 
         public Interventions.Interventions GetAllInterventions()

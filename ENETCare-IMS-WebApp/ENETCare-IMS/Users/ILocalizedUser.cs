@@ -9,7 +9,7 @@ namespace ENETCare.IMS.Users
     /// <summary>
     /// A User who is associated with a District in some way
     /// </summary>
-    public interface ILocalizedUser
+    public interface ILocalizedUser : IEnetCareUser
     {
         District District { get; }
     }

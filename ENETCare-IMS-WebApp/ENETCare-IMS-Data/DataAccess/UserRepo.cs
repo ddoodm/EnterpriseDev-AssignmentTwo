@@ -16,9 +16,9 @@ namespace ENETCare.IMS.Data.DataAccess
             : base(context, context.Users)
         { }
 
-        private T GetUserByFunc<T>(Func<EnetCareUser, bool> func) where T : EnetCareUser
+        private T GetUserByFunc<T>(Func<IEnetCareUser, bool> func) where T : EnetCareUser
         {
-            EnetCareUser user;
+            IEnetCareUser user;
 
             // If the user is an ILocalizedUser, include "District"
             if (typeof(ILocalizedUser).IsAssignableFrom(typeof(T)))
@@ -63,11 +63,9 @@ namespace ENETCare.IMS.Data.DataAccess
         public void Save(EnetCareUser user)
         {
             if (user is ILocalizedUser)
-            {
                 context.Districts.Attach(((ILocalizedUser)user).District);
-            }
-            context.Users.Add(user);
 
+            context.Users.Add(user);
             context.SaveChanges();
         }
 
@@ -77,9 +75,7 @@ namespace ENETCare.IMS.Data.DataAccess
             foreach (EnetCareUser user in users)
             {
                 if (user is ILocalizedUser)
-                {
                     context.Districts.Attach(((ILocalizedUser)user).District);
-                }
 
                 context.Users.AddOrUpdate(user);
             }

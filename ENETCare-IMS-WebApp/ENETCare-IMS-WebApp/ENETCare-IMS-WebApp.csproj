@@ -340,8 +340,6 @@
     <Content Include="Views\Clients\ViewClient.cshtml" />
     <Content Include="Views\Clients\CreateNewClient.cshtml" />
     <Content Include="Views\Clients\SaveNewClientComplete.cshtml" />
-    <Content Include="Views\Interventions\ViewProposed.cshtml" />
-    <Content Include="Views\Interventions\ViewApproved.cshtml" />
     <Content Include="Views\Account\UserMenuBar.cshtml" />
     <Content Include="Views\Users\EditManager.cshtml" />
     <Content Include="Views\Users\EditSiteEngineer.cshtml" />
