@@ -51,7 +51,7 @@ namespace ENETCare.IMS.Interventions
         }
 
         /// <summary>
-        /// Retrieves the Intervention with the given ID
+        /// Retrieves the Intervention with the given ID (within this set)
         /// </summary>
         /// <param name="ID">The ID of the Intervention to retrieve</param>
         /// <returns>The Intervention with the given ID</returns>
@@ -59,10 +59,7 @@ namespace ENETCare.IMS.Interventions
         {
             get
             {
-                if (ID == 0)
-                    throw new IndexOutOfRangeException("ENETCare data is 1-indexed, but an index of 0 was requested.");
-                return interventions.First<Intervention>(
-                    intervention => intervention.ID == ID);
+                return interventions[ID];
             }
         }
 

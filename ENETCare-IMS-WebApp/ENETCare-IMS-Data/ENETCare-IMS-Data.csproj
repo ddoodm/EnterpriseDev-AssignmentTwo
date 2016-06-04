@@ -90,6 +90,7 @@
     <Compile Include="DataAccess\DistrictRepo.cs" />
     <Compile Include="DataAccess\EnetCareDbContext.cs" />
     <Compile Include="DataAccess\GenericRepo.cs" />
+    <Compile Include="DataAccess\IEnetCareDbContext.cs" />
     <Compile Include="DataAccess\InterventionRepo.cs" />
     <Compile Include="DataAccess\UserRepo.cs" />
     <Compile Include="Migrations\201605280958159_InitialModel.cs" />

@@ -23,26 +23,9 @@ namespace ENETCare.IMS.Data.DataAccess
             get { return context.InterventionTypes.Count();  }
         }
 
-        private IQueryable<Intervention> FullyLoadedInterventionsDbSet
-        {
-            get
-            {
-                return context.Interventions
-                  .Include(i => i.InterventionType)
-                  .Include(i => i.Client)
-                  .Include(i => i.Client.District)
-                  .Include(i => i.SiteEngineer)
-                  .Include(i => i.SiteEngineer.District)
-                  .Include(i => i.Approval)
-                  .Include(i => i.Approval.ApprovingManager)
-                  .Include(i => i.Approval.ApprovingSiteEngineer)
-                  .Include(i => i.Quality);
-            }
-        }
-
         public Interventions.Interventions GetInterventionHistory(Client client)
         {
-            var query = from intervention in FullyLoadedInterventionsDbSet
+            var query = from intervention in context.FullyLoadedInterventions
                         where intervention.Client.ID == client.ID
                         orderby intervention.Date
                         select intervention;
@@ -70,20 +53,20 @@ namespace ENETCare.IMS.Data.DataAccess
             // ... Or the Intervention's district is the same as the user's
             predicate = predicate.Or(i => i.Client.DistrictID == user.District.DistrictID);
 
-            var selection = FullyLoadedInterventionsDbSet.AsExpandable().Where(predicate);
+            var selection = context.FullyLoadedInterventions.AsExpandable().Where(predicate);
             return new Interventions.Interventions(selection.ToList<Intervention>());
         }
 
         public Interventions.Interventions GetAllInterventions()
         {
             return new Interventions.Interventions(
-                FullyLoadedInterventionsDbSet.ToList<Intervention>());
+                context.FullyLoadedInterventions.ToList<Intervention>());
         }
 
         public Interventions.Interventions GetInterventionsByDistrict(District district)
         {
             return new Interventions.Interventions(
-                FullyLoadedInterventionsDbSet.ToList<Intervention>().Where(t => t.District.DistrictID == district.DistrictID).ToList<Intervention>());
+                context.FullyLoadedInterventions.ToList<Intervention>().Where(t => t.District.DistrictID == district.DistrictID).ToList<Intervention>());
         }
 
         public InterventionTypes GetAllInterventionTypes()
