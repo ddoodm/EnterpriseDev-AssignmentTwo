@@ -27,6 +27,71 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
     [TestClass]
     public class InterventionsControllerTests
     {
+        #region Mock helper functions
+
+        private Mock<SiteEngineer> BuildMockEngineer(string name, string email, District district, decimal labour, decimal cost)
+        {
+            var fakeUser = new Mock<SiteEngineer>(name, email, "1234TestPass!", district, labour, cost);
+            string fakeUserId = Guid.NewGuid().ToString("N");
+            fakeUser.Setup(u => u.Id).Returns(fakeUserId);
+            fakeUser.Setup(u => u.District).Returns(district);
+
+            return fakeUser;
+        }
+
+        private DbSet<T> BuildMockDbSet<T>(List<T> collection) where T : class
+        {
+            var queryable = collection.AsQueryable();
+
+            var fakeSet = new Mock<DbSet<T>>();
+            fakeSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
+            fakeSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
+            fakeSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
+            fakeSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(queryable.GetEnumerator());
+
+            return fakeSet.Object;
+        }
+
+        private GenericPrincipal BuildMockIdentityUser(EnetCareUser fakeEnetUser)
+        {
+            var fakeIdentity = new GenericIdentity("Test Engineer");
+
+            // Configure user ID:
+            fakeIdentity.AddClaim(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", fakeEnetUser.Id));
+            var fakePrincipal = new GenericPrincipal(fakeIdentity, new string[] { "SiteEngineer" });
+            Thread.CurrentPrincipal = fakePrincipal;
+
+            return fakePrincipal;
+        }
+
+        private EnetCareDbContext BuildMockDbContext(
+            DbSet<Intervention> interventions = null,
+            DbSet<EnetCareUser> users = null)
+        {
+            var fakeDbContext = new Mock<EnetCareDbContext>();
+            fakeDbContext.Setup(c => c.Interventions).Returns(interventions);
+            fakeDbContext.Setup(c => c.Users).Returns(users);
+
+            // Override "fully loaded" Includer properties
+            fakeDbContext.Setup(c => c.FullyLoadedInterventions).Returns(fakeDbContext.Object.Interventions);
+
+            return fakeDbContext.Object;
+        }
+
+        private Mock<ControllerContext> BuildMockHttpContext(EnetCareUser fakeUser)
+        {
+            // Set up the fake Identity user
+            var fakePrincipal = BuildMockIdentityUser(fakeUser);
+
+            var fakeHttp = new Mock<ControllerContext>();
+            fakeHttp.SetupGet(h => h.HttpContext.User).Returns(fakePrincipal);
+            fakeHttp.SetupGet(h => h.HttpContext.Request.IsAuthenticated).Returns(true);
+
+            return fakeHttp;
+        }
+
+        #endregion
+
         [TestInitialize]
         public void SetupDataDirectory()
         {
@@ -40,65 +105,38 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
         [TestMethod]
         public void InterventionsController_List_ShowOneRelevant_Success()
         {
-            // Fake district
             var fakeDistrict = new District("Test Place");
-
-            // Fake client
             var fakeClient = new Client("Test Client", "Test Location", fakeDistrict);
 
             // Configure a fake user set
-            var fakeUser = new Mock<SiteEngineer>("Test Engineer", "test@enet.com", "1234TestPass!", fakeDistrict, 48m, 20000m);
-            string fakeUserId = Guid.NewGuid().ToString("N");
-            fakeUser.Setup(u => u.Id).Returns(fakeUserId);
-            fakeUser.Setup(u => u.District).Returns(fakeDistrict);
+            var fakeEngineer = BuildMockEngineer("Test Engineer", "test@enet.com", fakeDistrict, 20.0m, 2000m);
             var fakeUsers = new List<EnetCareUser>
             {
-                fakeUser.Object
-            }.AsQueryable();
+                fakeEngineer.Object
+            };
 
             // Configure a fake DBSet which returns the fake list
-            var fakeUserSet = new Mock<DbSet<EnetCareUser>>();
-            fakeUserSet.As<IQueryable<EnetCareUser>>().Setup(m => m.Provider).Returns(fakeUsers.Provider);
-            fakeUserSet.As<IQueryable<EnetCareUser>>().Setup(m => m.Expression).Returns(fakeUsers.Expression);
-            fakeUserSet.As<IQueryable<EnetCareUser>>().Setup(m => m.ElementType).Returns(fakeUsers.ElementType);
-            fakeUserSet.As<IQueryable<EnetCareUser>>().Setup(m => m.GetEnumerator()).Returns(fakeUsers.GetEnumerator());
+            var fakeUserSet = BuildMockDbSet<EnetCareUser>(fakeUsers);
 
             // Configure known fake interventions
             var fakeInterventions = new List<Intervention>
             {
-                Intervention.Factory.CreateIntervention(new InterventionType("Test Type", 400m, 10m), fakeClient, fakeUser.Object)
+                Intervention.Factory.CreateIntervention(new InterventionType("Test Type", 400m, 10m), fakeClient, fakeEngineer.Object)
             };
-            var fakeInterventionsQueriable = fakeInterventions.AsQueryable();
 
             // Configure a fake DBSet which returns the fake list
-            var fakeInterventionSet = new Mock<DbSet<Intervention>>();
-            fakeInterventionSet.As<IQueryable<Intervention>>().Setup(m => m.Provider).Returns(fakeInterventionsQueriable.Provider);
-            fakeInterventionSet.As<IQueryable<Intervention>>().Setup(m => m.Expression).Returns(fakeInterventionsQueriable.Expression);
-            fakeInterventionSet.As<IQueryable<Intervention>>().Setup(m => m.ElementType).Returns(fakeInterventionsQueriable.ElementType);
-            fakeInterventionSet.As<IQueryable<Intervention>>().Setup(m => m.GetEnumerator()).Returns(fakeInterventionsQueriable.GetEnumerator());
+            var fakeInterventionSet = BuildMockDbSet<Intervention>(fakeInterventions);
 
             // Configure a fake database which will return a known set of Interventions
-            var fakeContext = new Mock<EnetCareDbContext>();
-            fakeContext.Setup(c => c.Interventions).Returns(fakeInterventionSet.Object);
-            fakeContext.Setup(c => c.Users).Returns(fakeUserSet.Object);
+            var fakeDbContext = BuildMockDbContext(
+                interventions: fakeInterventionSet,
+                users: fakeUserSet);
 
-            // Override "fully loaded" Includer properties
-            fakeContext.Setup(c => c.FullyLoadedInterventions).Returns(fakeContext.Object.Interventions);
-
-            // Set up a fake Identity user
-            var fakeIdentity = new GenericIdentity("Test Engineer");
-            // Configure user ID:
-            fakeIdentity.AddClaim(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", fakeUser.Object.Id));
-            var fakePrincipal = new GenericPrincipal(fakeIdentity, new string[] { "SiteEngineer" });
-            Thread.CurrentPrincipal = fakePrincipal;
-
-            // Set up a fake HTTP Context
-            var fakeHttp = new Mock<ControllerContext>();
-            fakeHttp.SetupGet(h => h.HttpContext.User).Returns(fakePrincipal);
-            fakeHttp.SetupGet(h => h.HttpContext.Request.IsAuthenticated).Returns(true);
+            // Set up a fake HTTP Context (makes an Identity user from the ENETCare user)
+            var fakeHttp = BuildMockHttpContext(fakeEngineer.Object);
 
             // Call to the controller
-            var controller = new InterventionsController(fakeContext.Object);
+            var controller = new InterventionsController(fakeDbContext);
             controller.ControllerContext = fakeHttp.Object;
 
             // Call the action (no 'state' parameter)
