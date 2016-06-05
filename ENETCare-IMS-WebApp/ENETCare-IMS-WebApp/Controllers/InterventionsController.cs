@@ -44,27 +44,6 @@ namespace ENETCare_IMS_WebApp.Controllers
             base.Dispose(disposing);
         }
 
-        private T GetSessionUser<T>(EnetCareDbContext context) where T : EnetCareUser
-        {
-            var repo = new UserRepo(context);
-            return repo.GetUserById<T>(User.Identity.GetUserId());
-        }
-
-        private IInterventionApprover GetSessionApproverUser(EnetCareDbContext context)
-        {
-            if (User.IsInRole("SiteEngineer"))
-                return GetSessionUser<SiteEngineer>(context);
-            if (User.IsInRole("Manager"))
-                return GetSessionUser<Manager>(context);
-
-            return null;
-        }
-
-        private SiteEngineer GetSessionSiteEngineer(EnetCareDbContext context)
-        {
-            return GetSessionUser<SiteEngineer>(context);
-        }
-
         // GET: Interventions
         [Authorize(Roles = "SiteEngineer, Manager")]
         public ActionResult Index(InterventionApprovalState? state)
@@ -73,7 +52,8 @@ namespace ENETCare_IMS_WebApp.Controllers
             ViewData["Title"] = interventionsTitle;
 
             // Retrieve Interventions
-            IInterventionApprover user = GetSessionApproverUser(DbContext);
+            IInterventionApprover user = 
+                ControllerGetUserUtility.GetSessionApproverUser(DbContext, User);
 
             InterventionRepo repo = new InterventionRepo(DbContext);
             Interventions interventions =
@@ -92,7 +72,8 @@ namespace ENETCare_IMS_WebApp.Controllers
             var interventionRepo = new InterventionRepo(DbContext);
             var clientRepo = new ClientRepo(DbContext);
 
-            SiteEngineer engineer = GetSessionSiteEngineer(DbContext);
+            SiteEngineer engineer =
+                ControllerGetUserUtility.GetSessionSiteEngineer(DbContext, User);
 
             InterventionTypes interventionTypes =
                 interventionRepo.GetAllInterventionTypes();
@@ -123,7 +104,8 @@ namespace ENETCare_IMS_WebApp.Controllers
             Client client = clients.GetClientById(model.SelectedClientID);
 
             // Obtain the current session's user from the database
-            SiteEngineer siteEngineer = GetSessionSiteEngineer(DbContext);
+            SiteEngineer siteEngineer =
+                ControllerGetUserUtility.GetSessionSiteEngineer(DbContext, User);
 
             Intervention intervention = Intervention.Factory.CreateIntervention(
                 type, client, siteEngineer, model.Labour, model.Cost, model.Date);

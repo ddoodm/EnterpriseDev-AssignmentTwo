@@ -58,6 +58,12 @@ namespace ENETCare.IMS.Data.DataAccess
 
             var selection = context.FullyLoadedInterventions.AsExpandable().Where(predicate);
             var resultList = selection.ToList<Intervention>();
+
+            // Never recall cancelled interventions (use property)
+            resultList = resultList
+                .Where(i => i.ApprovalState != InterventionApprovalState.Cancelled)
+                .ToList<Intervention>();
+
             return new Interventions.Interventions(resultList);
         }
 

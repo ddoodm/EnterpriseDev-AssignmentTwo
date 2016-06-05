@@ -20,67 +20,18 @@ namespace ENETCare_IMS_WebApp.Controllers
         // GET: Clients
         public ActionResult Index()
         {
-            string clientsTitle = "Clients";
-            ViewData["Title"] = clientsTitle;
-
-            SetNavbarItems();
-
             // Retrieve Clients
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
+                // Obtain current session user
+                var approver = ControllerGetUserUtility.GetSessionApproverUser(db, User);
+
+                // Obtain clients in the user's district
                 ClientRepo repo = new ClientRepo(db);
-                Clients clients = repo.GetAllClients();  //TODO: To be replaced with GetClientsByDistrict(currentUser.District);
+                Clients clients = repo.GetClientsInDistrict(approver.District);
 
                 return View(clients);
             }
-        }
-
-        /// <summary>
-        /// TODO: This will be a User method
-        /// </summary>
-        private void SetNavbarItems()
-        {
-            NavbarItems items = new NavbarItems(
-               new NavbarItems.NavbarItem()
-               {
-                   Title = "Dashboard",
-                   BootstrapIcon = "fa-dashboard",
-                   ControllerName = "Home",
-                   ActionName = "Index",
-               },
-
-               new NavbarItems.NavbarItem()
-               {
-                   Title = "Interventions",
-                   ControllerName = "Interventions",
-                   BootstrapIcon = "fa-table",
-                   ActionName = "Index",
-               },
-
-               new NavbarItems.NavbarItem()
-               {
-                   Title = "Create an Intervention",
-                   BootstrapIcon = "fa-calendar",
-                   ControllerName = "Interventions",
-                   ActionName = "CreateIntervention",
-               },
-
-               new NavbarItems.NavbarItem()
-               {
-                   Title = "Clients",
-                   BootstrapIcon = "fa-users",
-                   ActionName = "Index",
-               },
-
-               new NavbarItems.NavbarItem()
-               {
-                   Title = "Create a Client",
-                   BootstrapIcon = "fa-user",
-                   ActionName = "CreateNewClient",
-               }
-           );
-
-            ViewBag.NavbarItems = items;
         }
 
         public ActionResult ViewClient(int ID)
@@ -105,8 +56,6 @@ namespace ENETCare_IMS_WebApp.Controllers
 
         public ActionResult CreateNewClient()
         {
-            SetNavbarItems();
-
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
                 UserRepo userRepo = new UserRepo(db);
