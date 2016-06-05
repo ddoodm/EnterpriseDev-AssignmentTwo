@@ -9,7 +9,7 @@ using ENETCare.IMS.Users;
 
 namespace ENETCare.IMS
 {
-    public class District
+    public class District : IDistrict
     {
         [Key]
         public int DistrictID { get; private set; }
@@ -28,6 +28,12 @@ namespace ENETCare.IMS
 
         public District(string name)
         {
+            this.Name = name;
+        }
+
+        public District(int ID, string name)
+        {
+            this.DistrictID = ID;
             this.Name = name;
         }
 

@@ -29,14 +29,14 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
     {
         #region Mock helper functions
 
-        private Mock<SiteEngineer> BuildMockEngineer(string name, string email, District district, decimal labour, decimal cost)
+        private SiteEngineer BuildMockEngineer(string name, string email, District district, decimal labour, decimal cost)
         {
             var fakeUser = new Mock<SiteEngineer>(name, email, "1234TestPass!", district, labour, cost);
             string fakeUserId = Guid.NewGuid().ToString("N");
             fakeUser.Setup(u => u.Id).Returns(fakeUserId);
             fakeUser.Setup(u => u.District).Returns(district);
 
-            return fakeUser;
+            return fakeUser.Object;
         }
 
         private DbSet<T> BuildMockDbSet<T>(List<T> collection) where T : class
@@ -103,7 +103,7 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
         }
 
         [TestMethod]
-        public void InterventionsController_List_ShowOneRelevant_Success()
+        public void InterventionsController_List_Shows_One_Relevant_Success()
         {
             var fakeDistrict = new District("Test Place");
             var fakeClient = new Client("Test Client", "Test Location", fakeDistrict);
@@ -112,7 +112,7 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
             var fakeEngineer = BuildMockEngineer("Test Engineer", "test@enet.com", fakeDistrict, 20.0m, 2000m);
             var fakeUsers = new List<EnetCareUser>
             {
-                fakeEngineer.Object
+                fakeEngineer
             };
 
             // Configure a fake DBSet which returns the fake list
@@ -121,7 +121,7 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
             // Configure known fake interventions
             var fakeInterventions = new List<Intervention>
             {
-                Intervention.Factory.CreateIntervention(new InterventionType("Test Type", 400m, 10m), fakeClient, fakeEngineer.Object)
+                Intervention.Factory.CreateIntervention(new InterventionType("Test Type", 400m, 10m), fakeClient, fakeEngineer)
             };
 
             // Configure a fake DBSet which returns the fake list
@@ -133,7 +133,7 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
                 users: fakeUserSet);
 
             // Set up a fake HTTP Context (makes an Identity user from the ENETCare user)
-            var fakeHttp = BuildMockHttpContext(fakeEngineer.Object);
+            var fakeHttp = BuildMockHttpContext(fakeEngineer);
 
             // Call to the controller
             var controller = new InterventionsController(fakeDbContext);
@@ -151,6 +151,68 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
             for(int i = 0; i < model.Count; i++)
                 if(model[i] != fakeInterventions[i])
                     Assert.Fail("The model is not equal to the test interventions list");
+        }
+
+        [TestMethod]
+        public void InterventionController_List_Shows_And_Culls_Success()
+        {
+            var fakeDistricts = new District[]
+            {
+                new District(0, "Alpha Place"),
+                new District(1, "Beta Place"),
+                new District(2, "Gamma Place"),
+            };
+            var fakeClients = new Client[]
+            {
+                new Client("A A Client", "Test Location", fakeDistricts[0]),
+                new Client("A B Client", "Test Location", fakeDistricts[0]),
+                new Client("B C Client", "Test Location", fakeDistricts[1]),
+                new Client("C D Client", "Test Location", fakeDistricts[2]),
+            };
+
+            // Configure a fake user set
+            var fakeEngineers = new SiteEngineer[]
+            {
+                BuildMockEngineer("A A Engineer", "aa@enet.com", fakeDistricts[0], 20.0m, 2000m),
+                BuildMockEngineer("A B Engineer", "ab@enet.com", fakeDistricts[0], 20.0m, 2000m),
+                BuildMockEngineer("B C Engineer", "bc@enet.com", fakeDistricts[1], 20.0m, 2000m),
+            };
+
+            // Configure a fake DBSet which returns the fake list
+            var fakeUserSet = BuildMockDbSet<EnetCareUser>(fakeEngineers.ToList<EnetCareUser>());
+
+            // Configure known fake interventions
+            var fakeInterventions = new List<Intervention>
+            {
+                Intervention.Factory.CreateIntervention(new InterventionType("Type AAA", 400m, 10m), fakeClients[0], fakeEngineers[0]),
+                Intervention.Factory.CreateIntervention(new InterventionType("Type AAB", 400m, 10m), fakeClients[1], fakeEngineers[0]),
+                Intervention.Factory.CreateIntervention(new InterventionType("Type AAC", 400m, 10m), fakeClients[0], fakeEngineers[1]),
+                Intervention.Factory.CreateIntervention(new InterventionType("Type AAD", 400m, 10m), fakeClients[2], fakeEngineers[2]),
+            };
+
+            // Configure a fake DBSet which returns the fake list
+            var fakeInterventionSet = BuildMockDbSet<Intervention>(fakeInterventions);
+
+            // Configure a fake database which will return a known set of Interventions
+            var fakeDbContext = BuildMockDbContext(
+                interventions: fakeInterventionSet,
+                users: fakeUserSet);
+
+            // Set up a fake HTTP Context (makes an Identity user from the ENETCare user)
+            var fakeHttp = BuildMockHttpContext(fakeEngineers[0]);
+
+            // Call to the controller
+            var controller = new InterventionsController(fakeDbContext);
+            controller.ControllerContext = fakeHttp.Object;
+
+            // Call the action (no 'state' parameter)
+            var result = controller.Index(null) as ViewResult;
+
+            // Verify output (model is Interventions collection)
+            var model = (Interventions)result.Model;
+
+            // TODO: Figure out why interventions are not filtered in this test
+            Assert.Fail("The interventions are not filtered, but it works on the Web App, so this test is broken.");
         }
     }
 }

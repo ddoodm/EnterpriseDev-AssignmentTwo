@@ -45,16 +45,20 @@ namespace ENETCare.IMS.Data.DataAccess
                 predicate = predicate.Or(i => i.SiteEngineer.Id == user.Id);
 
                 // Or the approver is the site engineer
-                predicate = predicate.Or(i => i.Approval.ApprovingSiteEngineer.Id == user.Id);
+                predicate = predicate.Or(i => 
+                    i.Approval.ApprovingSiteEngineer != null
+                    && i.Approval.ApprovingSiteEngineer.Id == user.Id);
             }
             else if (user is Manager)
-                predicate = predicate.Or(i => i.Approval.ApprovingManager.Id == user.Id);
+                predicate = predicate.Or(i => i.Approval.ApprovingManager != null &&
+                i.Approval.ApprovingManager.Id == user.Id);
 
             // ... Or the Intervention's district is the same as the user's
             predicate = predicate.Or(i => i.Client.DistrictID == user.District.DistrictID);
 
             var selection = context.FullyLoadedInterventions.AsExpandable().Where(predicate);
-            return new Interventions.Interventions(selection.ToList<Intervention>());
+            var resultList = selection.ToList<Intervention>();
+            return new Interventions.Interventions(resultList);
         }
 
         public Interventions.Interventions GetAllInterventions()

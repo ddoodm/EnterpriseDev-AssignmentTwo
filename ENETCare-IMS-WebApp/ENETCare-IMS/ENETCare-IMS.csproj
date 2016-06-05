@@ -97,6 +97,7 @@
     <Compile Include="District.cs" />
     <Compile Include="Districts.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="IDistrict.cs" />
     <Compile Include="Interventions\Intervention.cs" />
     <Compile Include="Interventions\InterventionApproval.cs" />
     <Compile Include="Interventions\InterventionApprovalState.cs" />
