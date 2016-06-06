@@ -8,6 +8,7 @@ using ENETCare.IMS;
 using ENETCare.IMS.Data.DataAccess;
 using ENETCare.IMS.Interventions;
 using ENETCare.IMS.Users;
+using ENETCare.IMS.MailService;
 
 using ENETCare.IMS.WebApp.Models;
 using Microsoft.AspNet.Identity;
@@ -166,9 +167,20 @@ namespace ENETCare_IMS_WebApp.Controllers
             Intervention intervention = interventionRepo.GetInterventionByID(model.InterventionID);
 
             UserRepo userRepo = new UserRepo(DbContext);
-            var user =
-                userRepo.GetUserById<EnetCareUser>(User.Identity.GetUserId()) as IInterventionApprover;
+            var user = userRepo.GetUserById<EnetCareUser>(User.Identity.GetUserId()) as IInterventionApprover;
 
+            // Quality update case
+            if (Request.Form["Save Quality"] != null)
+            {
+                intervention.UpdateNotes(user as SiteEngineer, model.Notes);
+                intervention.Quality.LastVisit = model.Date;
+                intervention.Quality.Health = model.Health;
+
+                interventionRepo.Save(intervention);
+                return RedirectToAction("Edit");
+            }
+
+            // State change cases
             if (Request.Form["Approve"] != null)
                 intervention.Approve(user);
 
@@ -178,13 +190,8 @@ namespace ENETCare_IMS_WebApp.Controllers
             else if (Request.Form["Complete"] != null)
                 intervention.Complete(user as SiteEngineer);
 
-            else if (Request.Form["Save Quality"] != null)
-            {
-                intervention.UpdateNotes(user as SiteEngineer, model.Notes);
-                intervention.Quality.LastVisit = model.Date;
-                intervention.Quality.Health = model.Health;
-            }
-
+            // Deliver a notification E-Mail to the proposing engineer
+            EnetCareMailer.NotifyEngineerOfStateChange(intervention);
             interventionRepo.Save(intervention);
             return RedirectToAction("Edit");
         }

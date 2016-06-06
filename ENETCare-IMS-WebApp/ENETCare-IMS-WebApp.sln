@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS-WebApp", "ENETCare-IMS-WebApp\ENETCare-IMS-WebApp.csproj", "{C59BA433-A231-485D-8CDC-93F76048BDB0}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS-Tests", "ENETCare-IMS-Tests\ENETCare-IMS-Tests.csproj", "{61A39387-C998-45B6-A365-FF16E8AAD74B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS-Data", "ENETCare-IMS-Data\ENETCare-IMS-Data.csproj", "{F65771E4-D2DF-47F8-9BDC-47B27643639D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENETCare-IMS-MailService", "ENETCare-IMS-MailService\ENETCare-IMS-MailService.csproj", "{7F3A1E1E-C589-43DD-9D8A-FCD78614B65A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F65771E4-D2DF-47F8-9BDC-47B27643639D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F65771E4-D2DF-47F8-9BDC-47B27643639D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F65771E4-D2DF-47F8-9BDC-47B27643639D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F3A1E1E-C589-43DD-9D8A-FCD78614B65A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F3A1E1E-C589-43DD-9D8A-FCD78614B65A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F3A1E1E-C589-43DD-9D8A-FCD78614B65A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F3A1E1E-C589-43DD-9D8A-FCD78614B65A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

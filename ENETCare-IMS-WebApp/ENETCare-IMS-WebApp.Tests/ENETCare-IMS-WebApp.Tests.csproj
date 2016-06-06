@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\InterventionsControllerTests.cs" />
+    <Compile Include="MailerTests\EnetCareMailerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
@@ -123,6 +124,10 @@
     <ProjectReference Include="..\ENETCare-IMS-Data\ENETCare-IMS-Data.csproj">
       <Project>{f65771e4-d2df-47f8-9bdc-47b27643639d}</Project>
       <Name>ENETCare-IMS-Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENETCare-IMS-MailService\ENETCare-IMS-MailService.csproj">
+      <Project>{7f3a1e1e-c589-43dd-9d8a-fcd78614b65a}</Project>
+      <Name>ENETCare-IMS-MailService</Name>
     </ProjectReference>
     <ProjectReference Include="..\ENETCare-IMS-WebApp\ENETCare-IMS-WebApp.csproj">
       <Project>{C59BA433-A231-485D-8CDC-93F76048BDB0}</Project>
