@@ -200,6 +200,8 @@ namespace ENETCare.IMS.Data
                     userRepo.GetUserByEmail<SiteEngineer>("takeshi@enet.com")),
             };
 
+            interventions[0].UpdateNotes(interventions[0].SiteEngineer, "Test notes");
+
             interventionRepo.Save(interventions);
         }
 

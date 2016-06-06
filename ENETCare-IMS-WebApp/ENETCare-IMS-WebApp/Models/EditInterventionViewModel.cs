@@ -10,9 +10,8 @@ namespace ENETCare.IMS.WebApp.Models
 {
     public class EditInterventionViewModel
     {
-
         public Intervention Intervention { get; set; }
-        public EnetCareUser User { get; set; }
+        public IInterventionApprover User { get; set; }
         public bool CanModifyState { get; set; }
        
         public bool CanModifyQuality { get; set; }
@@ -31,7 +30,5 @@ namespace ENETCare.IMS.WebApp.Models
         public string Notes { get; set; }
         
         public decimal Health { get; set; }
-
-
     }
 }

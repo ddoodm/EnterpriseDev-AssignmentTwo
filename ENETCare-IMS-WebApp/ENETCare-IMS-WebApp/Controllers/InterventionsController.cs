@@ -131,12 +131,13 @@ namespace ENETCare_IMS_WebApp.Controllers
         public ActionResult Edit(int ID)
         {
             InterventionRepo interventionRepo = new InterventionRepo(DbContext);
-            Intervention intervention = interventionRepo.GetAllInterventions().GetInterventions().Where(i => i.ID == ID).First();
-            var users = new UserRepo(DbContext);
-            var user = users.GetUserById<EnetCareUser>(User.Identity.GetUserId());
+            Intervention intervention = interventionRepo.GetInterventionByID(ID);
 
-            bool canModifyState = intervention.UserCanChangeState((IInterventionApprover)user);
-            bool canModifyQuality = intervention.UserCanChangeQuality(user);
+            IInterventionApprover user =
+                ControllerGetUserUtility.GetSessionApproverUser(DbContext, User);
+
+            bool canModifyState = intervention.UserCanChangeState(user);
+            bool canModifyQuality = intervention.UserCanChangeQuality(user as EnetCareUser);
             bool canApprove = intervention.CanApprove();
             bool canCancel = intervention.CanCancel();
             bool canComplete = intervention.CanComplete();
@@ -162,17 +163,17 @@ namespace ENETCare_IMS_WebApp.Controllers
         public ActionResult Edit(EditInterventionViewModel model)
         {
             InterventionRepo interventionRepo = new InterventionRepo(DbContext);
-            Intervention intervention = interventionRepo.GetAllInterventions().GetInterventions().Where(i => i.ID == model.InterventionID).First();
+            Intervention intervention = interventionRepo.GetInterventionByID(model.InterventionID);
 
             UserRepo userRepo = new UserRepo(DbContext);
             var user =
                 userRepo.GetUserById<EnetCareUser>(User.Identity.GetUserId()) as IInterventionApprover;
 
             if (Request.Form["Approve"] != null)
-                intervention.Approve((IInterventionApprover)user);
+                intervention.Approve(user);
 
             else if (Request.Form["Cancel"] != null)
-                intervention.Cancel((IInterventionApprover)user);
+                intervention.Cancel(user);
 
             else if (Request.Form["Complete"] != null)
                 intervention.Complete(user as SiteEngineer);
@@ -184,10 +185,9 @@ namespace ENETCare_IMS_WebApp.Controllers
                 intervention.Quality.Health = model.Health;
             }
 
-            interventionRepo.Update(intervention);
+            interventionRepo.Save(intervention);
             return RedirectToAction("Edit");
         }
-
 
         /// <summary>
         /// Returns Intervention Type details as a JSON object.

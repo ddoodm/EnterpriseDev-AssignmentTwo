@@ -128,21 +128,27 @@ namespace ENETCare.IMS.Data.DataAccess
             context.InterventionTypes.Attach(intervention.InterventionType);
         }
 
-        public void Save(Intervention intervention)
+        private void Save_NoDbWrite(Intervention intervention)
         {
             AttachNewInterventionToContext(intervention);
-            context.Interventions.Add(intervention);
+
+            // Determine whether the entity already exists
+            context.Entry(intervention).State =
+                intervention.ID == 0 ?
+                EntityState.Added :
+                EntityState.Modified;
+        }
+
+        public void Save(Intervention intervention)
+        {
+            Save_NoDbWrite(intervention);
             context.SaveChanges();
         }
 
         public void Save(Intervention[] interventions)
         {
             foreach (Intervention intervention in interventions)
-            {
-                AttachNewInterventionToContext(intervention);
-                context.Interventions.Add(intervention);
-            }
-
+                Save_NoDbWrite(intervention);
             context.SaveChanges();
         }
             
@@ -152,13 +158,5 @@ namespace ENETCare.IMS.Data.DataAccess
                 context.InterventionTypes.Add(type);
             context.SaveChanges();
         }
-
-        public void Update(Intervention intervention)
-        {
-            AttachNewInterventionToContext(intervention);
-            context.Interventions.Attach(intervention);
-            context.SaveChanges();
-        }
-
     }
 }
