@@ -15,7 +15,7 @@ namespace ENETCare.IMS.MailService
     {
         private const string EASENDMAIL_LICENSE_CODE = "TryIt";
 
-        public async Task SendMail(string to, string from, string subject, string htmlBody)
+        public void SendMail(string to, string from, string subject, string htmlBody)
         {
             var mailMessage = new SmtpMail(EASENDMAIL_LICENSE_CODE);
             var smtpClient = new SmtpClient();

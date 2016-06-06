@@ -9,7 +9,7 @@ namespace ENETCare.IMS.MailService
 {
     class SystemNetMailDeliverer : IMailDeliverer
     {
-        public async Task SendMail(string to, string from, string subject, string htmlBody)
+        public void SendMail(string to, string from, string subject, string htmlBody)
         {
             var mailMessage = new MailMessage();
 
@@ -22,7 +22,7 @@ namespace ENETCare.IMS.MailService
             // Deliver the message
             using (SmtpClient smtpClient = new SmtpClient())
             {
-                await smtpClient.SendMailAsync(mailMessage);
+                smtpClient.Send(mailMessage);
             }
         }
     }

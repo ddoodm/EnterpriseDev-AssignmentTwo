@@ -148,12 +148,16 @@ namespace ENETCare.IMS.Interventions
 
         public bool CanCancel()
         {
-            return ApprovalState != InterventionApprovalState.Cancelled && ApprovalState != InterventionApprovalState.Completed;
+            return 
+                ApprovalState != InterventionApprovalState.Cancelled 
+                && ApprovalState != InterventionApprovalState.Completed;
         }
 
         public bool CanComplete()
         {
-            return ApprovalState != InterventionApprovalState.Cancelled && ApprovalState != InterventionApprovalState.Completed;
+            return 
+                ApprovalState != InterventionApprovalState.Cancelled 
+                && ApprovalState != InterventionApprovalState.Completed;
         }
 
         public void Approve(IInterventionApprover user)
