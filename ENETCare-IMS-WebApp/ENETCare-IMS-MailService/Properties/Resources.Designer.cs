@@ -69,7 +69,7 @@ namespace ENETCare.IMS.MailService.Properties {
         ///            margin: 0;
         ///            padding: 0;
         ///
-        ///            font-family:&apos;Franklin Gothic Medium&apos;, &apos;Arial Narrow&apos;, Arial, sans-serif;
+        ///            font-family: &apos;Arial Narrow&apos;, Arial, sans-serif;
         ///        }
         ///
         ///        h1, h2, h3
@@ -88,7 +88,8 @@ namespace ENETCare.IMS.MailService.Properties {
         ///        }
         ///
         ///        #messagePara
-        ///        {        /// [rest of string was truncated]&quot;;.
+        ///        {
+        ///            width: 97%;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EmailBodyFormat {
             get {
@@ -97,8 +98,8 @@ namespace ENETCare.IMS.MailService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An intervention that you approved has been &lt;b&gt;{0}&lt;/b&gt;.&lt;br/&gt;
-        ///Please review the details of the intervention.&lt;br/&gt;
+        ///   Looks up a localized string similar to An intervention that you proposed has been &lt;b&gt;{0}&lt;/b&gt;.&lt;br/&gt;
+        ///Please review the details of the intervention.&lt;br/&gt;&lt;br/&gt;
         ///
         ///&lt;b&gt;Type: &lt;/b&gt;{1}&lt;br/&gt;
         ///&lt;b&gt;Client: &lt;/b&gt;{2}&lt;br/&gt;.

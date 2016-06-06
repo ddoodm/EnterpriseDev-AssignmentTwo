@@ -14,6 +14,7 @@ using ENETCare.IMS.WebApp.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace ENETCare_IMS_WebApp.Controllers
 {
@@ -190,8 +191,9 @@ namespace ENETCare_IMS_WebApp.Controllers
             else if (Request.Form["Complete"] != null)
                 intervention.Complete(user as SiteEngineer);
 
-            // Deliver a notification E-Mail to the proposing engineer
-            EnetCareMailer.NotifyEngineerOfStateChange(intervention);
+            // Deliver a notification E-Mail to the proposing engineer (on a new thread)
+            Task.Run(() => EnetCareMailer.NotifyEngineerOfStateChange(intervention));
+
             interventionRepo.Save(intervention);
             return RedirectToAction("Edit");
         }

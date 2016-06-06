@@ -46,7 +46,7 @@ namespace ENETCare.IMS.MailService
         /// regarding a state change.
         /// </summary>
         /// <param name="intervention"></param>
-        public static void NotifyEngineerOfStateChange(Intervention intervention)
+        public static async Task NotifyEngineerOfStateChange(Intervention intervention)
         {
             var siteEngineer = intervention.SiteEngineer;
 
@@ -59,7 +59,7 @@ namespace ENETCare.IMS.MailService
             string htmlMessage = FormatMessageIntoLayout(subject, message);
 
             IMailDeliverer mailer = GetMailDeliverer();
-            mailer.SendMail(to, from, subject, htmlMessage);
+            await mailer.SendMail(to, from, subject, htmlMessage);
         }
     }
 }

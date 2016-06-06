@@ -134,7 +134,7 @@ namespace ENETCare.IMS.Data
 
             EnetCareUser[] users = new EnetCareUser[]
             {
-                new SiteEngineer("Deinyon Davies",  "deinyon@enet.com", "TestPass1!",   districtRepo.GetNthDistrict(0),  8,   1000),
+                new SiteEngineer("Deinyon Davies",  "deinyond@gmail.com", "TestPass1!", districtRepo.GetNthDistrict(0),  8,   1000),
                 new SiteEngineer("Henry Saal",      "henry@enet.com", "TestPass1!",     districtRepo.GetNthDistrict(1),  10,  2000),
                 new SiteEngineer("Hans Samson",     "hans@enet.com", "TestPass1!",      districtRepo.GetNthDistrict(2),  100, 10000),
                 new SiteEngineer("Bob James",       "bob@enet.com", "TestPass1!",       districtRepo.GetNthDistrict(3),  10,  2000),
@@ -177,7 +177,7 @@ namespace ENETCare.IMS.Data
                 Intervention.Factory.CreateIntervention(
                     interventionRepo.GetNthInterventionType(0),
                     clientRepo.GetNthClient(0),
-                    userRepo.GetUserByEmail<SiteEngineer>("deinyon@enet.com")),
+                    userRepo.GetUserByEmail<SiteEngineer>("deinyond@gmail.com")),
 
                 Intervention.Factory.CreateIntervention(
                     interventionRepo.GetNthInterventionType(1),

@@ -126,7 +126,7 @@
             margin: 0;
             padding: 0;
 
-            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Arial Narrow', Arial, sans-serif;
         }
 
         h1, h2, h3
@@ -165,8 +165,8 @@
 &lt;/html&gt;</value>
   </data>
   <data name="InterventionStateChangeMessageFormat" xml:space="preserve">
-    <value>An intervention that you approved has been &lt;b&gt;{0}&lt;/b&gt;.&lt;br/&gt;
-Please review the details of the intervention.&lt;br/&gt;
+    <value>An intervention that you proposed has been &lt;b&gt;{0}&lt;/b&gt;.&lt;br/&gt;
+Please review the details of the intervention.&lt;br/&gt;&lt;br/&gt;
 
 &lt;b&gt;Type: &lt;/b&gt;{1}&lt;br/&gt;
 &lt;b&gt;Client: &lt;/b&gt;{2}&lt;br/&gt;</value>

@@ -9,7 +9,7 @@ namespace ENETCare.IMS.MailService
 {
     class SystemNetMailDeliverer : IMailDeliverer
     {
-        public void SendMail(string to, string from, string subject, string htmlBody)
+        public async Task SendMail(string to, string from, string subject, string htmlBody)
         {
             var mailMessage = new MailMessage();
 
@@ -20,21 +20,9 @@ namespace ENETCare.IMS.MailService
             mailMessage.IsBodyHtml = true;
 
             // Deliver the message
-            SmtpClient smtpClient = new SmtpClient();
-            smtpClient.Send(mailMessage);
-        }
-
-        public bool TrySendMail(string to, string from, string subject, string htmlBody)
-        {
-            try
+            using (SmtpClient smtpClient = new SmtpClient())
             {
-                SendMail(to, from, subject, htmlBody);
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
+                await smtpClient.SendMailAsync(mailMessage);
             }
         }
     }
