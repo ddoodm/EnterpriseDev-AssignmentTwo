@@ -11,19 +11,19 @@ using ENETCare.IMS.Users;
 
 namespace ENETCare.IMS.MailService
 {
-    public static class EnetCareMailer
+    public class EnetCareMailer
     {
         private const string
             HTML_HEADING_LOCATION_TAG = "@HEADING_LOCATION@",
             HTML_MESSAGE_LOCATION_TAG = "@MESSAGE_LOCATION@";
 
         /// <returns>A concrete instance of an IMailDeliverer</returns>
-        private static IMailDeliverer GetMailDeliverer()
+        protected virtual IMailDeliverer GetMailDeliverer()
         {
             return new SystemNetMailDeliverer();
         }
 
-        private static string FormatMessageIntoLayout(string heading, string message)
+        private string FormatMessageIntoLayout(string heading, string message)
         {
             string htmlLayoutFormat = Resources.EmailBodyFormat;
             return htmlLayoutFormat
@@ -31,7 +31,7 @@ namespace ENETCare.IMS.MailService
                 .Replace(HTML_MESSAGE_LOCATION_TAG, message);
         }
 
-        private static string InterventionStateChangeMessage(Intervention intervention)
+        private string InterventionStateChangeMessage(Intervention intervention)
         {
             string messageFormat = Resources.InterventionStateChangeMessageFormat;
             return String.Format(
@@ -46,7 +46,7 @@ namespace ENETCare.IMS.MailService
         /// regarding a state change.
         /// </summary>
         /// <param name="intervention"></param>
-        public static void NotifyEngineerOfStateChange(Intervention intervention)
+        public void NotifyEngineerOfStateChange(Intervention intervention)
         {
             var siteEngineer = intervention.SiteEngineer;
 

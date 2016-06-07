@@ -7,7 +7,7 @@ using System.Net.Mail;
 
 namespace ENETCare.IMS.MailService
 {
-    class SystemNetMailDeliverer : IMailDeliverer
+    internal class SystemNetMailDeliverer : IMailDeliverer
     {
         public void SendMail(string to, string from, string subject, string htmlBody)
         {

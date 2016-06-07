@@ -191,7 +191,7 @@ namespace ENETCare_IMS_WebApp.Controllers
                 intervention.Complete(user as SiteEngineer);
 
             // Deliver a notification E-Mail to the proposing engineer (on a new thread)
-            Task.Run(() => EnetCareMailer.NotifyEngineerOfStateChange(intervention));
+            Task.Run(() => new EnetCareMailer().NotifyEngineerOfStateChange(intervention));
 
             interventionRepo.Save(intervention);
             return RedirectToAction("Edit");
