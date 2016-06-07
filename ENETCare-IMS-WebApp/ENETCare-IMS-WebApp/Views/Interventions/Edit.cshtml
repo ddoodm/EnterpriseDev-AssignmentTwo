@@ -31,7 +31,12 @@
                     <tbody>
                         <tr>
                             <td>@Model.Intervention.InterventionType</td>
-                            <td>@Model.Intervention.Client</td>
+                            <td>
+                                @Html.ActionLink(
+                                    Model.Intervention.Client.Name,
+                                    "ViewClient", "Clients",
+                                    new { ID = Model.Intervention.Client.ID }, null)
+                            </td>
                             <td>@Model.Intervention.SiteEngineer</td>
                             <td>@Model.Intervention.Date.ToString("ddd, dd MMM, yyy")</td>
                             <td>@Model.Intervention.Approval</td>
