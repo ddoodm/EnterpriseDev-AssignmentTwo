@@ -138,18 +138,17 @@ namespace ENETCare_IMS_WebApp.Controllers
             IInterventionApprover user =
                 ControllerGetUserUtility.GetSessionApproverUser(DbContext, User);
 
-            bool canModifyState = intervention.UserCanChangeState(user);
             bool canModifyQuality = intervention.UserCanChangeQuality(user as EnetCareUser);
-            bool canApprove = intervention.CanApprove();
-            bool canCancel = intervention.CanCancel();
-            bool canComplete = intervention.CanComplete();
+            bool canApprove = intervention.UserCanChangeState(user, InterventionApprovalState.Approved);
+            bool canCancel = intervention.UserCanChangeState(user, InterventionApprovalState.Cancelled);
+            bool canComplete = intervention.UserCanChangeState(user, InterventionApprovalState.Completed);
 
             EditInterventionViewModel model = new EditInterventionViewModel();
             model.Intervention = intervention;
             model.CanApprove = canApprove;
             model.CanCancel = canCancel;
             model.CanComplete = canComplete;
-            model.CanModifyState = canModifyState;
+            model.CanModifyState = true;
             model.CanModifyQuality = canModifyQuality;
             model.User = user;
             model.Notes = intervention.Notes;

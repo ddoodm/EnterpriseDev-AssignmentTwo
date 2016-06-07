@@ -73,7 +73,7 @@ namespace ENETCare.IMS.Interventions
         public void ChangeState(InterventionApprovalState targetState, IInterventionApprover user)
         {
             // Check that the user can change the state of the Intervention
-            if (!CanChangeState(user)) 
+            if (!CanChangeState(user, targetState)) 
                 throw new InvalidOperationException("The user is not permitted to change the state of this Intervention");
 
             // Request to change states. Will throw an exception if current state is invalid.
@@ -96,8 +96,12 @@ namespace ENETCare.IMS.Interventions
             ChangeState(InterventionApprovalState.Completed, user);
         }
 
-        public bool CanChangeState(IInterventionApprover user)
+        public bool CanChangeState(IInterventionApprover user, InterventionApprovalState targetState)
         {
+            // Check that the state machine will allow state transfer
+            if (!state.CanChangeState(targetState))
+                return false;
+
             // A manager cannot modify an approved intervention
             if (State == InterventionApprovalState.Approved)
                 if (user is Manager)
@@ -113,8 +117,8 @@ namespace ENETCare.IMS.Interventions
                 if (((SiteEngineer)user) != Intervention.SiteEngineer)
                     return false;
 
-            // From the proposed state, an intervention may only be modified by a user who can afford it
-            if (State == InterventionApprovalState.Proposed)
+            // An intervention may only be approved by a user who can afford it
+            if (targetState == InterventionApprovalState.Approved)
             {
                 // Must be able to approve *at least* the default labour AND the actual labour
                 if (user.MaxApprovableLabour < Intervention.MaximumLabour)

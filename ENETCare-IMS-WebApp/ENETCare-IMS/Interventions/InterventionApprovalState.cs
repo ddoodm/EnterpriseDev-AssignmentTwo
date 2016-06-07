@@ -35,9 +35,18 @@ namespace ENETCare.IMS.Interventions
 
         public bool TryChangeState(InterventionApprovalState targetState)
         {
-            // Permit no change
+            if (!CanChangeState(targetState))
+                return false;
+
+            CurrentState = targetState;
+            return true;
+        }
+
+        public bool CanChangeState(InterventionApprovalState targetState)
+        {
+            // Do not permit no-change
             if (CurrentState == targetState)
-                return true;
+                return false;
 
             // Use a State Machine to determine permitted state changes
             switch (CurrentState)
@@ -61,7 +70,6 @@ namespace ENETCare.IMS.Interventions
             }
 
             // Allow change at this point
-            CurrentState = targetState;
             return true;
         }
 

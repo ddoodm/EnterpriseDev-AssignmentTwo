@@ -136,28 +136,9 @@ namespace ENETCare.IMS.Interventions
             this.Notes = newNotes;
         }
 
-        public bool UserCanChangeState(IInterventionApprover user)
+        public bool UserCanChangeState(IInterventionApprover user, InterventionApprovalState targetState)
         {
-            return Approval.CanChangeState(user);
-        }
-
-        public bool CanApprove()
-        {
-            return ApprovalState == InterventionApprovalState.Proposed;
-        }
-
-        public bool CanCancel()
-        {
-            return 
-                ApprovalState != InterventionApprovalState.Cancelled 
-                && ApprovalState != InterventionApprovalState.Completed;
-        }
-
-        public bool CanComplete()
-        {
-            return 
-                ApprovalState != InterventionApprovalState.Cancelled 
-                && ApprovalState != InterventionApprovalState.Completed;
+            return Approval.CanChangeState(user, targetState);
         }
 
         public void Approve(IInterventionApprover user)
@@ -289,7 +270,7 @@ namespace ENETCare.IMS.Interventions
                     type, client, siteEngineer, labour, cost, date);
 
                 // If possible, auto-approve the intervention on creation
-                if (intervention.UserCanChangeState(siteEngineer))
+                if (intervention.UserCanChangeState(siteEngineer, InterventionApprovalState.Approved))
                     intervention.Approve(siteEngineer);
 
                 return intervention;
