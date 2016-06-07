@@ -13,6 +13,8 @@ namespace ENETCare.IMS.WebApp.Models
         public LinkedList<string> ReportTypes { get; set; }
         public string ID { get; set; }
         public string Report { get; set; }
+        public int SelectedDistrictID { get; set; }
+        public List<District> Districts { get; set; }
 
         public static string TOTAL_COSTS = "Total Costs";
         public static string AVERAGE_COSTS = "Average Costs";

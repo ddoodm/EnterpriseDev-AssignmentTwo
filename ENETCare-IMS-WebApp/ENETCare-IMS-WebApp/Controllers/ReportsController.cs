@@ -26,25 +26,33 @@ namespace ENETCare_IMS_WebApp.Controllers
             reportTypes.AddLast("District Costs");
             reportTypes.AddLast("Monthly Costs");
 
+            List<District> districts;
+            using (EnetCareDbContext db = new EnetCareDbContext())
+            {
+                DistrictRepo repo = new DistrictRepo(db);
+                districts = repo.GetAllDistricts();
+            }
+
             GenerateReportViewModel model = new GenerateReportViewModel();
             model.ReportTypes = reportTypes;
+            model.Districts = districts;
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+
         public ActionResult Index(GenerateReportViewModel m)
         {
             if (!ModelState.IsValid)
                 return Index();
 
-            return RedirectToAction("ViewReport", "Reports", new { ID = m.ID }); 
+            return RedirectToAction("ViewReport", "Reports", new { ID = m.ID, DistrictID = m.SelectedDistrictID });
 
         }
 
 
-        public ActionResult ViewReport(string ID)
+        public ActionResult ViewReport(string ID, int DistrictID)
         {
             string report = string.Empty;
 
@@ -62,7 +70,7 @@ namespace ENETCare_IMS_WebApp.Controllers
             }
             else if (ID == GenerateReportViewModel.MONTHLY_COSTS)
             {
-                report = GenerateMonthlyCostsReport();
+                report = GenerateMonthlyCostsReport(DistrictID);
             }
             GenerateReportViewModel model = new GenerateReportViewModel();
             model.Report = report;
@@ -185,41 +193,65 @@ namespace ENETCare_IMS_WebApp.Controllers
             return report.ToString();
         }
 
-        string GenerateMonthlyCostsReport()
+        string GenerateMonthlyCostsReport(int districtID)
         {
-            /*   
+
             StringBuilder report = new StringBuilder();
 
-            int[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-
-            report.Append("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            report.Append("<br />");
-            report.Append("               TOTAL COSTS BY DISTRICT              ");
-            report.Append("<br />");
-            report.Append("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            report.Append("<br /> <br />");
-
-            report.Append(district.Name.ToUpper());
-            report.Append("<br />");
-
-            foreach (int month in months)
+            using (EnetCareDbContext db = new EnetCareDbContext())
             {
-                decimal totalLaborHours = application.Interventions.FilterByDistrict(district).Where(i => i.ApprovalState == Interventions.InterventionApprovalState.Completed).Where(i => i.Date.Month == month).Select(i => i.Labour).Sum();
-                decimal totalCosts = application.Interventions.FilterByDistrict(district).Where(i => i.ApprovalState == Interventions.InterventionApprovalState.Completed).Where(i => i.Date.Month == month).Select(i => i.Cost).Sum();
+                InterventionRepo interventionsRepo = new InterventionRepo(db);
+                DistrictRepo districtRepo = new DistrictRepo(db);
+                District district = districtRepo.GetDistrictById(districtID);
 
-                report.AppendFormat("Total Labour Hours for {0}: {1} hours", GetMonthName(month), totalLaborHours);
+                int[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+
+                report.Append("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
                 report.Append("<br />");
-                report.AppendFormat("Total Costs for {0}: ${1}", GetMonthName(month), totalCosts);
+                report.Append("               TOTAL COSTS BY DISTRICT              ");
+                report.Append("<br />");
+                report.Append("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                report.Append("<br /> <br />");
 
-                report.Append("<br /><br />---oOo---<br /><br />");
+                report.Append(district.Name.ToUpper());
+                report.Append("<br />");
+
+                foreach (int month in months)
+                {
+                    decimal totalLaborHours = interventionsRepo.GetInterventionsByDistrict(district).Where(i => i.ApprovalState == InterventionApprovalState.Completed).Where(i => i.Date.Month == month).Select(i => i.Labour).Sum();
+                    decimal totalCosts = interventionsRepo.GetInterventionsByDistrict(district).Where(i => i.ApprovalState == InterventionApprovalState.Completed).Where(i => i.Date.Month == month).Select(i => i.Cost).Sum();
+
+                    report.AppendFormat("Total Labour Hours for {0}: {1} hours", GetMonthName(month), totalLaborHours);
+                    report.Append("<br />");
+                    report.AppendFormat("Total Costs for {0}: ${1}", GetMonthName(month), totalCosts);
+
+                    report.Append("<br /><br />---oOo---<br /><br />");
+                }
             }
 
             return report.ToString();
-            */
 
-            return string.Empty;
         }
 
+        private string GetMonthName(int monthNumber)
+        {
+            switch (monthNumber)
+            {
+                case 1: return "January";
+                case 2: return "February";
+                case 3: return "March";
+                case 4: return "April";
+                case 5: return "May";
+                case 6: return "June";
+                case 7: return "July";
+                case 8: return "August";
+                case 9: return "September";
+                case 10: return "October";
+                case 11: return "November";
+                case 12: return "December";
+                default: return string.Empty;
+            }
+        }
 
     }
 }

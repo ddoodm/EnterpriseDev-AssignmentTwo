@@ -28,9 +28,17 @@
                              new SelectList(Model.ReportTypes),
                              new { @class = "form-control", id = "reportTypeDropdown" })
                             @Html.ValidationMessageFor(m => m.ID, "", new { @class = "text-danger" })
+                            <br />
+                            <label id="districtLabel" for="DistrictSelected">District:</label>
+                            @Html.DropDownListFor(
+                              m => m.SelectedDistrictID,
+                              new SelectList(Model.Districts, "DistrictID", "Name", null),
+                              new { @class = "form-control", id = "districtDropdown" })
+                            @Html.ValidationMessageFor(m => m.SelectedDistrictID, "", new { @class = "text-danger" })
+
                         </div>
                     </div>
-                    
+
                     <div class="well text-right">
                         <button type="submit" class="btn btn-success">Generate Report</button>
                     </div>
@@ -38,9 +46,22 @@
             </div>
         </div>
     </div>
-
 }
+<script>
+$(document).ready(function(){
 
+    $('#reportTypeDropdown').change(function(e){
+        var value = $(this).val();
+        if (value == 'Monthly Costs') {
+            $('#districtDropdown').show();
+            $('#districtLabel').show();
+        } else {
+            $('#districtDropdown').hide();
+            $('#districtLabel').hide();
+        }
+    });
 
-
+    $('#reportTypeDropdown').trigger('change');
+});
+</script>
 
