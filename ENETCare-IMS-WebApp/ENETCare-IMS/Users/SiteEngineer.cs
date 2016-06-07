@@ -19,9 +19,9 @@ namespace ENETCare.IMS.Users
         public override string Role { get { return "SiteEngineer"; } }
 
         [Required, Column("MaxApprovableLabour")]
-        public decimal MaxApprovableLabour { get; private set; }
+        public virtual decimal MaxApprovableLabour { get; private set; }
         [Required, Column("MaxApprovableCost")]
-        public decimal MaxApprovableCost { get; private set; }
+        public virtual decimal MaxApprovableCost { get; private set; }
 
         [Column("DistrictID"), ForeignKey("District")]
         public int? DistrictID { get; private set; }

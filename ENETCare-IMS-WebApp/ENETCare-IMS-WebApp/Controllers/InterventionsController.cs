@@ -90,38 +90,41 @@ namespace ENETCare_IMS_WebApp.Controllers
             });
         }
 
+        /// <summary>
+        /// Creates a new intervention according to the user-submitted data
+        /// and saves it.
+        /// </summary>
+        /// <param name="model">ViewModel with intervention details</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "SiteEngineer")]
         public ActionResult CreateIntervention(CreateInterventionViewModel model)
         {
+            // Load type first; required for validation
             InterventionRepo interventions = new InterventionRepo(DbContext);
+            InterventionType type =
+                model.SelectedTypeID == 0? null :
+                interventions.GetInterventionTypeById(model.SelectedTypeID);
 
-            InterventionType type = interventions.GetInterventionTypeById(model.SelectedTypeID);
-
-            CheckLaborAndCostError(model, type);
-            
             // Display validation errors
+            CheckLaborAndCostError(model, type);
             if (!ModelState.IsValid)
                 return CreateIntervention();
 
+            // Get the client specified in the model
             ClientRepo clients = new ClientRepo(DbContext);
-            
             Client client = clients.GetClientById(model.SelectedClientID);
 
             // Obtain the current session's user from the database
             SiteEngineer siteEngineer =
                 ControllerGetUserUtility.GetSessionSiteEngineer(DbContext, User);
 
+            // Build the intervention
             Intervention intervention = Intervention.Factory.CreateIntervention(
                 type, client, siteEngineer, model.Labour, model.Cost, model.Date);
 
-            //Get user to save notes
-            UserRepo userRepo = new UserRepo(DbContext);
-            var user = userRepo.GetUserById<EnetCareUser>(User.Identity.GetUserId());
-
             //Save notes to intervention
-            intervention.UpdateNotes(user as SiteEngineer, model.Notes);
+            intervention.UpdateNotes(siteEngineer, model.Notes);
 
             //Save last visit
             intervention.Quality.LastVisit = model.Date;
@@ -134,18 +137,17 @@ namespace ENETCare_IMS_WebApp.Controllers
 
         private void CheckLaborAndCostError(CreateInterventionViewModel model, InterventionType type)
         {
-            //If user has entered a Labor value less than the type's default...
+            // Do not validate type if the type has not been selected
+            if (type == null)
+                return;
+
+            // If user has entered a Labor value less than the type's default...
             if (model.Labour < type.Labour)
-            {
                 ModelState.AddModelError("LaborLessThanType", "Please enter an amount greater than or equal to " + type.Labour);
-            }
 
-            //If user has entered a Cost value less than the type's default...
+            // If user has entered a Cost value less than the type's default...
             if (model.Cost < type.Cost)
-            {
                 ModelState.AddModelError("CostLessThanType", "Please enter an amount greater than or equal to " + type.Cost);
-            }
-
         }
 
         [Authorize(Roles = "Manager")]

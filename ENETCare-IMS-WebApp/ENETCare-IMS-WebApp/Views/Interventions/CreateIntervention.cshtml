@@ -7,6 +7,28 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+@* Fix placeholder style *@
+@section Head
+{
+    <style type="text/css">
+        ::-webkit-input-placeholder {
+           color: #111 !important;
+        }
+
+        :-moz-placeholder { /* Firefox 18- */
+           color: #111 !important;  
+        }
+
+        ::-moz-placeholder {  /* Firefox 19+ */
+           color: #111 !important;  
+        }
+
+        :-ms-input-placeholder {  
+           color: #111 !important;  
+        }
+    </style>
+}
+
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
@@ -58,13 +80,13 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="Cost">Cost:</label>
-                            @Html.EditorFor(m => m.Cost, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.TextBoxFor(m => m.Cost, new { @class = "form-control", id = "tb_cost" })
                             @Html.ValidationMessageFor(m => m.Cost, "", new { @class = "text-danger" })
                             @Html.ValidationMessage("CostLessThanType", new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
                             <label for="Labour">Labour:</label>
-                            @Html.EditorFor(m => m.Labour, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.TextBoxFor(m => m.Labour, new { @class = "form-control", id = "tb_labour" })
                             @Html.ValidationMessageFor(m => m.Labour, "", new { @class = "text-danger" })
                             @Html.ValidationMessage("LaborLessThanType", new { @class = "text-danger" })
                         </div>
@@ -83,21 +105,26 @@
     </div>
 }
 
+<script type="text/javascript">
+    $(document).ready(function () { ajaxGetInterventionTypeDefaults(null); });
+</script>
+
 @section Scripts
 {
 <script type="text/javascript">
+
     function setInterventionHints(data)
     {
-        var $costInput = $("#Cost");
-        var $labourInput = $("#Labour");
+        var $costInput = $("#tb_cost");
+        var $labourInput = $("#tb_labour");
 
-        $costInput.attr("placeholder", (data == null) ? "" : "$" + data.Cost.toFixed(2));
-        $labourInput.attr("placeholder", (data == null) ? "" : data.Labour + " hours");
+        $costInput.attr("placeholder", (data == null) ? "" : "Type Default: $" + data.Cost.toFixed(2));
+        $labourInput.attr("placeholder", (data == null) ? "" : "Type Default: " + data.Labour + " hours");
     }
 
     function ajaxGetInterventionTypeDefaults(event)
     {
-        var typeId = $(this).val();
+        var typeId = $("#interventionTypeDropdown").val();
         if (typeId == null)
             return setInterventionHints(null);
 
@@ -111,6 +138,5 @@
     };
 
     $("#interventionTypeDropdown").change(ajaxGetInterventionTypeDefaults);
-    $("#interventionTypeDropdown").ready(ajaxGetInterventionTypeDefaults);
 </script>
 }

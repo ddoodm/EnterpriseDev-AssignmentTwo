@@ -12,17 +12,24 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
     [TestClass]
     public class HomeControllerTest
     {
+        /// <summary>
+        /// Checks that unauthenticated users are redirected to the login page
+        /// </summary>
         [TestMethod]
-        public void Index()
+        public void Index_Redirects_To_Login_For_Unauthorized_User()
         {
             // Arrange
             HomeController controller = new HomeController();
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            RedirectToRouteResult result = controller.Index() as RedirectToRouteResult;
 
-            // Assert
+            // Check that result is a redirection
             Assert.IsNotNull(result);
+
+            // Check that the redirection is to the login page
+            Assert.IsTrue((string)result.RouteValues["controller"] == "Account");
+            Assert.IsTrue((string)result.RouteValues["action"] == "Login");
         }
 
         [TestMethod]

@@ -14,6 +14,7 @@ namespace ENETCare.IMS.WebApp.Models
     {
         public InterventionTypes Types { get; set; }
         public Clients Clients { get; set; }
+        public InterventionType SelectedType { get; set; }
 
         [Required]
         [Display(Name = "Intervention Type")]

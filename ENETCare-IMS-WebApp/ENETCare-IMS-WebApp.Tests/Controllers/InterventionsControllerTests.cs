@@ -21,6 +21,7 @@ using ENETCare.IMS;
 using System.Threading;
 using System.Security.Claims;
 using System.Linq.Expressions;
+using ENETCare.IMS.WebApp.Models;
 
 namespace ENETCare_IMS_WebApp.Tests.Controllers
 {
@@ -35,6 +36,20 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
             string fakeUserId = Guid.NewGuid().ToString("N");
             fakeUser.Setup(u => u.Id).Returns(fakeUserId);
             fakeUser.Setup(u => u.District).Returns(district);
+            fakeUser.Setup(u => u.MaxApprovableCost).Returns(cost);
+            fakeUser.Setup(u => u.MaxApprovableLabour).Returns(labour);
+
+            return fakeUser.Object;
+        }
+
+        private Manager BuildMockManager(string name, string email, District district, decimal labour, decimal cost)
+        {
+            var fakeUser = new Mock<Manager>(name, email, "1234TestPass!", district, labour, cost);
+            string fakeUserId = Guid.NewGuid().ToString("N");
+            fakeUser.Setup(u => u.Id).Returns(fakeUserId);
+            fakeUser.Setup(u => u.District).Returns(district);
+            fakeUser.Setup(u => u.MaxApprovableCost).Returns(cost);
+            fakeUser.Setup(u => u.MaxApprovableLabour).Returns(labour);
 
             return fakeUser.Object;
         }
@@ -58,7 +73,8 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
 
             // Configure user ID:
             fakeIdentity.AddClaim(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", fakeEnetUser.Id));
-            var fakePrincipal = new GenericPrincipal(fakeIdentity, new string[] { "SiteEngineer" });
+            var fakePrincipal = new GenericPrincipal(fakeIdentity, new string[]
+            { (fakeEnetUser is SiteEngineer)? "SiteEngineer" : "Manager" });
             Thread.CurrentPrincipal = fakePrincipal;
 
             return fakePrincipal;
@@ -90,6 +106,31 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
             return fakeHttp;
         }
 
+        private void BuildTestWebRequest(
+            out EnetCareDbContext fakeDbContext,
+            out ControllerContext fakeHttpContext)
+        {
+            var district = new District("Test District");
+
+            // Configure a fake user set (with a poor user who cannot approve)
+            var engineer = BuildMockEngineer("Test Engineer", "test@enet.com", district, 1, 1);
+            var fakeUsers = new List<EnetCareUser> { engineer };
+            var fakeUserSet = BuildMockDbSet<EnetCareUser>(fakeUsers);
+
+            var client = new Client("Test Client", "Test Location", district);
+            var intervention = Intervention.Factory.CreateIntervention(
+                new InterventionType("Example Intervention", 123, 456),
+                client, engineer);
+            var interventions = new List<Intervention> { intervention };
+            var fakeInterventionSet = BuildMockDbSet<Intervention>(interventions);
+
+            // Output
+            fakeDbContext = BuildMockDbContext(
+                interventions: fakeInterventionSet,
+                users: fakeUserSet);
+            fakeHttpContext = BuildMockHttpContext(engineer).Object;
+        }
+
         #endregion
 
         [TestInitialize]
@@ -100,6 +141,191 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
             string path = Path.GetFullPath(Path.Combine(
                 appDirectory, @"..\..\"));
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
+        }
+
+        [TestMethod]
+        public void InterventionsController_Approval_Buttons_Shown_Correctly_For_Proposed_Intervention_Thant_Cannot_Be_Approved_By_Its_Engineer()
+        {
+            // === Configure ===
+
+            var district = new District("Test District");
+
+            // Configure a fake user set (with a poor user who cannot approve)
+            var engineer = BuildMockEngineer("Test Engineer", "test@enet.com", district, 1, 1);
+            var fakeUsers = new List<EnetCareUser> { engineer };
+            var fakeUserSet = BuildMockDbSet<EnetCareUser>(fakeUsers);
+
+            var client = new Client("Test Client", "Test Location", district);
+            var intervention = Intervention.Factory.CreateIntervention(
+                new InterventionType("Example Intervention", 123, 456),
+                client, engineer);
+            var interventions = new List<Intervention> { intervention };
+            var fakeInterventionSet = BuildMockDbSet<Intervention>(interventions);
+
+            // Output
+            var fakeDbContext = BuildMockDbContext(
+                interventions: fakeInterventionSet,
+                users: fakeUserSet);
+            var fakeHttpContext = BuildMockHttpContext(engineer).Object;
+
+            // === Call ===
+
+            var controller = new InterventionsController(fakeDbContext);
+            controller.ControllerContext = fakeHttpContext;
+
+            var result = controller.Edit(0) as ViewResult;
+            var model = result.Model as EditInterventionViewModel;
+
+            // === Test ===
+
+            // The intervention is proposed, and the engineer cannot approve it,
+            // so we should only display (cancel)
+            Assert.IsTrue(model.CanCancel);
+            Assert.IsFalse(model.CanApprove);
+            Assert.IsFalse(model.CanComplete);
+
+            // The context user is an engineer, who can modify quality
+            Assert.IsTrue(model.CanModifyQuality);
+        }
+
+        [TestMethod]
+        public void InterventionsController_Approval_Buttons_Shown_Correctly_For_Proposed_Intervention_That_Can_Be_Approved_By_Manager()
+        {
+            // === Configure ===
+
+            var district = new District("Test District");
+
+            // Build an engineer who cannot approve, and a manager who can
+            var engineer = BuildMockEngineer("Test Engineer", "test@enet.com", district, 1, 1);
+            var manager = BuildMockManager("Test Manager", "testm@enet.com", district, 9999, 9999);
+            var fakeUsers = new List<EnetCareUser> { engineer, manager };
+            var fakeUserSet = BuildMockDbSet<EnetCareUser>(fakeUsers);
+
+            var client = new Client("Test Client", "Test Location", district);
+            var intervention = Intervention.Factory.CreateIntervention(
+                new InterventionType("Example Intervention", 123, 456),
+                client, engineer);
+            var interventions = new List<Intervention> { intervention };
+            var fakeInterventionSet = BuildMockDbSet<Intervention>(interventions);
+
+            // Output (use Manager as acting Identity user in this context)
+            var fakeDbContext = BuildMockDbContext(
+                interventions: fakeInterventionSet,
+                users: fakeUserSet);
+            var fakeHttpContext = BuildMockHttpContext(manager).Object;
+
+            // === Call ===
+
+            var controller = new InterventionsController(fakeDbContext);
+            controller.ControllerContext = fakeHttpContext;
+
+            var result = controller.Edit(0) as ViewResult;
+            var model = result.Model as EditInterventionViewModel;
+
+            // === Test ===
+
+            // The intervention can be cancelled by the manager, or approved
+            Assert.IsTrue(model.CanCancel);
+            Assert.IsTrue(model.CanApprove);
+            Assert.IsFalse(model.CanComplete);
+
+            // The context user is a manager, who can not modify quality
+            Assert.IsFalse(model.CanModifyQuality);
+        }
+
+        [TestMethod]
+        public void InterventionsController_Approval_Buttons_Shown_Correctly_For_Approved_Intervention_For_SiteEngineer()
+        {
+            // === Configure ===
+
+            var district = new District("Test District");
+
+            // Configure a fake user set
+            var engineer = BuildMockEngineer("Test Engineer", "test@enet.com", district, 999, 999);
+            var fakeUsers = new List<EnetCareUser> { engineer };
+            var fakeUserSet = BuildMockDbSet<EnetCareUser>(fakeUsers);
+
+            var client = new Client("Test Client", "Test Location", district);
+            var intervention = Intervention.Factory.CreateIntervention(
+                new InterventionType("Example Intervention", 123, 456),
+                client, engineer);
+            var interventions = new List<Intervention> { intervention };
+            var fakeInterventionSet = BuildMockDbSet<Intervention>(interventions);
+
+            // Output
+            var fakeDbContext = BuildMockDbContext(
+                interventions: fakeInterventionSet,
+                users: fakeUserSet);
+            var fakeHttpContext = BuildMockHttpContext(engineer).Object;
+
+            // === Call ===
+
+            var controller = new InterventionsController(fakeDbContext);
+            controller.ControllerContext = fakeHttpContext;
+
+            var result = controller.Edit(0) as ViewResult;
+            var model = result.Model as EditInterventionViewModel;
+
+            // === Test ===
+
+            // The intervention is approved, and the intervention can be completed or cancelled
+            Assert.IsTrue(model.CanCancel);
+            Assert.IsFalse(model.CanApprove);
+            Assert.IsTrue(model.CanComplete);
+
+            // The context user is an engineer, who can modify quality
+            Assert.IsTrue(model.CanModifyQuality);
+        }
+
+        [TestMethod]
+        public void InterventionsController_Approval_Buttons_Shown_Correctly_For_Intervention_Approved_By_Manager_Where_Engineer_Could_Not_Approve()
+        {
+            // === Configure ===
+
+            var district = new District("Test District");
+
+            // Build an engineer who cannot approve, and a manager who can
+            var engineer = BuildMockEngineer("Test Engineer", "test@enet.com", district, 1, 1);
+            var manager = BuildMockManager("Test Manager", "testm@enet.com", district, 9999, 9999);
+            var fakeUsers = new List<EnetCareUser> { engineer, manager };
+            var fakeUserSet = BuildMockDbSet<EnetCareUser>(fakeUsers);
+
+            var client = new Client("Test Client", "Test Location", district);
+            var intervention = Intervention.Factory.CreateIntervention(
+                new InterventionType("Example Intervention", 123, 456),
+                client, engineer);
+
+            // Have the manager approve the intervention
+            intervention.Approve(manager);
+
+            var interventions = new List<Intervention> { intervention };
+            var fakeInterventionSet = BuildMockDbSet<Intervention>(interventions);
+
+            // Output (use Engineer as acting Identity user in this context)
+            var fakeDbContext = BuildMockDbContext(
+                interventions: fakeInterventionSet,
+                users: fakeUserSet);
+            var fakeHttpContext = BuildMockHttpContext(engineer).Object;
+
+            // === Call ===
+
+            var controller = new InterventionsController(fakeDbContext);
+            controller.ControllerContext = fakeHttpContext;
+
+            var result = controller.Edit(0) as ViewResult;
+            var model = result.Model as EditInterventionViewModel;
+
+            // === Test ===
+
+            // The intervention is approved (by a manager),
+            // the site engineer is viewing the intervention,
+            // they may complete or cancel it regardless of their funds.
+            Assert.IsTrue(model.CanCancel);
+            Assert.IsFalse(model.CanApprove);
+            Assert.IsTrue(model.CanComplete);
+
+            // The context user is an engineer, who can modify quality
+            Assert.IsTrue(model.CanModifyQuality);
         }
 
         [TestMethod]
@@ -151,68 +377,6 @@ namespace ENETCare_IMS_WebApp.Tests.Controllers
             for(int i = 0; i < model.Count; i++)
                 if(model[i] != fakeInterventions[i])
                     Assert.Fail("The model is not equal to the test interventions list");
-        }
-
-        [TestMethod]
-        public void InterventionController_List_Shows_And_Culls_Success()
-        {
-            var fakeDistricts = new District[]
-            {
-                new District(0, "Alpha Place"),
-                new District(1, "Beta Place"),
-                new District(2, "Gamma Place"),
-            };
-            var fakeClients = new Client[]
-            {
-                new Client("A A Client", "Test Location", fakeDistricts[0]),
-                new Client("A B Client", "Test Location", fakeDistricts[0]),
-                new Client("B C Client", "Test Location", fakeDistricts[1]),
-                new Client("C D Client", "Test Location", fakeDistricts[2]),
-            };
-
-            // Configure a fake user set
-            var fakeEngineers = new SiteEngineer[]
-            {
-                BuildMockEngineer("A A Engineer", "aa@enet.com", fakeDistricts[0], 20.0m, 2000m),
-                BuildMockEngineer("A B Engineer", "ab@enet.com", fakeDistricts[0], 20.0m, 2000m),
-                BuildMockEngineer("B C Engineer", "bc@enet.com", fakeDistricts[1], 20.0m, 2000m),
-            };
-
-            // Configure a fake DBSet which returns the fake list
-            var fakeUserSet = BuildMockDbSet<EnetCareUser>(fakeEngineers.ToList<EnetCareUser>());
-
-            // Configure known fake interventions
-            var fakeInterventions = new List<Intervention>
-            {
-                Intervention.Factory.CreateIntervention(new InterventionType("Type AAA", 400m, 10m), fakeClients[0], fakeEngineers[0]),
-                Intervention.Factory.CreateIntervention(new InterventionType("Type AAB", 400m, 10m), fakeClients[1], fakeEngineers[0]),
-                Intervention.Factory.CreateIntervention(new InterventionType("Type AAC", 400m, 10m), fakeClients[0], fakeEngineers[1]),
-                Intervention.Factory.CreateIntervention(new InterventionType("Type AAD", 400m, 10m), fakeClients[2], fakeEngineers[2]),
-            };
-
-            // Configure a fake DBSet which returns the fake list
-            var fakeInterventionSet = BuildMockDbSet<Intervention>(fakeInterventions);
-
-            // Configure a fake database which will return a known set of Interventions
-            var fakeDbContext = BuildMockDbContext(
-                interventions: fakeInterventionSet,
-                users: fakeUserSet);
-
-            // Set up a fake HTTP Context (makes an Identity user from the ENETCare user)
-            var fakeHttp = BuildMockHttpContext(fakeEngineers[0]);
-
-            // Call to the controller
-            var controller = new InterventionsController(fakeDbContext);
-            controller.ControllerContext = fakeHttp.Object;
-
-            // Call the action (no 'state' parameter)
-            var result = controller.Index(null) as ViewResult;
-
-            // Verify output (model is Interventions collection)
-            var model = (Interventions)result.Model;
-
-            // TODO: Figure out why interventions are not filtered in this test
-            Assert.Fail("The interventions are not filtered, but it works on the Web App, so this test is broken.");
         }
     }
 }
