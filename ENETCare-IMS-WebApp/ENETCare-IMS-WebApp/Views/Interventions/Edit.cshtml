@@ -26,6 +26,8 @@
                             <th>State</th>
                             <th>District</th>
                             <th>Health</th>
+                            <th>Cost</th>
+                            <th>Labor</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,6 +44,8 @@
                             <td>@Model.Intervention.Approval</td>
                             <td>@Model.Intervention.District</td>
                             <td>@Model.Intervention.Health</td>
+                            <td>@Model.Intervention.Cost.ToString("C2")</td>
+                            <td>@Model.Intervention.Labour hours</td>
                         </tr>
 
                     </tbody>

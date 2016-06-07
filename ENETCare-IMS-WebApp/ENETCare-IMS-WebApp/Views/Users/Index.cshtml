@@ -42,8 +42,8 @@
                                     </td>
                                     <td>@engineer.Name</td>
                                     <td>@engineer.District.Name</td>
-                                    <td>@engineer.MaxApprovableCost</td>
-                                    <td>@engineer.MaxApprovableLabour</td>
+                                    <td>@engineer.MaxApprovableCost.ToString("C2")</td>
+                                    <td>@engineer.MaxApprovableLabour hours</td>
                                 </tr>
                             }
                         </tbody>
@@ -80,8 +80,8 @@
                                     </td>
                                     <td>@manager.Name</td>
                                     <td>@manager.District.Name</td>
-                                    <td>@manager.MaxApprovableCost</td>
-                                    <td>@manager.MaxApprovableLabour</td>
+                                    <td>@manager.MaxApprovableCost.ToString("C2")</td>
+                                    <td>@manager.MaxApprovableLabour hours</td>
                                 </tr>
                             }
                         </tbody>

@@ -76,6 +76,16 @@ namespace ENETCare_IMS_WebApp.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                using (var db = new EnetCareDbContext())
+                {
+                    UserRepo repo = new UserRepo(db);
+                    EnetCareUser user = repo.GetUserById<EnetCareUser>(User.Identity.GetUserId());
+
+                    return RedirectToAction(user.HomePageAction, user.HomePageController);
+                }
+            }
             return View();
         }
 

@@ -95,14 +95,18 @@ namespace ENETCare_IMS_WebApp.Controllers
         [Authorize(Roles = "SiteEngineer")]
         public ActionResult CreateIntervention(CreateInterventionViewModel model)
         {
+            InterventionRepo interventions = new InterventionRepo(DbContext);
+
+            InterventionType type = interventions.GetInterventionTypeById(model.SelectedTypeID);
+
+            CheckLaborAndCostError(model, type);
+            
             // Display validation errors
             if (!ModelState.IsValid)
                 return CreateIntervention();
 
-            InterventionRepo interventions = new InterventionRepo(DbContext);
             ClientRepo clients = new ClientRepo(DbContext);
-
-            InterventionType type = interventions.GetInterventionTypeById(model.SelectedTypeID);
+            
             Client client = clients.GetClientById(model.SelectedClientID);
 
             // Obtain the current session's user from the database
@@ -112,9 +116,36 @@ namespace ENETCare_IMS_WebApp.Controllers
             Intervention intervention = Intervention.Factory.CreateIntervention(
                 type, client, siteEngineer, model.Labour, model.Cost, model.Date);
 
+            //Get user to save notes
+            UserRepo userRepo = new UserRepo(DbContext);
+            var user = userRepo.GetUserById<EnetCareUser>(User.Identity.GetUserId());
+
+            //Save notes to intervention
+            intervention.UpdateNotes(user as SiteEngineer, model.Notes);
+
+            //Save last visit
+            intervention.Quality.LastVisit = model.Date;
+
+            //Save intervention in database
             interventions.Save(intervention);
 
             return RedirectToAction("Index");
+        }
+
+        private void CheckLaborAndCostError(CreateInterventionViewModel model, InterventionType type)
+        {
+            //If user has entered a Labor value less than the type's default...
+            if (model.Labour < type.Labour)
+            {
+                ModelState.AddModelError("LaborLessThanType", "Please enter an amount greater than or equal to " + type.Labour);
+            }
+
+            //If user has entered a Cost value less than the type's default...
+            if (model.Cost < type.Cost)
+            {
+                ModelState.AddModelError("CostLessThanType", "Please enter an amount greater than or equal to " + type.Cost);
+            }
+
         }
 
         [Authorize(Roles = "Manager")]

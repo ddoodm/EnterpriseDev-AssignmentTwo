@@ -103,7 +103,7 @@ namespace ENETCare_IMS_WebApp.Controllers
                     report.Append("<br />");
                     report.AppendFormat("Total Labour Hours: {0} hours", totalLaborHours);
                     report.Append("<br />");
-                    report.AppendFormat("Total Costs: ${0}", totalCosts);
+                    report.AppendFormat("Total Costs: {0}", totalCosts.ToString("C2"));
 
                     if (engineer != engineers.Last())
                         report.Append("<br /><br />---oOo---<br /><br />");
@@ -137,7 +137,7 @@ namespace ENETCare_IMS_WebApp.Controllers
                     report.Append("<br />");
                     report.AppendFormat("Average Labour Hours: {0} hours", totalLaborHours);
                     report.Append("<br />");
-                    report.AppendFormat("Average Costs: ${0}", totalCosts);
+                    report.AppendFormat("Average Costs: {0}", totalCosts.ToString("C2"));
 
                     if (engineer != engineers.Last())
                         report.Append("<br /><br />---oOo---<br /><br />");
@@ -177,7 +177,7 @@ namespace ENETCare_IMS_WebApp.Controllers
                     report.Append("<br />");
                     report.AppendFormat("Total Labour Hours: {0} hours", totalLaborHours);
                     report.Append("<br />");
-                    report.AppendFormat("Total Costs: ${0}", totalCosts);
+                    report.AppendFormat("Total Costs: {0}", totalCosts.ToString("C2"));
 
                     report.Append("<br /><br />---oOo---<br /><br />");
 
@@ -188,7 +188,7 @@ namespace ENETCare_IMS_WebApp.Controllers
                 report.Append("<br /> <br />");
                 report.AppendFormat("Total Labour Hours: {0} hours", companyTotalHours);
                 report.Append("<br />");
-                report.AppendFormat("Total Costs: ${0}", companyTotalCosts);
+                report.AppendFormat("Total Costs: {0}", companyTotalCosts.ToString("C2"));
             }
             return report.ToString();
         }
@@ -223,7 +223,7 @@ namespace ENETCare_IMS_WebApp.Controllers
 
                     report.AppendFormat("Total Labour Hours for {0}: {1} hours", GetMonthName(month), totalLaborHours);
                     report.Append("<br />");
-                    report.AppendFormat("Total Costs for {0}: ${1}", GetMonthName(month), totalCosts);
+                    report.AppendFormat("Total Costs for {0}: {1}", GetMonthName(month), totalCosts.ToString("C2"));
 
                     report.Append("<br /><br />---oOo---<br /><br />");
                 }
