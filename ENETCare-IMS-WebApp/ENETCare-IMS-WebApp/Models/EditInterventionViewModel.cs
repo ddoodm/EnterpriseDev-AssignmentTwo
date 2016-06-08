@@ -29,6 +29,7 @@ namespace ENETCare.IMS.WebApp.Models
         [MaxLength(2500)]
         public string Notes { get; set; }
         
+        [Range(0.0d, 100.0d, ErrorMessage = "Please enter a percentage (0 - 100)")]
         public decimal Health { get; set; }
     }
 }

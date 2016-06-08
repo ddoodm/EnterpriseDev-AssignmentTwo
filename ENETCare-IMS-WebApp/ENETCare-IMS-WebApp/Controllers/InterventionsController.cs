@@ -196,6 +196,9 @@ namespace ENETCare_IMS_WebApp.Controllers
         [Authorize(Roles = "SiteEngineer, Manager")]
         public ActionResult Edit(EditInterventionViewModel model)
         {
+            if (!ModelState.IsValid)
+                return Edit(model.InterventionID);
+
             InterventionRepo interventionRepo = new InterventionRepo(DbContext);
             Intervention intervention = interventionRepo.GetInterventionByID(model.InterventionID);
 
