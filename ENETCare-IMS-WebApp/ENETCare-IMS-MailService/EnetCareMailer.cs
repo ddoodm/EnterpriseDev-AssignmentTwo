@@ -58,8 +58,16 @@ namespace ENETCare.IMS.MailService
 
             string htmlMessage = FormatMessageIntoLayout(subject, message);
 
-            IMailDeliverer mailer = GetMailDeliverer();
-            mailer.SendMail(to, from, subject, htmlMessage);
+            // If the mail cannot be delivered, do not throw an exception
+            try
+            {
+                IMailDeliverer mailer = GetMailDeliverer();
+                mailer.SendMail(to, from, subject, htmlMessage);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("WARNING:\tCould not deliver an E-Mail message.\n\n" + e.Message);
+            }
         }
     }
 }
