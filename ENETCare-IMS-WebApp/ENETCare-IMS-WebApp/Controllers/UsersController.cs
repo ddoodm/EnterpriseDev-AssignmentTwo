@@ -56,7 +56,7 @@ namespace ENETCare_IMS_WebApp.Controllers
         {
             // Display validation errors
             if (!ModelState.IsValid)
-                return EditSiteEngineer(model.Engineer.Id);
+                return EditSiteEngineer(model.EngineerID);
 
             using (EnetCareDbContext db = new EnetCareDbContext())
             {
@@ -98,7 +98,7 @@ namespace ENETCare_IMS_WebApp.Controllers
         {
             // Display validation errors
             if (!ModelState.IsValid)
-                return EditSiteEngineer(model.Manager.Id);
+                return EditManager(model.ManagerID);
 
             using (EnetCareDbContext db = new EnetCareDbContext())
             {

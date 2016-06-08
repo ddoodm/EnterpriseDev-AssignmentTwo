@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ENETCare.IMS.Users;
+using System.ComponentModel.DataAnnotations;
 
 namespace ENETCare.IMS.WebApp.Models
 {
@@ -12,6 +13,9 @@ namespace ENETCare.IMS.WebApp.Models
         public Manager Manager { get; set; }
 
         public String ManagerID { get; set; }
+
+        [Required]
+        [Display(Name = "District")]
         public int SelectedDistrictID { get; set; }
     }
 }
