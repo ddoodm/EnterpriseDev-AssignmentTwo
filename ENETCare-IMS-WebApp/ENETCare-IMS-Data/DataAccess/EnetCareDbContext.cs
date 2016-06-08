@@ -24,6 +24,12 @@ namespace ENETCare.IMS.Data.DataAccess
             Configuration.LazyLoadingEnabled = true;
         }
 
+        public EnetCareDbContext(string connection)
+            : base(connection)
+        {
+            Configuration.LazyLoadingEnabled = true;
+        }
+
         // Fields are virtual so that they may be overridden by mocks
         public virtual DbSet<Intervention> Interventions { get; set; }
         public virtual DbSet<InterventionType> InterventionTypes { get; set; }
@@ -45,6 +51,15 @@ namespace ENETCare.IMS.Data.DataAccess
                   .Include(i => i.Approval.ApprovingManager)
                   .Include(i => i.Approval.ApprovingSiteEngineer)
                   .Include(i => i.Quality);
+            }
+        }
+
+        public virtual IQueryable<Client> FullyLoadedClients
+        {
+            get
+            {
+                return Clients
+                    .Include(m => m.District);
             }
         }
 

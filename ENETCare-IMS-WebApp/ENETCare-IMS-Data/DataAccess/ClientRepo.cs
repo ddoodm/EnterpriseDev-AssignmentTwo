@@ -14,28 +14,19 @@ namespace ENETCare.IMS.Data.DataAccess
             : base(context, context.Clients)
         { }
 
-        private IQueryable<Client> FullyLoadedClients
-        {
-            get
-            {
-                return context.Clients
-                    .Include(m => m.District);
-            }
-        }
-
         public Clients GetAllClients()
         {
-            return new Clients(FullyLoadedClients.ToList<Client>());
+            return new Clients(context.FullyLoadedClients.ToList<Client>());
         }
 
         public Client GetClientById(int ID)
         {
-            return FullyLoadedClients.SingleOrDefault<Client>(c => c.ID == ID);
+            return context.FullyLoadedClients.SingleOrDefault<Client>(c => c.ID == ID);
         }
 
         public Client GetNthClient(int n)
         {
-            return FullyLoadedClients
+            return context.FullyLoadedClients
                 .OrderBy(c => c.ID).Skip(n)
                 .FirstOrDefault<Client>();
         }
@@ -43,7 +34,7 @@ namespace ENETCare.IMS.Data.DataAccess
         public Clients GetClientsInDistrict(District district)
         {
             return new Clients(
-                FullyLoadedClients
+                context.FullyLoadedClients
                 .Where(c => c.District.DistrictID == district.DistrictID)
                 .ToList<Client>());
         }
