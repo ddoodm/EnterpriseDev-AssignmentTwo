@@ -102,7 +102,7 @@ namespace ENETCare.IMS.Tests
         {
             ConfigureDataDirectoryPath();
 
-            context = new EnetCareDbContext();
+            context = new EnetCareDbContext("name=FakeDbContext");
 
             interventionRepo = new InterventionRepo(context);
             clientRepo = new ClientRepo(context);

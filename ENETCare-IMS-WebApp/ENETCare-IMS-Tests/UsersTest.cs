@@ -12,23 +12,12 @@ namespace ENETCare.IMS.Tests
     [TestClass]
     public class UsersTest
     {
-        EnetCareDbContext context;
-        DistrictRepo districtRepo;
-
         District testDistrictA;
 
         [TestInitialize]
         public void Setup()
         {
-            context = new EnetCareDbContext();
-            districtRepo = new DistrictRepo(context);
-            testDistrictA = districtRepo.GetNthDistrict(0);
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            context.Dispose();
+            testDistrictA = new District("Test District");
         }
 
         [TestMethod]

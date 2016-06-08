@@ -42,9 +42,7 @@ namespace ENETCare.IMS.Data.DataAccess
         public void Save(Client[] clients)
         {
             foreach (Client client in clients)
-            {
                 Save(client);
-            }
         }
 
         public void Save(Client client)
