@@ -16,24 +16,6 @@ namespace ENETCare.IMS.Tests
         }
 
         /// <summary>
-        /// Tests retrieving a client by index
-        /// </summary>
-        [TestMethod]
-        public void Clients_Save_Client_To_Repo_Test_Getting_Nth_Client_By_Name()
-        {
-            //this doesn't seem to work
-            using (EnetCareDbContext db = new EnetCareDbContext())
-            {
-                ClientRepo testRepo = new ClientRepo(db);
-                Client storedClient = new Client("testName", "testLocation", new District("testDistrict"));
-                testRepo.Save(storedClient);
-
-                //assumes 5 entries already
-                Assert.IsTrue(testRepo.GetNthClient(6).Name == "testName");
-            }
-        }
-
-        /// <summary>
         /// Tests adding a client to a list of clients then check the name persists
         /// </summary>
         [TestMethod]

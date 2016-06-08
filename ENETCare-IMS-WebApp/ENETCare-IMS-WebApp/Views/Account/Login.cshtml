@@ -43,6 +43,12 @@
             
             box-shadow: 0 0 20px #CCC;
         }
+
+        .loginButton
+        {
+            width: 100%;
+            background-color: #F7F7F7;
+        }
     </style>
 }
 
@@ -73,15 +79,15 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <div class="checkbox">
-                                @Html.CheckBoxFor(m => m.RememberMe)
-                                @Html.LabelFor(m => m.RememberMe)
-                            </div>
+                            <input type="submit" value="Log in" class="btn btn-default loginButton" />
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Log in" class="btn btn-default" />
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                            </div>
                         </div>
                     </div>
                 }
